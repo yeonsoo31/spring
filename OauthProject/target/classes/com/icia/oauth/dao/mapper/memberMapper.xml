@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="Member">
+
+	<select id="kakaoLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE KAKAOID=#{kakaoId}
+	</select>
+	
+	<select id="naverLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE NAVERID=#{naverId}
+	</select>
+
+	<insert id="kakaoJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, #{kakaoId}, '', '', '')
+	</insert>
+	
+	<insert id="naverJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', #{naverId}, '', '')
+	</insert>
+	
+	<insert id="googleJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', #{googleId}, '')
+	</insert>
+	
+	<insert id="facebookJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', '', #{facebookId})
+	</insert>
+	
+ 	<insert id="memberJoin" parameterType="member">
+ 		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, #{mpassword}, #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', '', '')
+ 	</insert>
+ 	
+ 	<select id="memberLogin" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
+ 	<select id="memberList" resultType="member">
+ 		SELECT * FROM MEMBER
+ 	</select>
+ 	
+ 	<select id="memberView" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<update id="memberModify" parameterType="member">
+ 		UPDATE MEMBER SET NAME=#{name}, EMAIL=#{email} WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<delete id="memberDelete" parameterType="String">
+ 		DELETE FROM MEMBER WHERE ID=#{id}
+ 	</delete>
+ 	
+ 	<select id="idOverlap" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
