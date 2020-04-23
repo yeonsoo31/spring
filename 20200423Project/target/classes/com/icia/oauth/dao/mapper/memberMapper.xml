@@ -4,16 +4,6 @@
  
 <mapper namespace="Member">
 
-	<insert id="kakaoJoin" parameterType="member">
-		INSERT INTO MEMBER(MID,MPASSWORD,MNAME,MBIRTH,MEMAIL,MADDRESS, MPHONE, MPROFILEPIC, KAKAOID,NAVERID)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, #{kakaoId},'')
-	</insert>
-	
-	<insert id="naverJoin" parameterType="member">
-		INSERT INTO MEMBER(MID,MPASSWORD,MNAME,MBIRTH,MEMAIL,MADDRESS, MPHONE, MPROFILEPIC, KAKAOID,NAVERID)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname},'', #{naverId})
-	</insert>
-	
 	<select id="kakaoLogin" parameterType="String" resultType="member">
 		SELECT * FROM MEMBER WHERE KAKAOID=#{kakaoId}
 	</select>
@@ -22,9 +12,29 @@
 		SELECT * FROM MEMBER WHERE NAVERID=#{naverId}
 	</select>
 
+	<insert id="kakaoJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, #{kakaoId}, '', '', '')
+	</insert>
+	
+	<insert id="naverJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', #{naverId}, '', '')
+	</insert>
+	
+	<insert id="googleJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', #{googleId}, '')
+	</insert>
+	
+	<insert id="facebookJoin" parameterType="member">
+		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', '', #{facebookId})
+	</insert>
+	
  	<insert id="memberJoin" parameterType="member">
- 		INSERT INTO MEMBER(ID,PASSWORD,NAME,BIRTH,GENDER,EMAIL,KAKAOID,NAVERID) 
- 			VALUES(#{id}, #{password}, #{name}, #{birth}, #{gender}, #{email},'','')
+ 		INSERT INTO MEMBER(MID, MPASSWORD, MNAME, MBIRTH, MEMAIL, MADDRESS, MPHONE, MPROFILEPIC, KAKAOID, NAVERID, GOOGLEID, FACEBOOKID)
+		VALUES(#{mid}, #{mpassword}, #{mname}, #{mbirth}, #{memail}, #{fulladdress}, #{mphone}, #{mprofilepicname}, '', '', '', '')
  	</insert>
  	
  	<select id="memberLogin" parameterType="member" resultType="String">

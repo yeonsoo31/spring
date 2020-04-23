@@ -17,6 +17,10 @@ public class MemberDAO {
 			return sql.insert("Member.kakaoJoin", member);
 		} else if(member.getNaverId() != null) {
 			return sql.insert("Member.naverJoin", member);
+		} else if(member.getGoogleId() != null) {
+			return sql.insert("Member.googleJoin", member);
+		} else if(member.getFacebookId() != null) {
+			return sql.insert("Member.facebookJoin", member);
 		} else {
 		return sql.insert("Member.memberJoin", member);
 		}
@@ -28,6 +32,10 @@ public class MemberDAO {
 
 	public MemberDTO NaverLogin(String naverId) {
 		return sql.selectOne("Member.naverLogin", naverId);
+	}
+
+	public int MemberJoin(MemberDTO member) {
+		return sql.insert("Member.memberJoin", member);
 	}
 	
 }

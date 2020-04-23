@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +21,17 @@ import com.icia.oauth.api.KakaoJoinApi;
 import com.icia.oauth.api.KakaoLoginApi;
 import com.icia.oauth.api.NaverJoinApi;
 import com.icia.oauth.api.NaverLoginApi;
+import com.icia.oauth.dto.MemberDTO;
 import com.icia.oauth.service.KakaoService;
+import com.icia.oauth.service.MemberService;
 import com.icia.oauth.service.NaverService;
 
 @Controller
 public class MemberController {
 
+	@Autowired
+	private MemberService memberService;
+	
 	@Autowired
 	private KakaoService kakaoService;
 	
@@ -151,5 +157,15 @@ public class MemberController {
 		mav.setViewName("member/MemberJoinForm");
 		return mav;
 	}
-
+	
+	@RequestMapping(value="/memberJoinForm")
+	public String MemberJoinForm() {
+		return "member/MemberJoinForm";
+	}
+	
+	@RequestMapping(value="/memberJoin", method = RequestMethod.POST)
+	public ModelAndView MemberJoin(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
+		mav = new ModelAndView();
+		return mav = memberService.MemberJoin(member);
+	}
 }

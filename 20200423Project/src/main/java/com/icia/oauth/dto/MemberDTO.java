@@ -23,4 +23,6 @@ public class MemberDTO {
 	private String mprofilepicname;
 	private String kakaoId;
 	private String naverId;
+	private String googleId;
+	private String facebookId;
 }

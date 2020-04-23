@@ -42,10 +42,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             document.getElementById("idCheckResult").innerHTML="";
             } else if(id.value.length==0){
                 document.getElementById("idCheckResult").style.color="red";
-                document.getElementById("idCheckResult").innerHTML="아이디는 필수!!";
+                document.getElementById("idCheckResult").innerHTML="아이디는 필수입니다";
             } else if(id.value.length<5){
                 document.getElementById("idCheckResult").style.color="red";
-                document.getElementById("idCheckResult").innerHTML="5~15 이내로 만들어주세요.";
+                document.getElementById("idCheckResult").innerHTML="영문+숫자 5~15 이내로 만들어주세요.";
             }
 	}
 	function passwordCheck(){
@@ -100,6 +100,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		var phone = document.getElementById("phone");
 		if(phone.value.match(exp)){
 			document.getElementById("phoneCheck").innerHTML="<i class='fas fa-check fa' style='color:green;'></i>";
+		} else if(phone.value.length==0){
+			document.getElementById("phoneCheck").innerHTML="";
 		} else {
 			document.getElementById("phoneCheck").innerHTML="<i class='fas fa-times fa' style='color:red;'></i>";
 		}
@@ -109,6 +111,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		var email = document.getElementById("email");
 		if(email.value.match(exp)){
 			document.getElementById("emailCheck").innerHTML="<i class='fas fa-check fa' style='color:green;'></i>";
+		} else if(email.value.length==0){
+			document.getElementById("emailCheck").innerHTML="";
 		} else {
 			document.getElementById("emailCheck").innerHTML="<i class='fas fa-times fa' style='color:red;'></i>";
 		}
@@ -150,9 +154,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     </script>
 </head>
 <body>
-	<form action="memberSignUp" method="post" id="memberSignUpForm"
+	<form action="memberJoin" method="post" id="memberJoinForm"
 	enctype="multipart/form-data">
-		<table>
+	<table>
 		<c:choose>
         	<c:when test="${kakaoId ne null}">
        	 		<tr>
@@ -164,6 +168,18 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	        	<tr>
         			<td>아이디 : <input type="text" name="mid" id="id" onkeyup="idCheck()"><button type="button" onclick="idOverlap()">아이디중복확인</button>&nbsp;&nbsp;<span id="idCheckResult"></span></td>
         			<td><input type="hidden" name="naverId" id="naverId" value="${naverId}"><br></td>
+        		</tr>
+        	</c:when>
+        	<c:when test="${Gid ne null}">
+	        	<tr>
+        			<td>아이디 : <input type="text" name="mid" id="id" onkeyup="idCheck()"><button type="button" onclick="idOverlap()">아이디중복확인</button>&nbsp;&nbsp;<span id="idCheckResult"></span></td>
+        			<td><input type="hidden" name="naverId" id="naverId" value="${Gid}"><br></td>
+        		</tr>
+        	</c:when>
+        	<c:when test="${Fid ne null}">
+	        	<tr>
+        			<td>아이디 : <input type="text" name="mid" id="id" onkeyup="idCheck()"><button type="button" onclick="idOverlap()">아이디중복확인</button>&nbsp;&nbsp;<span id="idCheckResult"></span></td>
+        			<td><input type="hidden" name="naverId" id="naverId" value="${Fid}"><br></td>
         		</tr>
         	</c:when>
         	<c:otherwise>

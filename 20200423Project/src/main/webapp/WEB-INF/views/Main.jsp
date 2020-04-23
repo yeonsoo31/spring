@@ -70,7 +70,7 @@
 	아이디 : <input type="text" id="mid" name="mid"><br>
 	비밀번호 : <input type="password" id="mpassword" name="mpassword"><br>
 	<input type="submit" value="로그인">
-	<input type="button" onclick="location.href='memberJoin'" value="회원가입">
+	<input type="button" onclick="location.href='memberJoinForm'" value="회원가입">
 </form>
 <h2>간편가입</h2>
 <!-- 구글 버튼 -->
@@ -87,6 +87,5 @@
 <a href="naverjoin">
 	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/img/Log in with NAVER_Official_Green.PNG">
 </a>
-
 </body>
 </html>
