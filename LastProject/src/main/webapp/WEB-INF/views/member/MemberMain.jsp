@@ -22,7 +22,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<!-- ${kakaoProfile}
 	<h1>${nickName}</h1>
 	<img src="${thumbnail}"> -->
-	<c:if test="${sessionScope.loginId eq 'admin'}">
+	<c:if test="${sessionScope.loginId eq 'admin@icia.com'}">
 		<a href="memberList">회원 목록 조회</a>
 	</c:if>
 	<button onclick="memberModifyForm()">회원 정보 수정</button>

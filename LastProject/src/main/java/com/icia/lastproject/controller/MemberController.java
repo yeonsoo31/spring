@@ -201,8 +201,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/idOverlap", method=RequestMethod.POST)
-	public @ResponseBody String idOverlap(@RequestParam("mid") String mid) {
-		String resultMsg = memberService.idOverlap(mid);
+	public @ResponseBody String idOverlap(@RequestParam("id") String id) {
+		String resultMsg = memberService.idOverlap(id);
 		return resultMsg;
 	}
 	
@@ -231,21 +231,26 @@ public class MemberController {
 	
 	@RequestMapping(value="/memberModifyForm", method=RequestMethod.GET)
 	public ModelAndView modifyView() {
-		String mid = (String) session.getAttribute("loginId");
-		mav = memberService.memberModifyForm(mid);
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.memberModifyForm(id);
 		return mav;
 	}
 	
 	@RequestMapping(value="/memberModify", method=RequestMethod.POST)
-	public ModelAndView memberModify(@ModelAttribute MemberDTO member) {
+	public ModelAndView memberModify(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = memberService.memberModify(member);
 		return mav;
 	}
 	
 	@RequestMapping(value="/memberView", method=RequestMethod.GET)
-	public ModelAndView memberView(@RequestParam("mid") String mid) {
-		mav = memberService.memberView(mid);
+	public ModelAndView memberView(@RequestParam("id") String id) {
+		mav = memberService.memberView(id);
 		return mav;
 	}
 	
+	@RequestMapping(value="/memberList", method=RequestMethod.GET)
+	public ModelAndView memberList() {
+		mav = memberService.memberList();
+		return mav;
+	}
 }

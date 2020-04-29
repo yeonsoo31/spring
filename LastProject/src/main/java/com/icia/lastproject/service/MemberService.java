@@ -2,6 +2,7 @@ package com.icia.lastproject.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,15 +28,15 @@ public class MemberService {
 	
 	public ModelAndView memberJoin(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
-		MultipartFile mprofilepic = member.getMprofilepic();
-		String mprofilepicname = mprofilepic.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\Desktop\\Development\\source\\Servlet\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+mprofilepicname;
-		if(!mprofilepic.isEmpty()) {
-			mprofilepic.transferTo(new File(savePath));
+		MultipartFile profile = member.getProfile();
+		String profilename = profile.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profilename;
+		if(!profile.isEmpty()) {
+			profile.transferTo(new File(savePath));
 		}
-		member.setMprofilepicname(mprofilepicname);
-		String fulladdress = "우편번호 : "+member.getMaddress1()+"/"+member.getMaddress2()+"/"+member.getMaddress3()+"/"+member.getMaddress4();
-		member.setFulladdress(fulladdress);
+		member.setProfilename(profilename);
+		String address = member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4();
+		member.setAddress(address);
 		int memberSignUpResult = mdao.memberJoin(member);
 		if(memberSignUpResult > 0) {
 			mav.setViewName("member/MemberJoinSuccess");
@@ -45,8 +46,8 @@ public class MemberService {
 		return mav;
 	}
 	
-	public String idOverlap(String mid) {
-		String checkResult = mdao.idOverlap(mid);
+	public String idOverlap(String id) {
+		String checkResult = mdao.idOverlap(id);
 		String resultMsg = null;
 		if(checkResult==null) {
 			resultMsg = "OK";
@@ -92,26 +93,30 @@ public class MemberService {
 		return mav;
 	}
 	
-	public ModelAndView memberModifyForm(String mid) {
+	public ModelAndView memberModifyForm(String id) {
 		mav = new ModelAndView();
-		MemberDTO memberModify = mdao.memberView(mid);
-		String fulladdress = memberModify.getMaddress();
-//		String fulladdress = memberModify.getFulladdress();
-		System.out.println(fulladdress);
-		String[] array = fulladdress.split("/");
-		memberModify.setMaddress1(array[0]);
-		memberModify.setMaddress2(array[1]);
-		memberModify.setMaddress3(array[2]);
-		memberModify.setMaddress4(array[3]);
-		memberModify.setMaddress4(array[4]);
+		MemberDTO memberModify = mdao.memberView(id);
+		String address = memberModify.getAddress();
+		String[] array = address.split("/");
+		memberModify.setAddress1(array[0]);
+		memberModify.setAddress2(array[1]);
+		memberModify.setAddress3(array[2]);
+		memberModify.setAddress4(array[3]);
 		mav.addObject("memberModify", memberModify);
 		mav.setViewName("member/MemberModifyForm");
 		return mav;
 	}
 	
-	public ModelAndView memberModify(MemberDTO member) {
+	public ModelAndView memberModify(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
-		member.setFulladdress(member.getMaddress1()+"/"+member.getMaddress2()+"/"+member.getMaddress3()+"/"+member.getMaddress4());
+		MultipartFile profile = member.getProfile();
+		String profilename = profile.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profilename;
+		if(!profile.isEmpty()) {
+			profile.transferTo(new File(savePath));
+		}
+		member.setProfilename(profilename);
+		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
 		int memberModifyResult = mdao.memberModify(member);
 		if(memberModifyResult > 0) {
 			mav.setViewName("member/MemberModifySuccess");
@@ -121,11 +126,19 @@ public class MemberService {
 		return mav;
 	}
 	
-	public ModelAndView memberView(String mid) {
+	public ModelAndView memberView(String id) {
 		mav = new ModelAndView();
-		MemberDTO memberView = mdao.memberView(mid);
+		MemberDTO memberView = mdao.memberView(id);
 		mav.addObject("memberView", memberView);
 		mav.setViewName("member/MemberView");
+		return mav;
+	}
+	
+	public ModelAndView memberList() {
+		mav = new ModelAndView();
+		List<MemberDTO> memberList = mdao.memberList();
+		mav.addObject("memberList", memberList);
+		mav.setViewName("member/MemberList");
 		return mav;
 	}
 	

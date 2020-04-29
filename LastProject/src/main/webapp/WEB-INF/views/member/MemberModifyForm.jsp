@@ -45,27 +45,27 @@
     </script>
 </head>
 <body>
-	<form action="memberModify" method="post" id=memberModifyForm>
+	<form action="memberModify" method="post" id=memberModifyForm enctype="multipart/form-data">
 		<table>
 			<tr>
-				<td>아이디 : <input type="text" name="mid" value="${memberModify.mid}" readonly></td>
+				<td>아이디 : <input type="text" name="id" value="${memberModify.id}" readonly></td>
 			</tr>
 			<tr>
-				<td>이름 : <input type="text" name="mname" value="${memberModify.mname}"></td>
+				<td>이름 : <input type="text" name="name" value="${memberModify.name}"></td>
 			</tr>
 			<tr>
-				<td>생년월일 : <input type="date" name="mbirth" value="${memberModify.mbirth}"></td>
+				<td>주소 : <input type="text" name="address1" id="sample6_postcode" value="${memberModify.address1}">&nbsp;<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
 			</tr>
 			<tr>
-				<td>주소 : <input type="text" name="maddress1" id="sample6_postcode" value="${memberModify.maddress1}">&nbsp;<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
+				<td><input type="text" name="address2" id="sample6_address" value="${memberModify.address2}">
+				<input type="text" name="address3" id="sample6_detailAddress" value="${memberModify.address3}">
+				<input type="text" name="address4" id="sample6_extraAddress" value="${memberModify.address4}"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="maddress2" id="sample6_address" value="${memberModify.maddress2}"><br></td>
-				<td><input type="text" name="maddress3" id="sample6_detailAddress" value="${memberModify.maddress3}"></td>
-				<td><input type="text" name="maddress4" id="sample6_extraAddress" value="${memberModify.maddress4}"></td>
+				<td>핸드폰 : <input type="text" name="phone" id="phone" value="${memberModify.phone}"></td>
 			</tr>
 			<tr>
-				<td>핸드폰 : <input type="text" name="mphone" id="phone" value="${memberModify.mphone}"></td>
+				<td>프로필사진 : <input type="file" name="profile" value="${memberModify.profilename}"></td>
 			</tr>
 		</table>
 			<input type="submit" value="수정">

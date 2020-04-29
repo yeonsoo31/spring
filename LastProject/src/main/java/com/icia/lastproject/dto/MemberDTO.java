@@ -6,19 +6,18 @@ import lombok.Data;
 
 @Data
 public class MemberDTO {
-	private String mid;
-	private String mpassword;
-	private String mname;
-	private String mbirth;
-	private String maddress;
-	private String maddress1;
-	private String maddress2;
-	private String maddress3;
-	private String maddress4;
-	private String fulladdress;
-	private String mphone;
-	private MultipartFile mprofilepic;
-	private String mprofilepicname;
+	private String id;
+	private String password;
+	private String name;
+	private String birth;
+	private String address;
+	private String address1;
+	private String address2;
+	private String address3;
+	private String address4;
+	private String phone;
+	private MultipartFile profile;
+	private String profilename;
 	private String kakaoId;
 	private String naverId;
 	private String googleId;

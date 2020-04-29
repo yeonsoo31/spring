@@ -56,7 +56,7 @@ public class NaverService {
 		String email = naverProfile.path("email").asText();
 		String thumbnail = naverProfile.path("thumbnail_image_url").asText();
 		MemberDTO member = mdao.naverLogin(naverId);
-		session.setAttribute("loginId", member.getMid());
+		session.setAttribute("loginId", member.getId());
 		mav.addObject("naverId", naverId);
 		mav.addObject("loginMember", member);
 		mav.addObject("email", email);

@@ -22,44 +22,48 @@
 	
 	<insert id="googleJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', '', #{googleId}, 0, 1, #{mprofilepicname}, SYSDATE)
+		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', '', '', #{googleId}, 0, 1, #{profilename}, SYSDATE)
  	</insert>
  	
  	<insert id="facebookJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', #{facebookId}, '', 0, 1, #{mprofilepicname}, SYSDATE)
+		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', '', #{facebookId}, '', 0, 1, #{profilename}, SYSDATE)
  	</insert>
  	
  	<insert id="kakaoJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, #{kakaoId}, '', '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, #{kakaoId}, '', '', '', 0, 1, #{profilename}, SYSDATE)
  	</insert>
  	
  	<insert id="naverJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', #{naverId}, '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', #{naverId}, '', '', 0, 1, #{profilename}, SYSDATE)
  	</insert>
 	
  	<insert id="memberJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{mid}, #{mpassword}, #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+		VALUES(#{id}, #{password}, #{name}, #{birth}, #{address}, #{phone}, '', '', '', '', 0, 1, #{profilename}, SYSDATE)
  	</insert>
  	
  	<select id="idOverlap" parameterType="String" resultType="String">
-		SELECT ID FROM MEMBER WHERE ID=#{mid}
+		SELECT ID FROM MEMBER WHERE ID=#{id}
 	</select>
  	
  	<select id="memberLogin" parameterType="member" resultType="String">
- 		SELECT ID FROM MEMBER WHERE ID=#{mid} AND PASSWORD=#{mpassword}
+ 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
  	</select>
  	
  	<select id="memberView" parameterType="String" resultType="member">
- 		SELECT * FROM MEMBER WHERE ID=#{mid}
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
  	</select>
  	
 	<update id="memberModify" parameterType="member">
-		UPDATE MEMBER SET NAME=#{mname}, BIRTH=#{mbirth}, MADDRESS=#{fulladdress}, PHONE=#{mphone} WHERE ID=#{mid}
+		UPDATE MEMBER SET NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profilename} WHERE ID=#{id}
 	</update>
+	
+	<select id="memberList" resultType="member">
+		SELECT * FROM MEMBER
+	</select>
  </mapper>
  
  

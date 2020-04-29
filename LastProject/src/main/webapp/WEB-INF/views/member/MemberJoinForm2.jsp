@@ -15,25 +15,25 @@
 		var re_name = /^[가-힝a-zA-Z]{2,}$/;
 		var re_phone = /^\d{3}-\d{3,4}-\d{4}$/;
 		var re_birth = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-		var mid = document.getElementById("id");
+		var id = document.getElementById("id");
 		var idOverlapValue = document.getElementById("idOverlapValue");
-		var mpassword = document.getElementById("password");
-		var mpasswordCheck = document.getElementById("passwordCheck");
-		var mname = document.getElementById("name");
-		var mbirth = document.getElementById("birth");
-		var maddress1 = document.getElementById("sample6_postcode");
-		var maddress2 = document.getElementById("sample6_address");
-		var maddress3 = document.getElementById("sample6_detailAddress");
-		var mphone = document.getElementById("phone");
+		var password = document.getElementById("password");
+		var passwordCheck = document.getElementById("passwordCheck");
+		var name = document.getElementById("name");
+		var birth = document.getElementById("birth");
+		var address1 = document.getElementById("sample6_postcode");
+		var address2 = document.getElementById("sample6_address");
+		var address3 = document.getElementById("sample6_detailAddress");
+		var phone = document.getElementById("phone");
 		// 아이디 유효성
-		if((mid.value) == "") {
+		if((id.value) == "") {
 			alert("이메일을 입력하지 않았습니다");
-			mid.focus();
+			id.focus();
 			return false;
 		}
-		if (!re_id.test(mid.value)) {
+		if (!re_id.test(id.value)) {
 			alert("사용자의 이메일을 입력해주세요");
-			mid.focus();
+			id.focus();
 			return false;
 		}
 		if(idOverlapValue.value=="N"){
@@ -44,68 +44,68 @@
 			return false;
 		} 
 		// 비밀번호 유효성
-		if((mpassword.value) == "") {
+		if((password.value) == "") {
 			alert("비밀번호를 입력해 주세요");
-			mpassword.focus();
+			password.focus();
 			return false;
 		}
-		if(!re_password.test(mpassword.value)) {
+		if(!re_password.test(password.value)) {
 			alert("8~16자리 영문,숫자,특수문자의 조합으로 만들어주세요");
 			return false;
 		}
 		// 비밀번호 확인 유효성
-		if((mpasswordCheck.value) == "") {
+		if((passwordCheck.value) == "") {
 			alert("비밀번호 확인을 입력해 주세요");
-			mpasswordCheck.focus();
+			passwordCheck.focus();
 			return false;
 		}
-		if((mpassword.value)!=(mpasswordCheck.value)) {
+		if((password.value)!=(passwordCheck.value)) {
 			alert("비밀번호가 일치하지 않습니다");
-			mpassword.focus();
-			mpasswordCheck.focus();
+			password.focus();
+			passwordCheck.focus();
 			return false;
 		}
 		// 이름 유효성
-		if((mname.value) == "") {
+		if((name.value) == "") {
 			alert("이름을 입력해 주세요");
-			mname.focus();
+			name.focus();
 			return false;
 		}
-		if(!re_name.test(mname.value)) {
+		if(!re_name.test(name.value)) {
 			alert("정확한 이름을 입력해 주세요");
 			return false;
 		}
 		// 생년월일 유효성
-		if(!re_birth.test(mbirth.value)) {
+		if(!re_birth.test(birth.value)) {
 			alert("생년월일을 입력해 주세요");
-			mbirth.focus();
+			birth.focus();
 			return false;
 		}
 		// 주소 유효성
-		if((maddress1.value.length) < 5) {
+		if((address1.value.length) < 5) {
 			alert("우편번호를 입력해 주세요");
-			maddress1.focus();
+			address1.focus();
 			return false;
 		}
-		if((maddress2.value) == "") {
+		if((address2.value) == "") {
 			alert("주소를 입력해 주세요");
-			maddress2.focus();
+			address2.focus();
 			return false;
 		}
-		if((maddress3.value) == "") {
+		if((address3.value) == "") {
 			alert("상세주소를 입력해 주세요");
-			maddress3.focus();
+			address3.focus();
 			return false;
 		}
 		// 휴대폰 유효성
-		if((mphone.value) == "") {
+		if((phone.value) == "") {
 			alert("휴대폰 번호를 입력해 주세요");
-			mphone.focus();
+			phone.focus();
 			return false;
 		}
-		if(!re_phone.test(mphone.value)) {
+		if(!re_phone.test(phone.value)) {
 			alert("정확한 휴대폰 번호를 입력해 주세요");
-			mphone.focus();
+			phone.focus();
 			return false;
 		}
 	}
@@ -116,7 +116,7 @@
 		$.ajax({
 			type : "post",
 			url : "idOverlap",
-			data : {"mid" : inputId.value},
+			data : {"id" : inputId.value},
 			dataType : "text",
 			success : function(result){
 				if(result=="OK"){
@@ -180,97 +180,98 @@
 			<c:choose>
 				<c:when test="${kakaoId ne null}">
 					<tr>
-						<td>이메일 : <input type="text" name="mid" id="id" value="${kakaoEmail}" readonly>
+						<td>이메일 : <input type="text" name="id" id="id" value="${kakaoEmail}" readonly>
 							<button type="button" onclick="idOverlap()">아이디중복확인</button>
 							<input type="hidden" id="idOverlapValue" value="N">
 							<input type="hidden" name="kakaoId" id="kakaoId" value="${kakaoId}">
-							<td><input type="hidden" id="password" name=mpassword value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!"></td>
+							<input type="hidden" id="password" name=password value="asdfASDF1!">
+							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
 						</td>
 					</tr>
 					<tr>
-						<td>이름 : <input type="text" name="mname" id="name" value="${nickName}"></td>
+						<td>이름 : <input type="text" name="name" id="name" value="${nickName}"></td>
 					</tr>
 				</c:when>
 				<c:when test="${naverId ne null}">
 					<tr>
-						<td>이메일 : <input type="text" name="mid" id="id" value="${naverEmail}" readonly>
+						<td>이메일 : <input type="text" name="id" id="id" value="${naverEmail}" readonly>
 							<button type="button" onclick="idOverlap()">아이디중복확인</button>
 							<input type="hidden" id="idOverlapValue" value="N">
 							<input type="hidden" name="naverId" id="naverId" value="${naverId}">
-							<td><input type="hidden" id="password" name=mpassword value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!"></td>
+							<input type="hidden" id="password" name=password value="asdfASDF1!">
+							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
 						</td>
 					</tr>
 					<tr>
-						<td>이름 : <input type="text" name="mname" id="name" value="${naverName}"></td>
+						<td>이름 : <input type="text" name="name" id="name" value="${naverName}"></td>
 					</tr>
 				</c:when>
 				<c:when test="${googleId ne null}">
 					<tr>
-						<td>이메일 : <input type="text" name="mid" id="id" value="${googleEmail}" readonly>
+						<td>이메일 : <input type="text" name="id" id="id" value="${googleEmail}" readonly>
 							<button type="button" onclick="idOverlap()">아이디중복확인</button>
 							<input type="hidden" id="idOverlapValue" value="N">
 							<input type="hidden" name="googleId" id="googleId" value="${googleId}">
-						<td><input type="hidden" id="password" name=mpassword value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!"></td>
+							<input type="hidden" id="password" name=password value="asdfASDF1!">
+							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
+						</td>
 					</tr>
 					<tr>
-						<td>이름 : <input type="text" name="mname" id="name" value="${googleName}"></td>
+						<td>이름 : <input type="text" name="name" id="name" value="${googleName}"></td>
 					</tr>
 				</c:when>
 				<c:when test="${facebookId ne null}">
 					<tr>
-						<td>이메일 : <input type="text" name="mid" id="id" value="${facebookEmail}" readonly>
+						<td>이메일 : <input type="text" name="id" id="id" value="${facebookEmail}" readonly>
 							<button type="button" onclick="idOverlap()">아이디중복확인</button>
 							<input type="hidden" id="idOverlapValue" value="N">
 							<input type="hidden" name="facebookId" id="facebookId" value="${facebookId}">
-							<td><input type="hidden" id="password" name=mpassword value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!"></td>
+							<input type="hidden" id="password" name=password value="asdfASDF1!">
+							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
 						</td>
 					</tr>
 					<tr>
-						<td>이름 : <input type="text" name="mname" id="name" value="${facebookName}"></td>
+						<td>이름 : <input type="text" name="name" id="name" value="${facebookName}"></td>
 					</tr>
 				</c:when>
 				<c:otherwise>
 					<tr>
-						<td>이메일 : <input type="text" id="id" name="mid" onkeydown="newId()">
+						<td>이메일 : <input type="text" id="id" name="id" onkeydown="newId()">
 							<button type="button" onclick="idOverlap()">아이디중복확인</button>
 							<input type="hidden" id="idOverlapValue" value="N">
 						</td>
 					</tr>
 					<tr>
-						<td>비밀번호 : <input type="password" id="password" name=mpassword placeholder="8~16,숫자,대소문자,특문"></td>
+						<td>비밀번호 : <input type="password" id="password" name=password placeholder="8~16,숫자,대소문자,특문"></td>
 					</tr>
 					<tr>
 						<td>비밀번호 확인 : <input type="password" id="passwordCheck"></td>
 					</tr>
 					<tr>
-						<td>이름 : <input type="text" id="name" name="mname" maxlength="4"></td>
+						<td>이름 : <input type="text" id="name" name="name" maxlength="4"></td>
 					</tr>
 				</c:otherwise>
 			</c:choose>
 			<tr>
-				<td>생년월일 : <input type="date" id="birth" name="mbirth"></td>
+				<td>생년월일 : <input type="date" id="birth" name="birth"></td>
 			</tr>
 			<tr>
 				<td>주소 : <input type="text" id="sample6_postcode"
-					name="maddress1" placeholder="우편번호">&nbsp;<input
+					name="address1" placeholder="우편번호">&nbsp;<input
 					type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="sample6_address" name="maddress2"
+				<td><input type="text" id="sample6_address" name="address2"
 					placeholder="주소"> <input type="text"
-					id="sample6_detailAddress" name="maddress3" placeholder="상세주소">
-					<input type="text" id="sample6_extraAddress" name="maddress4"
+					id="sample6_detailAddress" name="address3" placeholder="상세주소">
+					<input type="text" id="sample6_extraAddress" name="address4"
 					placeholder="참고항목"></td>
 			</tr>
 			<tr>
-				<td>휴대폰 : <input id="phone" name="mphone" type="text"></td>
+				<td>휴대폰 : <input id="phone" name="phone" type="text"></td>
 			</tr>
 			<tr>
-				<td>프로필사진 : <input type="file" name="mprofilepic"></td>
+				<td>프로필사진 : <input type="file" name="profile"></td>
 			</tr>
 		</table>
 		<input type="submit" name="submit" value="회원가입">

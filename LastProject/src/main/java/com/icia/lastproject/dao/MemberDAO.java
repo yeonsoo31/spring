@@ -1,5 +1,7 @@
 package com.icia.lastproject.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -46,16 +48,20 @@ public class MemberDAO {
 		return sql.selectOne("Member.memberLogin", member);
 	}
 	
-	public String idOverlap(String mid) {
-		return sql.selectOne("Member.idOverlap", mid);
+	public String idOverlap(String id) {
+		return sql.selectOne("Member.idOverlap", id);
 	}
 	
 	public int memberModify(MemberDTO member) {
 		return sql.update("Member.memberModify", member);
 	}
 	
-	public MemberDTO memberView(String mid) {
-		return sql.selectOne("Member.memberView", mid);
+	public MemberDTO memberView(String id) {
+		return sql.selectOne("Member.memberView", id);
+	}
+	
+	public List<MemberDTO> memberList() {
+		return sql.selectList("Member.memberList");
 	}
 	
 }

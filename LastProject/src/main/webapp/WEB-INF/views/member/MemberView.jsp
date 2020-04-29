@@ -15,13 +15,13 @@
 			<th>FACEBOOKID</th><th>GOOGLEID</th>
 		</tr>
 		<tr>
-			<td>${memberView.mid}</td>
-			<td>${memberView.mpassword}</td>
-			<td>${memberView.mname}</td>
-			<td>${memberView.mbirth}</td>
-			<td>${memberView.maddress}</td>
-			<td>${memberView.mphone}</td>
-			<td>${memberView.mprofilepic}</td>
+			<td>${memberView.id}</td>
+			<td>${memberView.password}</td>
+			<td>${memberView.name}</td>
+			<td>${memberView.birth}</td>
+			<td>${memberView.address}</td>
+			<td>${memberView.phone}</td>
+			<td>${memberView.profile}</td>
 			<td>${memberView.kakaoId}</td>
 			<td>${memberView.naverId}</td>
 			<td>${memberView.facebookId}</td>

@@ -72,10 +72,10 @@
 	<form action="memberLogin" method="post" id=loginForm>
 	<table>
         <tr>
-            <td>아이디 : <input type="text" name="mid" id="id"></td>
+            <td>아이디 : <input type="text" name="id" id="id"></td>
         </tr>
         <tr>
-        	<td>비밀번호 : <input type="password" name="mpassword" id="password"></td>
+        	<td>비밀번호 : <input type="password" name="password" id="password"></td>
         </tr>
     </table>
     <button onclick="submit">로그인</button>
