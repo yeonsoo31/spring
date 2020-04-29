@@ -28,13 +28,13 @@ public class MemberService {
 	
 	public ModelAndView memberJoin(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
-		MultipartFile profile = member.getProfile();
-		String profilename = profile.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profilename;
-		if(!profile.isEmpty()) {
-			profile.transferTo(new File(savePath));
+		MultipartFile file = member.getFile();
+		String profile = file.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		if(!file.isEmpty()) {
+			file.transferTo(new File(savePath));
 		}
-		member.setProfilename(profilename);
+		member.setProfile(profile);
 		String address = member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4();
 		member.setAddress(address);
 		int memberSignUpResult = mdao.memberJoin(member);
@@ -109,13 +109,13 @@ public class MemberService {
 	
 	public ModelAndView memberModify(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
-		MultipartFile profile = member.getProfile();
-		String profilename = profile.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profilename;
-		if(!profile.isEmpty()) {
-			profile.transferTo(new File(savePath));
+		MultipartFile file = member.getFile();
+		String profile = file.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		if(!file.isEmpty()) {
+			file.transferTo(new File(savePath));
 		}
-		member.setProfilename(profilename);
+		member.setProfile(profile);
 		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
 		int memberModifyResult = mdao.memberModify(member);
 		if(memberModifyResult > 0) {

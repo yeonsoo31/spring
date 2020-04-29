@@ -53,6 +53,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
       </div>
     </div>
-
+<button onclick="location.href='attendance'">출석</button>
 </body>
 </html>

@@ -253,4 +253,9 @@ public class MemberController {
 		mav = memberService.memberList();
 		return mav;
 	}
+	
+	@RequestMapping(value = "/attendance", method = RequestMethod.GET)
+	public String attendance() {
+		return "Attendance";
+	}
 }

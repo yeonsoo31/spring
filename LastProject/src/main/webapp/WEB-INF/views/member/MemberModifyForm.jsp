@@ -64,8 +64,8 @@
 			<tr>
 				<td>핸드폰 : <input type="text" name="phone" id="phone" value="${memberModify.phone}"></td>
 			</tr>
-			<tr>
-				<td>프로필사진 : <input type="file" name="profile" value="${memberModify.profilename}"></td>
+			<tr>	
+				<td>프로필사진 : <input type="file" name="file"></td>
 			</tr>
 		</table>
 			<input type="submit" value="수정">

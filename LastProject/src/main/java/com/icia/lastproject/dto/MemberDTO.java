@@ -16,8 +16,8 @@ public class MemberDTO {
 	private String address3;
 	private String address4;
 	private String phone;
-	private MultipartFile profile;
-	private String profilename;
+	private MultipartFile file;
+	private String profile;
 	private String kakaoId;
 	private String naverId;
 	private String googleId;

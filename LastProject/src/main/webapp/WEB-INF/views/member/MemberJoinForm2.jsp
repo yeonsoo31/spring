@@ -271,7 +271,7 @@
 				<td>휴대폰 : <input id="phone" name="phone" type="text"></td>
 			</tr>
 			<tr>
-				<td>프로필사진 : <input type="file" name="profile"></td>
+				<td>프로필사진 : <input type="file" name="file"></td>
 			</tr>
 		</table>
 		<input type="submit" name="submit" value="회원가입">
