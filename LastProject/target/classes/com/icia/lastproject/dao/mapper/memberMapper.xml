@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Member"> 
+	
+	<select id="kakaoLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE KAKAOID=#{kakaoId}
+	</select>
+	
+	<select id="naverLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE NAVERID=#{naverId}
+	</select>
+	
+	<select id="googleLogin" parameterType="String" resultType="String">
+		SELECT GOOGLEID FROM MEMBER WHERE GOOGLEID=#{googleId}
+	</select>
+	
+	<select id="facebookLogin" parameterType="String" resultType="String">
+		SELECT FACEBOOKID FROM MEMBER WHERE FACEBOOKID=#{facebookId}
+	</select>
+	
+	<insert id="googleJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', '', #{googleId}, 0, 1, #{mprofilepicname}, SYSDATE)
+ 	</insert>
+ 	
+ 	<insert id="facebookJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', #{facebookId}, '', 0, 1, #{mprofilepicname}, SYSDATE)
+ 	</insert>
+ 	
+ 	<insert id="kakaoJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, #{kakaoId}, '', '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+ 	</insert>
+ 	
+ 	<insert id="naverJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
+		VALUES(#{mid}, '', #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', #{naverId}, '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+ 	</insert>
+	
+ 	<insert id="memberJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
+		VALUES(#{mid}, #{mpassword}, #{mname}, #{mbirth}, #{fulladdress}, #{mphone}, '', '', '', '', 0, 1, #{mprofilepicname}, SYSDATE)
+ 	</insert>
+ 	
+ 	<select id="idOverlap" parameterType="String" resultType="String">
+		SELECT ID FROM MEMBER WHERE ID=#{mid}
+	</select>
+ 	
+ 	<select id="memberLogin" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{mid} AND PASSWORD=#{mpassword}
+ 	</select>
+ 	
+ 	<select id="memberView" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID=#{mid}
+ 	</select>
+ 	
+	<update id="memberModify" parameterType="member">
+		UPDATE MEMBER SET NAME=#{mname}, BIRTH=#{mbirth}, MADDRESS=#{fulladdress}, PHONE=#{mphone} WHERE ID=#{mid}
+	</update>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
