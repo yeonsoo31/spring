@@ -14,6 +14,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	function memberModifyForm(){
 		location.href="memberModifyForm";
 	}
+	function memberAttendance(){
+		location.href="memberAttendance";
+	}
 </script>
 </head>
 <body>
@@ -26,6 +29,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		<a href="memberList">회원 목록 조회</a>
 	</c:if>
 	<button onclick="memberModifyForm()">회원 정보 수정</button>
+	<button onclick="memberAttendance()">출석</button>
 	<button onclick="location.href='boardList'">게시판</button>
 	<button onclick="location.href='boardListPaging'">게시판(페이징)</button>
 	<button onclick="memberLogout()">로그아웃</button>

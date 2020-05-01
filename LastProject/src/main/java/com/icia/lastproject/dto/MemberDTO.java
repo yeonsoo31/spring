@@ -25,4 +25,6 @@ public class MemberDTO {
 	private int savemoney;
 	private int division;
 	private String passworddate;
+	private int att_date;
+	private int continuity;
 }

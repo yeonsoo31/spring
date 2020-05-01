@@ -254,8 +254,17 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/attendance", method = RequestMethod.GET)
-	public String attendance() {
-		return "Attendance";
+	@RequestMapping(value = "/memberAttendance", method = RequestMethod.GET)
+	public ModelAndView memberAttendance() {
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.memberAttendance(id);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/memberAttendanceCheck")
+	public ModelAndView memberAttendanceCheck(@RequestParam("att_date") int att_date) {
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.memberAttendanceCheck(id, att_date);
+		return mav;
 	}
 }

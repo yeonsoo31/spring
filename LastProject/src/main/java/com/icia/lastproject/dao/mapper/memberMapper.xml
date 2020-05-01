@@ -64,6 +64,16 @@
 	<select id="memberList" resultType="member">
 		SELECT * FROM MEMBER
 	</select>
+	
+	<select id="memberAttendance" parameterType="String" resultType="member">
+ 		SELECT ATT_DATE FROM ATTENDANCE WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<insert id="memberAttendanceCheck" parameterType="member">
+ 		INSERT INTO ATTENDANCE(ID, ATT_DATE)
+		VALUES(#{id}, #{att_date})
+ 	</insert>
+ 	
  </mapper>
  
  

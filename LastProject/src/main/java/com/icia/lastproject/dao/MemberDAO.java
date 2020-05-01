@@ -63,5 +63,14 @@ public class MemberDAO {
 	public List<MemberDTO> memberList() {
 		return sql.selectList("Member.memberList");
 	}
+
+	public MemberDTO memberAttendance(String id) {
+		return sql.selectOne("Member.memberAttendance", id);
+	}
+
+	public int memberAttendanceCheck(MemberDTO member) {
+		return sql.insert("Member.memberAttendanceCheck", member);
+	}
+
 	
 }

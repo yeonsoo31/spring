@@ -2,6 +2,7 @@ package com.icia.lastproject.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -139,6 +140,28 @@ public class MemberService {
 		List<MemberDTO> memberList = mdao.memberList();
 		mav.addObject("memberList", memberList);
 		mav.setViewName("member/MemberList");
+		return mav;
+	}
+
+	public ModelAndView memberAttendance(String id) {
+		mav = new ModelAndView();
+		MemberDTO memberAttendance = mdao.memberAttendance(id);
+		mav.addObject("memberAttendance", memberAttendance);
+		mav.setViewName("member/MemberAttendance");
+		return mav;
+	}
+
+	public ModelAndView memberAttendanceCheck(String id, int att_date) {
+		mav = new ModelAndView();
+		MemberDTO member = new MemberDTO();
+		member.setId(id);
+		member.setAtt_date(att_date);
+		int memberAttendanceCheckResult = mdao.memberAttendanceCheck(member);
+		if(memberAttendanceCheckResult > 0) {
+			mav.setViewName("member/MemberAttendance");
+		} else {
+			mav.setViewName("member/MemberAttendanceFail");
+		}
 		return mav;
 	}
 	
