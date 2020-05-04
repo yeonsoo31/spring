@@ -254,6 +254,12 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/memberBlackListAdd", method=RequestMethod.POST)
+	public @ResponseBody String memberBlackListAdd(@RequestParam("id") String id) {
+		String memberBlackListAdd = memberService.memberBlackListAdd(id);
+		return memberBlackListAdd;
+	}
+	
 	@RequestMapping(value = "/memberAttendance", method = RequestMethod.GET)
 	public ModelAndView memberAttendance() {
 		String id = (String) session.getAttribute("loginId");
@@ -267,4 +273,6 @@ public class MemberController {
 		mav = memberService.memberAttendanceCheck(id, att_date);
 		return mav;
 	}
+	
+	
 }

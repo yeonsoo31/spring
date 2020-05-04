@@ -65,6 +65,10 @@
 		SELECT * FROM MEMBER
 	</select>
 	
+	<update id="memberBlackListAdd" parameterType="String">
+		UPDATE MEMBER SET DIVISION=3 WHERE ID=#{id}
+	</update>
+	
 	<select id="memberAttendance" parameterType="String" resultType="member">
  		SELECT ATT_DATE FROM ATTENDANCE WHERE ID=#{id}
  	</select>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -115,8 +116,8 @@ public class MemberService {
 		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
 		if(!file.isEmpty()) {
 			file.transferTo(new File(savePath));
+			member.setProfile(profile);
 		}
-		member.setProfile(profile);
 		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
 		int memberModifyResult = mdao.memberModify(member);
 		if(memberModifyResult > 0) {
@@ -142,12 +143,12 @@ public class MemberService {
 		mav.setViewName("member/MemberList");
 		return mav;
 	}
-
+	
 	public ModelAndView memberAttendance(String id) {
 		mav = new ModelAndView();
 		MemberDTO memberAttendance = mdao.memberAttendance(id);
 		mav.addObject("memberAttendance", memberAttendance);
-		mav.setViewName("member/MemberAttendance");
+		mav.setViewName("member/MemberAttendance2");
 		return mav;
 	}
 
@@ -158,11 +159,22 @@ public class MemberService {
 		member.setAtt_date(att_date);
 		int memberAttendanceCheckResult = mdao.memberAttendanceCheck(member);
 		if(memberAttendanceCheckResult > 0) {
-			mav.setViewName("member/MemberAttendance");
+			mav.setViewName("member/MemberAttendance2");
 		} else {
 			mav.setViewName("member/MemberAttendanceFail");
 		}
 		return mav;
+	}
+
+	public String memberBlackListAdd(String id) {
+		int memberBlackListAddResult = mdao.memberBlackListAdd(id);
+		String ResultMsg = null;
+		if(memberBlackListAddResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
 	}
 	
 }

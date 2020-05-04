@@ -27,9 +27,13 @@
 	console.log(id);
     today = today.getDate();
     console.log(today);
-	function attendance(index) {
-		var attStatus = document.getElementById("attStatus"+index).innerHTML;
-		console.log(attStatus);
+	function attendance() {
+			var attStatus1 = document.getElementById("attStatus1").innerHTML;
+			var attStatus2 = document.getElementById("attStatus2").innerHTML;
+			var attStatus3 = document.getElementById("attStatus3").innerHTML;
+			var attStatus4 = document.getElementById("attStatus4").innerHTML;
+		}
+		
 	}
 //		if(today==(attStatus1)){
 //			alert("출석완료");
@@ -69,17 +73,17 @@
 		<td></td>
 		<td></td>
 		<td></td>
-		<td><p id="attStatus1">1</p><a onclick="attendance('1')"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus2">2</p><a onclick="attendance(2)"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus1">1</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus2">2</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
 	</tr>
 	<tr>
-		<td><p id="attStatus3">3</p><a onclick="attendance3()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus4">4</p><a onclick="attendance4()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus5">5</p><a onclick="attendance5()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus6">6</p><a onclick="attendance6()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus7">7</p><a onclick="attendance7()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus8">8</p><a onclick="attendance8()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
-		<td><p id="attStatus9">9</p><a onclick="attendance9()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus3">3</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus4">4</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus5">5</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus6">6</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus7">7</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus8">8</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
+		<td><p id="attStatus9">9</p><a onclick="attendance()"><img width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></a></td>
 	</tr>
 	<tr>
 		<td id="day">10<br>&nbsp;&nbsp;<img id="attStatus10" width="50" height="50" src="${pageContext.request.contextPath}/resources/img/sad.png"></td>

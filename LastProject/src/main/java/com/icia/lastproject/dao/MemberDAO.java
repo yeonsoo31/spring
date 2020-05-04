@@ -72,5 +72,9 @@ public class MemberDAO {
 		return sql.insert("Member.memberAttendanceCheck", member);
 	}
 
+	public int memberBlackListAdd(String id) {
+		return sql.update("Member.memberBlackListAdd", id);
+	}
+
 	
 }

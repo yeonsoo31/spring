@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>회원정보수정</title>
 <script>
 	function memberMain(){
@@ -46,6 +47,7 @@
 </head>
 <body>
 	<form action="memberModify" method="post" id=memberModifyForm enctype="multipart/form-data">
+	<input type="hidden" value="${memberModify.profile}" name="profile">
 		<table>
 			<tr>
 				<td>아이디 : <input type="text" name="id" value="${memberModify.id}" readonly></td>
@@ -64,12 +66,30 @@
 			<tr>
 				<td>핸드폰 : <input type="text" name="phone" id="phone" value="${memberModify.phone}"></td>
 			</tr>
-			<tr>	
-				<td>프로필사진 : <input type="file" name="file"></td>
+			<tr>
+				<td><img id="profileimg" src="${pageContext.request.contextPath}/resources/profilepic/${memberModify.profile}" width="100" height="100"></a></td>
+			</tr>
+			<tr>
+				<td>프로필사진 : <input id="profileinput" type="file" name="file"></td>
 			</tr>
 		</table>
 			<input type="submit" value="수정">
 			<button type="button" onclick="memberMain()">돌아가기</button>
 	</form>
 </body>
+<script>
+	function readURL(input){
+		if(input.files && input.files[0]){
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#profileimg").attr("src",e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	$("#profileinput").change(function(){
+		readURL(this);
+	});
+</script>
 </html>

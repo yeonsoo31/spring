@@ -24,7 +24,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			<td>${memberList.name}</td>
 			<td><a href="memberView?id=${memberList.id}">조회</a></td>
 			<td><a href="memberDelete?id=${memberList.id}">탈퇴</a></td>
-			
 		</tr>
 	</c:forEach>
 	</table>
