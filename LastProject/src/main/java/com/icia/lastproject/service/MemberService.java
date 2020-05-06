@@ -85,9 +85,18 @@ public class MemberService {
 
 	public ModelAndView memberLogin(MemberDTO member) {
 		mav = new ModelAndView();
-		String loginId = mdao.memberLogin(member);
+		String loginId = null;
+		int loginIdDivision = 0;
+		if(member.getDivision()==1) {
+			loginId = mdao.memberLogin(member);
+			loginIdDivision = mdao.memberIdDivision(member);
+		} else {
+			loginId = mdao.sellerLogin(member);
+			loginIdDivision = mdao.sellerIdDivision(member);
+		}
 		if(loginId!=null) {
 			session.setAttribute("loginId", loginId);
+			session.setAttribute("loginIdDivision", loginIdDivision);
 			mav.setViewName("member/MemberMain");
 		} else {
 			mav.setViewName("member/MemberLoginFail");
@@ -108,7 +117,19 @@ public class MemberService {
 		mav.setViewName("member/MemberModifyForm");
 		return mav;
 	}
-	
+	public ModelAndView sellerModifyForm(String id) {
+		mav = new ModelAndView();
+		MemberDTO sellerModify = mdao.sellerView(id);
+		String address = sellerModify.getAddress();
+		String[] array = address.split("/");
+		sellerModify.setAddress1(array[0]);
+		sellerModify.setAddress2(array[1]);
+		sellerModify.setAddress3(array[2]);
+		sellerModify.setAddress4(array[3]);
+		mav.addObject("sellerModify", sellerModify);
+		mav.setViewName("member/SellerModifyForm");
+		return mav;
+	}
 	public ModelAndView memberModify(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
 		MultipartFile file = member.getFile();
@@ -121,6 +142,25 @@ public class MemberService {
 		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
 		int memberModifyResult = mdao.memberModify(member);
 		if(memberModifyResult > 0) {
+			mav.setViewName("member/MemberModifySuccess");
+		} else {
+			mav.setViewName("member/MemberModifyFail");
+		}
+		return mav;
+	}
+	
+	public ModelAndView sellerModify(MemberDTO member) throws IllegalStateException, IOException {
+		mav = new ModelAndView();
+		MultipartFile file = member.getFile();
+		String profile = file.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		if(!file.isEmpty()) {
+			file.transferTo(new File(savePath));
+			member.setProfile(profile);
+		}
+		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
+		int sellerModifyResult = mdao.sellerModify(member);
+		if(sellerModifyResult > 0) {
 			mav.setViewName("member/MemberModifySuccess");
 		} else {
 			mav.setViewName("member/MemberModifyFail");
@@ -175,6 +215,45 @@ public class MemberService {
 			ResultMsg = "NO";
 		}
 		return ResultMsg;
+	}
+
+	public ModelAndView sellerJoin(MemberDTO member) throws IllegalStateException, IOException {
+		mav = new ModelAndView();
+		MultipartFile file = member.getFile();
+		String profile = file.getOriginalFilename();
+		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		if(!file.isEmpty()) {
+			file.transferTo(new File(savePath));
+		}
+		member.setProfile(profile);
+		String address = member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4();
+		member.setAddress(address);
+		int memberSignUpResult = mdao.sellerJoin(member);
+		if(memberSignUpResult > 0) {
+			mav.setViewName("member/MemberJoinSuccess");
+		} else {
+			mav.setViewName("member/MemberSignUpFail");
+		}
+		return mav;
+	}
+
+	public String loginCheck(String id, String password, int division) {
+		String loginId = null;
+		String resultMsg = null;
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		if(division==2) {
+			loginId = mdao.sellerLoginCheck(hash);
+		} else {
+			loginId = mdao.memberLoginCheck(hash);
+		}
+		if(loginId != null) {
+			resultMsg = "OK";
+		} else {
+			resultMsg = "NO";
+		}
+		return resultMsg;
 	}
 	
 }

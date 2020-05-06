@@ -200,6 +200,11 @@ public class MemberController {
 		return "member/MemberJoinForm2";
 	}
 	
+	@RequestMapping(value="/sellerJoinForm", method = RequestMethod.GET)
+	public String sellerJoinForm() {
+		return "member/SellerJoinForm";
+	}
+	
 	@RequestMapping(value="/idOverlap", method=RequestMethod.POST)
 	public @ResponseBody String idOverlap(@RequestParam("id") String id) {
 		String resultMsg = memberService.idOverlap(id);
@@ -212,6 +217,12 @@ public class MemberController {
 		return mav = memberService.memberJoin(member);
 	}
 	
+	@RequestMapping(value="/sellerJoin", method = RequestMethod.POST)
+	public ModelAndView sellerJoin(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
+		mav = new ModelAndView();
+		return mav = memberService.sellerJoin(member);
+	}
+	
 	@RequestMapping(value="/memberLoginForm", method = RequestMethod.GET)
 	public String memberLoginForm() {
 		return "member/MemberLoginForm";
@@ -221,6 +232,14 @@ public class MemberController {
 	public ModelAndView memberLogin(@ModelAttribute MemberDTO member) {
 		mav = memberService.memberLogin(member);
 		return mav;
+	}
+	
+	@RequestMapping(value="/memberLoginCheck")
+	public @ResponseBody String loginCheck(@RequestParam("id") String id,
+											@RequestParam("password") String password,
+											@RequestParam("division") int division) {
+		String resultMsg = memberService.loginCheck(id, password, division);
+		return resultMsg;
 	}
 	
 	@RequestMapping(value="/memberLogout", method=RequestMethod.GET)
@@ -236,9 +255,22 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/sellerModifyForm", method=RequestMethod.GET)
+	public ModelAndView sellerModifyView() {
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.sellerModifyForm(id);
+		return mav;
+	}
+	
 	@RequestMapping(value="/memberModify", method=RequestMethod.POST)
 	public ModelAndView memberModify(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = memberService.memberModify(member);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerModify", method=RequestMethod.POST)
+	public ModelAndView sellerModify(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
+		mav = memberService.sellerModify(member);
 		return mav;
 	}
 	

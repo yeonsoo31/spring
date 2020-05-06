@@ -45,20 +45,53 @@
 		VALUES(#{id}, #{password}, #{name}, #{birth}, #{address}, #{phone}, '', '', '', '', 0, 1, #{profile}, SYSDATE)
  	</insert>
  	
+ 	<insert id="sellerJoin" parameterType="member">
+ 		INSERT INTO MEMBER_SALES(B_NAME, B_NUMBER, ID, PASSWORD, NAME, ADDRESS, PHONE, DIVISION, PROFILE, PASSWORDDATE, PASSWORDCHANGEDATE)
+		VALUES(#{b_name}, #{b_number}, #{id}, #{password}, #{name}, #{address}, #{phone}, 2, #{profile}, SYSDATE, SYSDATE+90)
+ 	</insert>
+ 	
  	<select id="idOverlap" parameterType="String" resultType="String">
-		SELECT ID FROM MEMBER WHERE ID=#{id}
+		SELECT ID FROM MEMBER WHERE ID = (SELECT ID FROM MEMBER_SALES WHERE ID = #{id}) OR ID = #{id}
 	</select>
  	
  	<select id="memberLogin" parameterType="member" resultType="String">
  		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
  	</select>
  	
+ 	<select id="sellerLogin" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
+ 	<select id="memberIdDivision" parameterType="member" resultType="int">
+ 		SELECT DIVISION FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
+ 	<select id="sellerIdDivision" parameterType="member" resultType="int">
+ 		SELECT DIVISION FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
+ 	<select id="memberLoginCheck" parameterType="map" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
+ 	<select id="sellerLoginCheck" parameterType="map" resultType="String">
+ 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	
  	<select id="memberView" parameterType="String" resultType="member">
  		SELECT * FROM MEMBER WHERE ID=#{id}
  	</select>
  	
+ 	<select id="sellerView" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER_SALES WHERE ID=#{id}
+ 	</select>
+ 	
 	<update id="memberModify" parameterType="member">
 		UPDATE MEMBER SET NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerModify" parameterType="member">
+		UPDATE MEMBER_SALES SET B_NAME=#{b_name}, B_NUMBER=#{b_number}, NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
 	</update>
 	
 	<select id="memberList" resultType="member">

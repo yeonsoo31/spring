@@ -4,10 +4,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="565794567467-1e0j5ii6huph37ua8rfkoc94bqj83ivs.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>MemberLoginForm</title>
+<script>
+	
+	function login() {
+		var id = document.getElementById("id").value;
+		var password = document.getElementById("password").value;
+		var division = $(':radio[name="division"]:checked').val();
+		$.ajax({
+			type : "post",
+			url : "memberLoginCheck",
+			data : {
+				"id" : id,
+				"password" : password,
+				"division" : division
+			},
+			dataType : "text",
+			success: function(result){
+				if(result=="OK"){
+					loginForm.submit();
+				} else {
+					alert("아이디 혹은 비밀번호가 틀렸습니다");
+					return false;
+				}
+			},
+			error: function(){
+				alert("통신오류");
+			}
+		});
+	}
+</script>
 </head>
 <body>
 <script>
@@ -72,13 +102,18 @@
 	<form action="memberLogin" method="post" id=loginForm>
 	<table>
         <tr>
+        	<td><input type="radio" name="division" value="1">일반회원
+        		<input type="radio" name="division" value="2">기업회원
+        	</td>
+        </tr>
+        <tr>
             <td>아이디 : <input type="text" name="id" id="id"></td>
         </tr>
         <tr>
         	<td>비밀번호 : <input type="password" name="password" id="password"></td>
         </tr>
     </table>
-    <button onclick="submit">로그인</button>
+    <button type="button" onclick="login()">로그인</button>
     </form>
     <button onclick="location.href='goMain'">메인</button>
 	<h3>간편로그인</h3>

@@ -17,6 +17,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	function memberAttendance(){
 		location.href="memberAttendance";
 	}
+	function sellerModifyForm(){
+		location.href="sellerModifyForm";
+	}
 </script>
 </head>
 <body>
@@ -28,7 +31,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<c:if test="${sessionScope.loginId eq 'admin@icia.com'}">
 		<a href="memberList">회원 목록 조회</a>
 	</c:if>
-	<button onclick="memberModifyForm()">회원 정보 수정</button>
+	<c:if test="${sessionScope.loginIdDivision eq 1}">
+		<button onclick="memberModifyForm()">회원 정보 수정</button>
+	</c:if>
+	<c:if test="${sessionScope.loginIdDivision eq 2}">
+		<button onclick="sellerModifyForm()">판매자 정보 수정</button>
+	</c:if>
+	<c:if test="${sessionScope.loginIdDivision eq 2}">
+		<button onclick="#">상품등록</button>
+	</c:if>
 	<button onclick="memberAttendance()">출석</button>
 	<button onclick="location.href='boardList'">게시판</button>
 	<button onclick="location.href='boardListPaging'">게시판(페이징)</button>

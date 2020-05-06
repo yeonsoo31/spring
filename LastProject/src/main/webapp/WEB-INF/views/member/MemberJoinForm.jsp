@@ -70,27 +70,27 @@
   		);
 	}
 </script>
-<!-- 페이스북 버튼 스크립트 -->
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script>
-<!-- 메인화면 -->
-<input type="button" onclick="location.href='memberJoinForm2'" value="이메일로 회원가입">
+<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일반회원</h2>
+<!-- 이메일 버튼 -->
+<a href="memberJoinForm2">
+	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Sign_in_with_email.JPG"></a>
 <!-- 구글 버튼 -->
-<h2>구글로 간편가입</h2>
 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="40" data-longtitle="true"></div>
+<!-- 페이스북 버튼 스크립트 -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script>
 <!-- 페이스북 버튼 -->
-<h2>페이스북으로 간편가입</h2>
 <div id="fb-root"></div>
 <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="250" scope="public_profile,email"
   onlogin="checkLoginState();"></div><br>
 <!-- 카카오톡 -->
-<h2>카카오톡으로 간편가입</h2>
 <a href="kakaojoin">
-	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/img/kakao_account_login_btn_large_narrow.png">
+	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png">
 </a><br>
 <!-- 네이버 -->
-<h2>네이버로 간편가입</h2>
 <a href="naverjoin">
-	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/img/Log in with NAVER_Official_Green.PNG">
+	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG">
 </a>
+<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;판매자</h2>
+<input type="button" style="width: 250px; height: 250px" onclick="location.href='sellerJoinForm'" value="사업자 등록증으로 회원가입"/>
 </body>
 </html>

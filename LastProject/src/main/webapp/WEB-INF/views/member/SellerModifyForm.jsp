@@ -11,14 +11,35 @@
 		location.href="memberMain";
 	}
 	function doubleCheck() {
+		var b_name = document.getElementById("b_name");
+		var b_number = document.getElementById("b_number");
+		var checkId = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+		var tmpBizId, i, chkSum=0, c2, remander;
+		var b_numberOverlapValue = document.getElementById("b_numberOverlapValue");
 		var name = document.getElementById("name");
 		var address1 = document.getElementById("sample6_postcode");
 		var address2 = document.getElementById("sample6_address");
 		var address3 = document.getElementById("sample6_detailAddress");
 		var phone = document.getElementById("phone");
+		// 상호명 유효성
+		if((b_name.value) == "") {
+			alert("상호명(단체명)을 입력하지 않았습니다");
+			b_name.focus();
+			return false;
+		}
+		// 사업자등록번호  유효성
+		if((b_number.value) == "") {
+			alert("사업자등록번호를 입력하지 않았습니다");
+			b_number.focus();
+			return false;
+		}
+		if((b_numberOverlapValue.value) == "N") {
+			alert("사업자등록번호 확인을 해주세요");
+			return false;
+		}
 		// 이름 유효성
 		if((name.value) == "") {
-			alert("성명을 입력해 주세요");
+			alert("대표자 성명을 입력해 주세요");
 			name.focus();
 			return false;
 		}
@@ -54,6 +75,31 @@
 			return false;
 		}
 	}
+	function b_numberOverlap() {
+		var bisNo = document.getElementById("b_number").value;
+		var sum = 0, key = [1, 3, 7, 1, 3, 7, 1, 3, 5];
+		var chkSum = 0;
+		if(bisNo==""){
+			alert("사업자등록번호를 입력해주세요")
+			b_number.focus();
+			return false;
+		}
+		if ((bisNo = (bisNo+"").match(/\d{1}/g)).length != 10) {
+        	alert("정확한 사업자등록번호를 입력해주세요");
+        	return false;
+        }
+        for (var i = 0 ; i < 9 ; i++) { sum += (key[i] * Number(bisNo[i])); }
+        chkSum = Math.floor(key[8] * Number(bisNo[8]) / 10);
+        sum +=chkSum;
+        var reminder = (10 - (sum % 10)) % 10;
+        if(reminder!=Number(bisNo[9])){
+        	alert("정확한 사업자등록번호를 입력해주세요");
+        	return false;
+        } else {
+        	alert("확인되었습니다");
+        	b_numberOverlapValue.value = "Y";
+        }
+    }
 </script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -90,28 +136,37 @@
     </script>
 </head>
 <body>
-	<form action="memberModify" method="post" id=memberModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
-	<input type="hidden" value="${memberModify.profile}" name="profile">
+	<form action="sellerModify" method="post" id=sellerModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
+	<input type="hidden" value="${sellerModify.profile}" name="profile">
 		<table>
 			<tr>
-				<td>아이디 : <input type="text" name="id" value="${memberModify.id}" readonly></td>
+				<td>상호명(단체명) : <input type="text" id="b_name" name="b_name" value="${sellerModify.b_name}"></td>
 			</tr>
 			<tr>
-				<td>이름 : <input type="text" id="name" name="name" value="${memberModify.name}"></td>
+				<td>사업자등록번호 : <input type="text" id="b_number" name="b_number" maxlength="12" placeholder="000-00-00000" value="${sellerModify.b_number}">
+					<button type="button" onclick="b_numberOverlap()">사업자등록번호 확인</button>
+					<input type="hidden" id="b_numberOverlapValue" value="N">
+				</td>
 			</tr>
 			<tr>
-				<td>주소 : <input type="text" name="address1" id="sample6_postcode" value="${memberModify.address1}">&nbsp;<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
+				<td>아이디 : <input type="text" name="id" value="${sellerModify.id}" readonly></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="address2" id="sample6_address" value="${memberModify.address2}">
-				<input type="text" name="address3" id="sample6_detailAddress" value="${memberModify.address3}">
-				<input type="text" name="address4" id="sample6_extraAddress" value="${memberModify.address4}"></td>
+				<td>성명(대표자) : <input type="text" name="name" value="${sellerModify.name}"></td>
 			</tr>
 			<tr>
-				<td>핸드폰 : <input type="text" name="phone" id="phone" value="${memberModify.phone}"></td>
+				<td>회사주소 : <input type="text" name="address1" id="sample6_postcode" value="${sellerModify.address1}">&nbsp;<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
 			</tr>
 			<tr>
-				<td><img id="profileimg" src="${pageContext.request.contextPath}/resources/profilepic/${memberModify.profile}" width="100" height="100"></a></td>
+				<td><input type="text" name="address2" id="sample6_address" value="${sellerModify.address2}">
+				<input type="text" name="address3" id="sample6_detailAddress" value="${sellerModify.address3}">
+				<input type="text" name="address4" id="sample6_extraAddress" value="${sellerModify.address4}"></td>
+			</tr>
+			<tr>
+				<td>핸드폰 : <input type="text" name="phone" id="phone" value="${sellerModify.phone}"></td>
+			</tr>
+			<tr>
+				<td><img id="profileimg" src="${pageContext.request.contextPath}/resources/profilepic/${sellerModify.profile}" width="100" height="100"></a></td>
 			</tr>
 			<tr>
 				<td>프로필사진 : <input id="profileinput" type="file" name="file"></td>

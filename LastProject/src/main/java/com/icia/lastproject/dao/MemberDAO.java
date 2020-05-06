@@ -1,5 +1,6 @@
 package com.icia.lastproject.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -56,8 +57,16 @@ public class MemberDAO {
 		return sql.update("Member.memberModify", member);
 	}
 	
+	public int sellerModify(MemberDTO member) {
+		return sql.update("Member.sellerModify", member);
+	}
+	
 	public MemberDTO memberView(String id) {
 		return sql.selectOne("Member.memberView", id);
+	}
+	
+	public MemberDTO sellerView(String id) {
+		return sql.selectOne("Member.sellerView", id);
 	}
 	
 	public List<MemberDTO> memberList() {
@@ -74,6 +83,30 @@ public class MemberDAO {
 
 	public int memberBlackListAdd(String id) {
 		return sql.update("Member.memberBlackListAdd", id);
+	}
+
+	public int memberIdDivision(MemberDTO member) {
+		return sql.selectOne("Member.memberIdDivision", member);
+	}
+
+	public int sellerJoin(MemberDTO member) {
+		return sql.insert("Member.sellerJoin", member);
+	}
+
+	public String sellerLogin(MemberDTO member) {
+		return sql.selectOne("Member.sellerLogin", member);
+	}
+
+	public int sellerIdDivision(MemberDTO member) {
+		return sql.selectOne("Member.sellerIdDivision", member);
+	}
+
+	public String memberLoginCheck(HashMap<String, Object> hash) {
+		return sql.selectOne("Member.memberLoginCheck", hash);
+	}
+	
+	public String sellerLoginCheck(HashMap<String, Object> hash) {
+		return sql.selectOne("Member.sellerLoginCheck", hash);
 	}
 
 	
