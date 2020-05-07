@@ -95,11 +95,35 @@
 	</update>
 	
 	<select id="memberList" resultType="member">
-		SELECT * FROM MEMBER
+		SELECT * FROM MEMBER WHERE DIVISION=1
+	</select>
+	
+	<select id="sellerList" resultType="member">
+		SELECT * FROM MEMBER_SALES WHERE DIVISION=2
+	</select>
+	
+	<select id="memberBlackList" resultType="member">
+		SELECT * FROM MEMBER WHERE DIVISION=3
+	</select>
+	
+	<select id="sellerBlackList" resultType="member">
+		SELECT * FROM MEMBER_SALES WHERE DIVISION=4
 	</select>
 	
 	<update id="memberBlackListAdd" parameterType="String">
 		UPDATE MEMBER SET DIVISION=3 WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerBlackListAdd" parameterType="String">
+		UPDATE MEMBER_SALES SET DIVISION=4 WHERE ID=#{id}
+	</update>
+	
+	<update id="memberBlackListDelete" parameterType="String">
+		UPDATE MEMBER SET DIVISION=1 WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerBlackListDelete" parameterType="String">
+		UPDATE MEMBER_SALES SET DIVISION=2 WHERE ID=#{id}
 	</update>
 	
 	<select id="memberAttendance" parameterType="String" resultType="member">

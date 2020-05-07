@@ -72,6 +72,18 @@ public class MemberDAO {
 	public List<MemberDTO> memberList() {
 		return sql.selectList("Member.memberList");
 	}
+	
+	public List<MemberDTO> sellerList() {
+		return sql.selectList("Member.sellerList");
+	}
+	
+	public List<MemberDTO> memberBlackList() {
+		return sql.selectList("Member.memberBlackList");
+	}
+	
+	public List<MemberDTO> sellerBlackList() {
+		return sql.selectList("Member.sellerBlackList");
+	}
 
 	public MemberDTO memberAttendance(String id) {
 		return sql.selectOne("Member.memberAttendance", id);
@@ -80,11 +92,7 @@ public class MemberDAO {
 	public int memberAttendanceCheck(MemberDTO member) {
 		return sql.insert("Member.memberAttendanceCheck", member);
 	}
-
-	public int memberBlackListAdd(String id) {
-		return sql.update("Member.memberBlackListAdd", id);
-	}
-
+	
 	public int memberIdDivision(MemberDTO member) {
 		return sql.selectOne("Member.memberIdDivision", member);
 	}
@@ -108,6 +116,28 @@ public class MemberDAO {
 	public String sellerLoginCheck(HashMap<String, Object> hash) {
 		return sql.selectOne("Member.sellerLoginCheck", hash);
 	}
+	
+	public int memberBlackListAdd(String id) {
+		return sql.update("Member.memberBlackListAdd", id);
+	}
+	
+	public int sellerBlackListAdd(String id) {
+		return sql.update("Member.sellerBlackListAdd", id);
+	}
+	
+	public int memberBlackListDelete(String id) {
+		return sql.update("Member.memberBlackListDelete", id);
+	}
+
+	public int sellerBlackListDelete(String id) {
+		return sql.update("Member.sellerBlackListDelete", id);
+	}
+
+
+
+
+
+	
 
 	
 }

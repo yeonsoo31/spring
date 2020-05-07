@@ -171,7 +171,9 @@ public class MemberService {
 	public ModelAndView memberView(String id) {
 		mav = new ModelAndView();
 		MemberDTO memberView = mdao.memberView(id);
+		MemberDTO sellerView = mdao.sellerView(id);
 		mav.addObject("memberView", memberView);
+		mav.addObject("sellerView", sellerView);
 		mav.setViewName("member/MemberView");
 		return mav;
 	}
@@ -179,7 +181,13 @@ public class MemberService {
 	public ModelAndView memberList() {
 		mav = new ModelAndView();
 		List<MemberDTO> memberList = mdao.memberList();
+		List<MemberDTO> sellerList = mdao.sellerList();
+		List<MemberDTO> memberBlackList = mdao.memberBlackList();
+		List<MemberDTO> sellerBlackList = mdao.sellerBlackList();
 		mav.addObject("memberList", memberList);
+		mav.addObject("sellerList", sellerList);
+		mav.addObject("memberBlackList", memberBlackList);
+		mav.addObject("sellerBlackList", sellerBlackList);
 		mav.setViewName("member/MemberList");
 		return mav;
 	}
@@ -204,17 +212,6 @@ public class MemberService {
 			mav.setViewName("member/MemberAttendanceFail");
 		}
 		return mav;
-	}
-
-	public String memberBlackListAdd(String id) {
-		int memberBlackListAddResult = mdao.memberBlackListAdd(id);
-		String ResultMsg = null;
-		if(memberBlackListAddResult > 0) {
-			ResultMsg = "OK";
-		} else {
-			ResultMsg = "NO";
-		}
-		return ResultMsg;
 	}
 
 	public ModelAndView sellerJoin(MemberDTO member) throws IllegalStateException, IOException {
@@ -255,5 +252,53 @@ public class MemberService {
 		}
 		return resultMsg;
 	}
+	
+	public String memberBlackListAdd(String id) {
+		int memberBlackListAddResult = mdao.memberBlackListAdd(id);
+		String ResultMsg = null;
+		if(memberBlackListAddResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+	
+	public String sellerBlackListAdd(String id) {
+		int sellerBlackListAddResult = mdao.sellerBlackListAdd(id);
+		String ResultMsg = null;
+		if(sellerBlackListAddResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+	
+	public String memberBlackListDelete(String id) {
+		int memberBlackListDeleteResult = mdao.memberBlackListDelete(id);
+		String ResultMsg = null;
+		if(memberBlackListDeleteResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+	
+	public String sellerBlackListDelete(String id) {
+		int sellerBlackListDeleteResult = mdao.sellerBlackListDelete(id);
+		String ResultMsg = null;
+		if(sellerBlackListDeleteResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+
+
+
+	
 	
 }

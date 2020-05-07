@@ -292,6 +292,30 @@ public class MemberController {
 		return memberBlackListAdd;
 	}
 	
+	@RequestMapping(value="/sellerBlackListAdd", method=RequestMethod.POST)
+	public @ResponseBody String sellerBlackListAdd(@RequestParam("id") String id) {
+		String sellerBlackListAdd = memberService.sellerBlackListAdd(id);
+		return sellerBlackListAdd;
+	}
+	
+	@RequestMapping(value="/memberBlackListDelete", method=RequestMethod.POST)
+	public @ResponseBody String memberBlackListDelete(@RequestParam("id") String id) {
+		String memberBlackListDelete = memberService.memberBlackListDelete(id);
+		return memberBlackListDelete;
+	}
+	
+	@RequestMapping(value="/sellerBlackListDelete", method=RequestMethod.POST)
+	public @ResponseBody String sellerBlackListDelete(@RequestParam("id") String id) {
+		String sellerBlackListDelete = memberService.sellerBlackListDelete(id);
+		return sellerBlackListDelete;
+	}
+	
+//	@RequestMapping(value="/memberDelete", method=RequestMethod.GET)
+//	public ModelAndView memberDelete(@RequestParam("id") String id) {
+//		mav = memberService.memberDelete(id);
+//		return mav;
+//	}
+	
 	@RequestMapping(value = "/memberAttendance", method = RequestMethod.GET)
 	public ModelAndView memberAttendance() {
 		String id = (String) session.getAttribute("loginId");

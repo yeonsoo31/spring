@@ -11,6 +11,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	function memberLogout(){
 		location.href="memberLogout";
 	}
+	function memberList(){
+		location.href="memberList";
+	}
 	function memberModifyForm(){
 		location.href="memberModifyForm";
 	}
@@ -29,7 +32,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<h1>${nickName}</h1>
 	<img src="${thumbnail}"> -->
 	<c:if test="${sessionScope.loginId eq 'admin@icia.com'}">
-		<a href="memberList">회원 목록 조회</a>
+		<button onclick="memberList()">회원 목록</button>
 	</c:if>
 	<c:if test="${sessionScope.loginIdDivision eq 1}">
 		<button onclick="memberModifyForm()">회원 정보 수정</button>

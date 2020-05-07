@@ -25,6 +25,54 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			}
 		});
 	}
+	function memberBlackListDelete(){
+		var id = "${memberView.id}";
+		$.ajax({
+			type : "post",
+			url : "memberBlackListDelete",
+			data : {"id" : id},
+			dataType : "text",
+			success : function(result){
+				alert("해당 회원은 더이상 블랙리스트가 아닙니다");
+				location.href="memberView?id="+id;
+			},
+			error : function(){
+				console.log("통신실패");
+			}
+		});
+	}
+	function sellerBlackListAdd(){
+		var id = "${sellerView.id}";
+		$.ajax({
+			type : "post",
+			url : "sellerBlackListAdd",
+			data : {"id" : id},
+			dataType : "text",
+			success : function(result){
+				alert("해당 판매자를 블랙리스트에 추가하였습니다");
+				location.href="memberView?id="+id;
+			},
+			error : function(){
+				console.log("통신실패");
+			}
+		});
+	}
+	function sellerBlackListDelete(){
+		var id = "${sellerView.id}";
+		$.ajax({
+			type : "post",
+			url : "sellerBlackListDelete",
+			data : {"id" : id},
+			dataType : "text",
+			success : function(result){
+				alert("해당 판매자는 더이상 블랙리스트가 아닙니다");
+				location.href="memberView?id="+id;
+			},
+			error : function(){
+				console.log("통신실패");
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -52,7 +100,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				</c:when>
 			</c:choose>
 			<th>적립금</th>
-			<th>구분(1-회원 2-판매자 3-블랙리스트 4-관리자)</th>
+			<th>구분(1-회원 2-판매자 3-회원 블랙리스트 4-판매자 블랙리스트 5-관리자)</th>
 			<th>비밀번호 변경일자</th>
 		</tr>
 		<tr>
@@ -82,15 +130,22 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			<td>${memberView.savemoney}</td>
 			<td>${memberView.division}</td>
 			<th>${memberView.passworddate}</th>
+		</tr>
 	</table>
 	<button onclick="location.href='memberList'">이전으로</button>
 	<c:choose>
-	<c:when test="${memberView.division ne 3}">
-	<button onclick="memberBlackListAdd()">블랙리스트 등록</button>
+	<c:when test="${memberView.division eq 1}">
+	<button onclick="memberBlackListAdd()">회원 블랙리스트 등록</button>
 	</c:when>
-	<c:otherwise>
-	<button onclick="memberBlackListDelete()">블랙리스트 해제</button>
-	</c:otherwise>
+	<c:when test="${sellerView.division eq 2}">
+	<button onclick="sellerBlackListAdd()">판매자 블랙리스트 등록</button>
+	</c:when>
+	<c:when test="${memberView.division eq 3}">
+	<button onclick="memberBlackListDelete()">회원 블랙리스트 해제</button>
+	</c:when>
+	<c:when test="${sellerView.division eq 4}">
+	<button onclick="sellerBlackListDelete()">판매자 블랙리스트 해제</button>
+	</c:when>
 	</c:choose>
 </body>
 </html>
