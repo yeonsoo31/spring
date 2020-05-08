@@ -3,12 +3,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>MemberJoinForm</title>
 <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="565794567467-1e0j5ii6huph37ua8rfkoc94bqj83ivs.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
+<style>
+	table {
+		margin: auto;
+		text-align: center;
+		}
+</style>
 </head>
 <body>
+<div>
+	<jsp:include page="/WEB-INF/views/top.jsp"/>
+</div>
 <script>
 <!-- 구글 OAuth -->
 	var googleId;
@@ -70,27 +82,57 @@
   		);
 	}
 </script>
-<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일반회원</h2>
-<!-- 이메일 버튼 -->
-<a href="memberJoinForm2">
-	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Sign_in_with_email.JPG"></a>
-<!-- 구글 버튼 -->
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="40" data-longtitle="true"></div>
-<!-- 페이스북 버튼 스크립트 -->
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script>
-<!-- 페이스북 버튼 -->
-<div id="fb-root"></div>
-<div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="250" scope="public_profile,email"
-  onlogin="checkLoginState();"></div><br>
-<!-- 카카오톡 -->
-<a href="kakaojoin">
-	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png">
-</a><br>
-<!-- 네이버 -->
-<a href="naverjoin">
-	<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG">
-</a>
-<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;판매자</h2>
-<input type="button" style="width: 250px; height: 250px" onclick="location.href='sellerJoinForm'" value="사업자 등록증으로 회원가입"/>
+<div class="container">
+<div class="col-md-12">　</div>
+<div class="col-md-12">　</div>
+<div class="col-md-12">　</div>
+<div class="col-md-3 col-md-offset-2">
+<table>
+	<tr>
+		<td><h2>일반회원</h2></td>
+	</tr>
+	<tr>
+		<td>
+		<!-- 이메일 버튼 -->
+		<a href="memberJoinForm2"><img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Sign_in_with_email.JPG"></a>
+		<!-- 구글 버튼 -->
+		<div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="40" data-longtitle="true"></div>
+		<!-- 페이스북 버튼 스크립트  
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script>
+		-->
+		<!-- 페이스북 버튼 -->
+		<!-- <div id="fb-root"></div> -->
+		<div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="250" scope="public_profile,email"
+  		onlogin="checkLoginState()"></div><br>
+  		<!-- <a href="#" onclick=""; return false;"><img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/log-in-with-facebook.JPG"></a> -->
+		<!-- 카카오톡 -->
+		<a href="kakaojoin">
+		<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png">
+		</a><br>
+		<!-- 네이버 -->
+		<a href="naverjoin">
+		<img width="250" height="40" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG">
+		</a>
+		</td>
+	</tr>
+</table>
+</div>
+<div class="col-md-3 col-md-offset-2">
+<table>
+	<tr>
+		<td><h2>기업회원</h2></td>
+	</tr>
+	<td>
+		<input type="button" style="width: 200px; height: 200px" onclick="location.href='sellerJoinForm'" value="사업자 등록증으로 회원가입"/>
+	</td>
+</table>
+</div>
+<div class="col-md-12">　</div>
+<div class="col-md-12">　</div>
+<div class="col-md-12">　</div>
+</div>
+<div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+</div>
 </body>
 </html>

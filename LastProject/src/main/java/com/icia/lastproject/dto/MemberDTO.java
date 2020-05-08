@@ -28,7 +28,7 @@ public class MemberDTO {
 	private int att_date;
 	private int continuity;
 	
-	private String b_name;
-	private String b_number;
+	private String s_name;
+	private String s_number;
 	private String passwordchangedate;
 }

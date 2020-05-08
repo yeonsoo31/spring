@@ -86,18 +86,25 @@ public class MemberService {
 	public ModelAndView memberLogin(MemberDTO member) {
 		mav = new ModelAndView();
 		String loginId = null;
+		String name = null;
 		int loginIdDivision = 0;
-		if(member.getDivision()==1) {
-			loginId = mdao.memberLogin(member);
-			loginIdDivision = mdao.memberIdDivision(member);
-		} else {
+		String id = member.getId();
+		if(member.getDivision()==2) {
 			loginId = mdao.sellerLogin(member);
 			loginIdDivision = mdao.sellerIdDivision(member);
+			MemberDTO sellerName = mdao.sellerView(id);
+			name = sellerName.getName();
+		} else {
+			loginId = mdao.memberLogin(member);
+			loginIdDivision = mdao.memberIdDivision(member);
+			MemberDTO memberName = mdao.memberView(id);
+			name = memberName.getName();
 		}
 		if(loginId!=null) {
+			mav.addObject("name", name);
 			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginIdDivision", loginIdDivision);
-			mav.setViewName("member/MemberMain");
+			mav.setViewName("Main");
 		} else {
 			mav.setViewName("member/MemberLoginFail");
 		}

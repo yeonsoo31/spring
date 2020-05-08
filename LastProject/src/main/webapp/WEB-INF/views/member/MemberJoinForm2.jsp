@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <script src="https://kit.fontawesome.com/62dd7438ee.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>MemberJoinForm2</title>
@@ -175,7 +176,13 @@
     </script>
 </head>
 <body>
-	<form action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
+<div>
+	<jsp:include page="/WEB-INF/views/top.jsp"/>
+</div>
+<div class="container">
+	<div>　</div>
+	<div style="text-align:center"><h2>이메일로 회원가입</h2></div><br>
+	<form class="col-md-offset-3" action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
 		<table>
 			<c:choose>
 				<c:when test="${kakaoId ne null}">
@@ -277,6 +284,10 @@
 		<input type="submit" name="submit" value="회원가입">
 		<input type="reset" value="다시작성">
 		<button type="button" onclick="location.href='goMain'">이전으로</button>
-	</form>
+	</form><br>
+	</div>
+<div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+</div>
 </body>
 </html>

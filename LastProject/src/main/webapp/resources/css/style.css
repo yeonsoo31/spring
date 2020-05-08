@@ -254,8 +254,6 @@ textarea.input {
 
 .section-grey {
   background: #F6F7F8;
-  position: absolute;
-  bottom: 0;
   width: 100%;
 }
 
@@ -397,6 +395,7 @@ textarea.input {
   display: inline-block;
   vertical-align: top;
   padding: 15px 0px;
+  width:100%;
 }
 
 .header-btns>li+li {
@@ -474,7 +473,8 @@ textarea.input {
   background-color: #30323A;
   text-align:center;
   font-size:18px;
-  
+  opacity: 0.5;
+  font-weight: bold;
 }
 
 #navigation-ch {
@@ -482,7 +482,7 @@ textarea.input {
   text-align:center;
   font-size:18px;
   width:100%;
-  height:88%;
+  height:100%;
   background-size:cover;
   background-repeat:no-repeat;
   background-position: center;
@@ -1722,9 +1722,84 @@ textarea.input {
 	  background-position: center;
 }
 
+.Main-img2{
+	height:94.2%;
+	width:50%;
+	
+}
+.Main-img-area-1{
+	height:94.2%;
+	width:33.3%;
+	float:left;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position: center;
+	opacity:0.9;
+}
+.Main-img-area-2{
+	height:94.2%;
+	width:33.3%;
+	float:left;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position: center;
+	opacity:0.9;
+}
+.Main-img-area-3{
+	height:94.2%;
+	width:33.3%;
+	float:left;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position: center;
+	opacity:0.9;
+}
+.Main-text-area{
+	margin-top:50%;
+}
+.Main-text-area a{
+    border: 1px solid;
+    padding: 10px;
+    color:#ffffff;
+}
+.Main-img2-area{
+	border:1px solid;
+	width:80%;
+	height:40%;
+	background-color:white;
+	opacity:0.8;
+	margin-top: 20%;
+}
+.Main-img-area-4{
+	height:94.2%;
+	width:49.9%;
+	float:left;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position: center;
+	opacity:0.7;
 
+}
+.Main-img-area-5{
+	height:94.2%;
+	width:49.9%;
+	float:left;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position: center;
+	opacity:0.9;
 
-
+}
+.Main-img-area-4 a{
+	border: 1px solid;
+    padding: 10px;
+    color:black;
+}
+.Main-img-area-5 a{
+	border: 1px solid;
+    padding: 10px;
+    color:black;
+}
 /*=========================================================
 	12 -> RESPONSIVE
 ===========================================================*/

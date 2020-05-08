@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <title>약관동의</title>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="</script'>http://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="</script'>http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
    <style type="text/css">
     #d1{
      width:770px;
@@ -26,22 +25,24 @@
   });
   </script>
 </head>
-
-
 <body>
+<jsp:include page="/WEB-INF/views/top.jsp"/>
+<div class="container">
 <form action="memberJoinForm" method="GET" id="form1">
 <div id="d1">
- <img src="img/logo.png"/>
+ <br>
  <h2 align="center">회원 가입(약관 동의)</h2><br/><br/>
+ <table>
   <tr>
    <td align="left"><font size="2">이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택), 프로모션 안내 메일 수신(선택)에 모두 동의합니다.</font></td>
  
-   <td><input type="checkbox" name="all" id="all"></td><hr/>
+   <td><input type="checkbox" name="all" id="all"></td>
   </tr>
+  </table>
  <div id="accordion">
   
    <h3><a href="#"><font size="2">프로젝트 이용약관 동의(필수)</font><input type="checkbox" name="c1" id="c1"/></a></h3>
-   <td><textarea readonly="readonly" rows="5" cols="66">
+   <textarea readonly="readonly" rows="5" cols="66">
 제 1 조 (목적)
 
 이 약관은 네이버 주식회사 ("회사" 또는 "네이버")가 제공하는 네이버 및 네이버 관련 제반 서비스의 이용과 관련하여 회사와 회원과의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -96,18 +97,21 @@
  </textarea>
    </div>
  </div>
+ <table>
   <tr>
    <td align="left"><font size="2">이벤트 등 프로모션 알림 메일 수신(선택)</font></td>
-   <td><input type="checkbox" name="c4" id="c4"></td><hr/>
+   <td><input type="checkbox" name="c4" id="c4"></td>
   </tr>
- 
+  </table>
  <div align="center">
   <br/>
-  <input type="submit" value="동의"><input type="reset" value="비동의"><input type="button" onclick="location.href='goMain'" value="이전으로">
+  <input type="submit" value="동의"><!-- <input type="reset" value="비동의"> --><input type="button" onclick="location.href='goMain'" value="이전으로">
   <br/>
  </div>
 </div>
 </form>
+</div>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 <!-- check Box 이벤트처리를 위한 Script -->
 <script>
 var doc = document; 
