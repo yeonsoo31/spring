@@ -8,12 +8,19 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <meta charset="UTF-8">
 <title>마이페이지</title>
 <script>
+	function memberDelete(){
+		var popupX = (document.body.offsetWidth / 2) - (400 / 2);
+		//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+		var popupY= (window.screen.height / 2) - (300 / 2);
+		//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+		window.open('memberDeleteForm', '회원탈퇴', 'status=no, width=400, height=300, left='+ popupX + ', top='+ popupY);
+	}
 	function sellerDelete(){
 		var popupX = (document.body.offsetWidth / 2) - (400 / 2);
-		//&nbsp;만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+		//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
 		var popupY= (window.screen.height / 2) - (300 / 2);
-		//&nbsp;만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-		window.open('sellerDeleteForm', '회원탈퇴', 'status=no, width=400, height=300, left='+ popupX + ', top='+ popupY);
+		//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+		window.open('memberDeleteForm', '회원탈퇴', 'status=no, width=400, height=300, left='+ popupX + ', top='+ popupY);
 	}
 </script>
 </head>
@@ -32,7 +39,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		<button>장바구니</button>
 		<button>구매내역</button>
 		<button onclick="location.href='memberModifyForm'">회원정보(수정)</button>
-		<button onclick="location.href='memberDelete?id='${sessionScope.id}">회원탈퇴</button>
+		<button onclick="memberDelete()">회원탈퇴</button>
 		</c:if>
 		<c:if test="${sessionScope.loginIdDivision eq 2}">
 		<button>상품조회</button>

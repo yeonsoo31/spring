@@ -312,24 +312,13 @@ public class MemberService {
 		return ResultMsg;
 	}
 
-	public ModelAndView sellerDelete(String id) {
-		mav = new ModelAndView();
-		int sellerDeleteResult = mdao.sellerDelete(id);
-		if(sellerDeleteResult > 0) {
-			mav.setViewName("redirect:/myPage");
-		} else {
-			mav.setViewName("member/sellerDeleteFail");
-		}
-		return mav;
-	}
-
 	public String sellerDeleteCheck(String id, String password) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("password", password);
-		int sellerDeleteCheckResult = mdao.sellerDeleteCheckResult(map);
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		String sellerDeleteCheckResult = mdao.sellerDeleteCheckResult(hash);
 		String ResultMsg = null;
-		if(sellerDeleteCheckResult > 0) {
+		if(sellerDeleteCheckResult != null) {
 			ResultMsg = "OK";
 		} else {
 			ResultMsg = "NO";
@@ -337,7 +326,43 @@ public class MemberService {
 		return ResultMsg;
 	}
 
+	public String memberDeleteCheck(String id, String password) {
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		String memberDeleteCheckResult = mdao.memberDeleteCheckResult(hash);
+		String ResultMsg = null;
+		if(memberDeleteCheckResult != null) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
 
+	public ModelAndView memberDelete(String id) {
+		mav = new ModelAndView();
+		int memberDeleteResult = mdao.memberDelete(id);
+		if(memberDeleteResult > 0) {
+			session.invalidate();
+			mav.setViewName("Main");
+		} else {
+			mav.setViewName("member/memberDeleteFail");
+		}
+		return mav;
+	}
+
+	public ModelAndView sellerDelete(String id) {
+		mav = new ModelAndView();
+		int sellerDeleteResult = mdao.sellerDelete(id);
+		if(sellerDeleteResult > 0) {
+			session.invalidate();
+			mav.setViewName("Main");
+		} else {
+			mav.setViewName("member/sellerDeleteFail");
+		}
+		return mav;
+	}
 
 	
 	

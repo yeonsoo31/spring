@@ -137,8 +137,16 @@ public class MemberDAO {
 		return sql.delete("Member.sellerDelete", id);
 	}
 
-	public int sellerDeleteCheckResult(HashMap<String, Object> hash) {
+	public String sellerDeleteCheckResult(HashMap<String, Object> hash) {
 		return sql.selectOne("Member.sellerDeleteCheckResult", hash);
+	}
+
+	public String memberDeleteCheckResult(HashMap<String, Object> hash) {
+		return sql.selectOne("Member.memberDeleteCheckResult", hash);
+	}
+
+	public int memberDelete(String id) {
+		return sql.delete("Member.memberDelete", id);
 	}
 
 

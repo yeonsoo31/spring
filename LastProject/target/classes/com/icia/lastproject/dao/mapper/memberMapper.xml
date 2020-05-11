@@ -126,12 +126,20 @@
 		UPDATE MEMBER_SALES SET DIVISION=2 WHERE ID=#{id}
 	</update>
 	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBER WHERE ID=#{id}
+	</delete>
+	
 	<delete id="sellerDelete" parameterType="String">
 		DELETE FROM MEMBER_SALES WHERE ID=#{id}
 	</delete>
 	
-	<select id="sellerDeleteCheck" parameterType="map" resultType="String">
-		SELECT * FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+	<select id="sellerDeleteCheckResult" parameterType="map" resultType="String">
+		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+	</select>
+	
+	<select id="memberDeleteCheckResult" parameterType="map" resultType="String">
+		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
 	</select>
 	
 	<select id="memberAttendance" parameterType="String" resultType="member">

@@ -310,15 +310,22 @@ public class MemberController {
 		return sellerBlackListDelete;
 	}
 	
-	@RequestMapping(value="/sellerDeleteForm", method=RequestMethod.GET)
+
+	@RequestMapping(value="/memberDeleteForm", method=RequestMethod.GET)
 	public String memberDeleteForm() {
-		return "member/SellerDeleteForm";
+		return "member/MemberDeleteForm";
 	}
 	
-	@RequestMapping(value="/sellerDelete", method=RequestMethod.POST)
-	public ModelAndView sellerDelete(@RequestParam("id") String id) {
-		mav = memberService.sellerDelete(id);
-		return mav;
+	@RequestMapping(value="/sellerDeleteForm", method=RequestMethod.GET)
+	public String sellerDeleteForm() {
+		return "member/MemberDeleteForm";
+	}
+	
+	@RequestMapping(value="/memberDeleteCheck", method=RequestMethod.POST)
+	public @ResponseBody String memberDeleteCheck(@RequestParam("id") String id,
+												  @RequestParam("password") String password) {
+		String resultMsg = memberService.memberDeleteCheck(id, password);
+		return resultMsg;
 	}
 	
 	@RequestMapping(value="/sellerDeleteCheck", method=RequestMethod.POST)
@@ -326,6 +333,18 @@ public class MemberController {
 												  @RequestParam("password") String password) {
 		String resultMsg = memberService.sellerDeleteCheck(id, password);
 		return resultMsg;
+	}
+	
+	@RequestMapping(value="/memberDelete")
+	public ModelAndView memberDelete(@RequestParam("id") String id) {
+		mav = memberService.memberDelete(id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerDelete")
+	public ModelAndView sellerDelete(@RequestParam("id") String id) {
+		mav = memberService.sellerDelete(id);
+		return mav;
 	}
 	
 	@RequestMapping(value = "/memberAttendance", method = RequestMethod.GET)
