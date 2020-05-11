@@ -11,29 +11,29 @@
 		location.href="memberMain";
 	}
 	function doubleCheck() {
-		var b_name = document.getElementById("b_name");
-		var b_number = document.getElementById("b_number");
+		var s_name = document.getElementById("s_name");
+		var s_number = document.getElementById("s_number");
 		var checkId = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
 		var tmpBizId, i, chkSum=0, c2, remander;
-		var b_numberOverlapValue = document.getElementById("b_numberOverlapValue");
+		var s_numberOverlapValue = document.getElementById("s_numberOverlapValue");
 		var name = document.getElementById("name");
 		var address1 = document.getElementById("sample6_postcode");
 		var address2 = document.getElementById("sample6_address");
 		var address3 = document.getElementById("sample6_detailAddress");
 		var phone = document.getElementById("phone");
 		// 상호명 유효성
-		if((b_name.value) == "") {
+		if((s_name.value) == "") {
 			alert("상호명(단체명)을 입력하지 않았습니다");
-			b_name.focus();
+			s_name.focus();
 			return false;
 		}
 		// 사업자등록번호  유효성
-		if((b_number.value) == "") {
+		if((s_number.value) == "") {
 			alert("사업자등록번호를 입력하지 않았습니다");
-			b_number.focus();
+			s_number.focus();
 			return false;
 		}
-		if((b_numberOverlapValue.value) == "N") {
+		if((s_numberOverlapValue.value) == "N") {
 			alert("사업자등록번호 확인을 해주세요");
 			return false;
 		}
@@ -75,13 +75,13 @@
 			return false;
 		}
 	}
-	function b_numberOverlap() {
-		var bisNo = document.getElementById("b_number").value;
+	function s_numberOverlap() {
+		var bisNo = document.getElementById("s_number").value;
 		var sum = 0, key = [1, 3, 7, 1, 3, 7, 1, 3, 5];
 		var chkSum = 0;
 		if(bisNo==""){
 			alert("사업자등록번호를 입력해주세요")
-			b_number.focus();
+			s_number.focus();
 			return false;
 		}
 		if ((bisNo = (bisNo+"").match(/\d{1}/g)).length != 10) {
@@ -97,7 +97,7 @@
         	return false;
         } else {
         	alert("확인되었습니다");
-        	b_numberOverlapValue.value = "Y";
+        	s_numberOverlapValue.value = "Y";
         }
     }
 </script>
@@ -136,16 +136,22 @@
     </script>
 </head>
 <body>
-	<form action="sellerModify" method="post" id=sellerModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
+<div>
+	<jsp:include page="/WEB-INF/views/top.jsp"/>
+	</div>
+	<div class="container">
+	<div class="col-md-offset-12">　</div>
+	<div style="text-align:center"><h2>기업회원 정보수정</h2></div><br>
+	<form class="col-md-offset-3" action="sellerModify" method="post" id=sellerModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
 	<input type="hidden" value="${sellerModify.profile}" name="profile">
 		<table>
 			<tr>
-				<td>상호명(단체명) : <input type="text" id="b_name" name="b_name" value="${sellerModify.b_name}"></td>
+				<td>상호명(단체명) : <input type="text" id="s_name" name="s_name" value="${sellerModify.s_name}"></td>
 			</tr>
 			<tr>
-				<td>사업자등록번호 : <input type="text" id="b_number" name="b_number" maxlength="12" placeholder="000-00-00000" value="${sellerModify.b_number}">
-					<button type="button" onclick="b_numberOverlap()">사업자등록번호 확인</button>
-					<input type="hidden" id="b_numberOverlapValue" value="N">
+				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" maxlength="12" placeholder="000-00-00000" value="${sellerModify.s_number}">
+					<button type="button" onclick="s_numberOverlap()">사업자등록번호 확인</button>
+					<input type="hidden" id="s_numberOverlapValue" value="N">
 				</td>
 			</tr>
 			<tr>
@@ -173,8 +179,10 @@
 			</tr>
 		</table>
 			<input type="submit" value="수정">
-			<button type="button" onclick="memberMain()">돌아가기</button>
+			<button type="button" onclick="location.href='myPage'">돌아가기</button>
 	</form>
+	</div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 <script>
 	function readURL(input){

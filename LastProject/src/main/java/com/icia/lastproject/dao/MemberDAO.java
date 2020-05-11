@@ -133,6 +133,14 @@ public class MemberDAO {
 		return sql.update("Member.sellerBlackListDelete", id);
 	}
 
+	public int sellerDelete(String id) {
+		return sql.delete("Member.sellerDelete", id);
+	}
+
+	public int sellerDeleteCheckResult(HashMap<String, Object> hash) {
+		return sql.selectOne("Member.sellerDeleteCheckResult", hash);
+	}
+
 
 
 

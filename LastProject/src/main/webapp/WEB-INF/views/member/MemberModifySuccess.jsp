@@ -9,7 +9,7 @@
 <body>
 <script>
 	alert("회원정보수정 완료");
-	location.href="memberMain";
+	location.href="myPage";
 </script>
 </body>
 </html>

@@ -24,11 +24,11 @@ public class MemberDTO {
 	private String facebookId;
 	private int savemoney;
 	private int division;
-	private String passworddate;
+	private String sys_date;
+	private String change_date;
 	private int att_date;
 	private int continuity;
 	
 	private String s_name;
 	private String s_number;
-	private String passwordchangedate;
 }

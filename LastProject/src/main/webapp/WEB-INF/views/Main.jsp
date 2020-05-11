@@ -143,24 +143,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 						<c:choose>
 							<c:when test="${sessionScope.loginId eq null}">
 						<li class="header-account dropdown default-dropdown">
-							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-user-o"></i>
-								</div>
-								<strong class="text-uppercase">내 정보 <i class="fa fa-caret-down"></i></strong>
-							</div>
 							<a href="memberLoginForm" class="text-uppercase">로그인</a> / <a href="termsOfService" class="text-uppercase">회원가입</a>
-							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
-								<li><a href="#"><i class="fa fa-check"></i> 로그아웃</a></li>
-								<li><a href="#"><i class="fa fa-unlock-alt"></i> 로그인</a></li>
-							</ul>
 						</li>
 							</c:when>
-							<c:otherwise>
-						<li class="header-account dropdown default-dropdown">
+							<c:when test="${sessionScope.loginIdDivision eq 5}">
+							<li class="header-account dropdown default-dropdown">
 							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
@@ -169,7 +156,24 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
+								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
+							</ul>
+						</li>	
+							</c:when>
+							<c:otherwise>
+						<li class="header-account dropdown default-dropdown">
+							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+								<div class="header-btns-icon">
+									<i class="fa fa-user-o"></i>
+								</div>
+								<strong class="text-uppercase">${sessionScope.name}님 환영합니다 <i class="fa fa-caret-down"></i></strong>
+							</div>
+							<a href="memberLogout" class="text-uppercase">로그아웃</a>
+							<ul class="custom-menu">
+								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>

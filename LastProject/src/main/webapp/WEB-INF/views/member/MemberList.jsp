@@ -51,13 +51,18 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 </head>
 <title>회원상세조회</title>
 <body onload="divhide()">
+<jsp:include page="/WEB-INF/views/top.jsp"/>
+	<div class="container">
+	<div class="col-md-offset-12">　</div>
+	<div><h3 style="text-align:center">회원목록</h3></div>
+	<div class="col-md-4">　</div>
 	<input type="radio" id="memberList" name="memberList" value="1" onchange="memberList()" checked>일반회원
 	<input type="radio" id="sellerList" name="memberList" value="2" onchange="sellerList()">기업회원
 	<input type="radio" id="memberBlackList" name="memberList" value="3" onchange="memberBlackList()">일반회원 블랙리스트
 	<input type="radio" id="sellerBlackList" name="memberList" value="4" onchange="sellerBlackList()">기업회원 블랙리스트
+	<div class="col-md-offset-12">　</div>
 	<div id="divmemberList">
-	<table border="1">
-		<h2>일반회원</h2>
+	<table class="col-md-offset-4" border="1">
 		<tr>
 			<th>ID</th>
 			<th>NAME</th>
@@ -76,8 +81,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	</div>
 	
 	<div id="divsellerList">
-	<table border="1">
-		<h2>판매회원</h2>
+	<table class="col-md-offset-4" border="1">
 		<tr>
 			<th>ID</th>
 			<th>NAME</th>
@@ -95,8 +99,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	</table>
 	</div>
 	<div id="divmemberBlackList">
-	<table border="1">
-		<h2>회원 블랙리스트</h2>
+	<table class="col-md-offset-4" border="1">
 					<tr>
 						<th>ID</th>
 						<th>NAME</th>
@@ -118,8 +121,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	</table>
 	</div>
 	<div id="divsellerBlackList">
-	<table border="1">
-	<h2>판매자 블랙리스트</h2>
+	<table class="col-md-offset-4" border="1">
 					<tr>
 						<th>ID</th>
 						<th>NAME</th>
@@ -140,6 +142,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		</c:forEach>
 	</table>
 	</div>
-	<button onclick="location.href='memberMain'">이전으로</button>
+	<button type="button" onclick="location.href='myPage'">이전으로</button>
+	</div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

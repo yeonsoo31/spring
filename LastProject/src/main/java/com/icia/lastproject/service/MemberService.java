@@ -61,24 +61,32 @@ public class MemberService {
 
 	public ModelAndView googleLogin(String googleId, String googleEmail) {
 		mav = new ModelAndView();
+		String name = null;
 		String loginId = mdao.googleLogin(googleId);
 		if(loginId==null) {
 			mav.setViewName("member/MemberJoinAsk");
 		} else {
+			MemberDTO googleName = mdao.memberView(googleEmail);
+			name = googleName.getName();
 			session.setAttribute("loginId", googleEmail);
-			mav.setViewName("member/MemberMain");
+			mav.addObject("name", name);
+			mav.setViewName("Main");
 		}
 		return mav;
 	}
 
 	public ModelAndView facebookLogin(String facebookId, String facebookEmail) {
 		mav = new ModelAndView();
+		String name = null;
 		String loginId = mdao.facebookLogin(facebookId);
 		if(loginId==null) {
 			mav.setViewName("member/MemberJoinAsk");
 		} else {
+			MemberDTO facebookName = mdao.memberView(facebookEmail);
+			name = facebookName.getName();
 			session.setAttribute("loginId", facebookEmail);
-			mav.setViewName("member/MemberMain");
+			mav.addObject("name", name);
+			mav.setViewName("Main");
 		}
 		return mav;
 	}
@@ -101,7 +109,7 @@ public class MemberService {
 			name = memberName.getName();
 		}
 		if(loginId!=null) {
-			mav.addObject("name", name);
+			session.setAttribute("name", name);
 			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginIdDivision", loginIdDivision);
 			mav.setViewName("Main");
@@ -297,6 +305,31 @@ public class MemberService {
 		int sellerBlackListDeleteResult = mdao.sellerBlackListDelete(id);
 		String ResultMsg = null;
 		if(sellerBlackListDeleteResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+
+	public ModelAndView sellerDelete(String id) {
+		mav = new ModelAndView();
+		int sellerDeleteResult = mdao.sellerDelete(id);
+		if(sellerDeleteResult > 0) {
+			mav.setViewName("redirect:/myPage");
+		} else {
+			mav.setViewName("member/sellerDeleteFail");
+		}
+		return mav;
+	}
+
+	public String sellerDeleteCheck(String id, String password) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("password", password);
+		int sellerDeleteCheckResult = mdao.sellerDeleteCheckResult(map);
+		String ResultMsg = null;
+		if(sellerDeleteCheckResult > 0) {
 			ResultMsg = "OK";
 		} else {
 			ResultMsg = "NO";

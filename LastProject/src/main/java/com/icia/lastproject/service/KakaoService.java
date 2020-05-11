@@ -38,6 +38,7 @@ public class KakaoService {
 
 	public ModelAndView KakaoLogin(JsonNode profile) {
 		mav = new ModelAndView();
+		String name = null;
 		String kakaoId = profile.get("id").asText();
 		JsonNode kakaoAccount = profile.get("kakao_account");
 		JsonNode kakaoProfile = kakaoAccount.get("profile");
@@ -49,6 +50,8 @@ public class KakaoService {
 		if(member==null) {
 			mav.setViewName("member/MemberJoinAsk");
 		} else {
+		MemberDTO kakaoName = mdao.memberView(kakaoEmail);
+		name = kakaoName.getName();
 		session.setAttribute("loginId", kakaoEmail);
 		mav.addObject("kakaoId", kakaoId);
 		mav.addObject("loginMember", member);
@@ -56,7 +59,8 @@ public class KakaoService {
 //		mav.addObject("nickName", nickName);
 		mav.addObject("kakaoProfile", kakaoProfile);
 //		mav.addObject("thumbnail", thumbnail);
-		mav.setViewName("member/MemberMain");
+		mav.addObject("name", name);
+		mav.setViewName("Main");
 		}
 		return mav;
 	}

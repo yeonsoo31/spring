@@ -180,7 +180,7 @@
 	<jsp:include page="/WEB-INF/views/top.jsp"/>
 </div>
 <div class="container">
-	<div>　</div>
+	<div class="col-md-offset-12">　</div>
 	<div style="text-align:center"><h2>이메일로 회원가입</h2></div><br>
 	<form class="col-md-offset-3" action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
 		<table>

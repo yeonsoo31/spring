@@ -76,15 +76,21 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 </script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/top.jsp"/>
+	<div class="container">
 	<table border="1">
+	<c:if test="${memberView ne null}">
 		<tr>
 			<th>아이디</th>
 			<c:if test="${memberView.password ne null}"><th>비밀번호</th></c:if>
 			<th>이름</th>
-			<th>생년월일</th>
 			<th>주소</th>
 			<th>휴대폰번호</th>
-			<th>프로필사진</th>
+			<th>생년월일</th>
+			<th>구분(1-회원 2-판매자 3-회원 블랙리스트 4-판매자 블랙리스트 5-관리자)</th>
+			<th>적립금</th>
+			<th>가입일</th>
+			<th>비밀번호 변경요구일자</th>
 			<c:choose>
 				<c:when test="${memberView.kakaoId ne null}">
 				<th>카카오 고유번호</th>
@@ -99,9 +105,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				<th>구글 고유번호</th>
 				</c:when>
 			</c:choose>
-			<th>적립금</th>
-			<th>구분(1-회원 2-판매자 3-회원 블랙리스트 4-판매자 블랙리스트 5-관리자)</th>
-			<th>비밀번호 변경일자</th>
+			<th>프로필사진</th>
+			
 		</tr>
 		<tr>
 			<td>${memberView.id}</td>
@@ -109,10 +114,13 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			<td>${memberView.password}</td>
 			</c:if>
 			<td>${memberView.name}</td>
-			<td>${memberView.birth}</td>
 			<td>${memberView.address}</td>
 			<td>${memberView.phone}</td>
-			<td><img src="${pageContext.request.contextPath}/resources/profilepic/${memberView.profile}" width="100" height="100">${memberView.profile}</td>
+			<td>${memberView.birth}</td>
+			<td>${memberView.division}</td>
+			<td>${memberView.savemoney}</td>
+			<th>${memberView.sys_date}</th>
+			<th>${memberView.change_date}</th>
 			<c:choose>
 				<c:when test="${memberView.kakaoId ne null}">
 				<td>${memberView.kakaoId}</td>
@@ -127,10 +135,37 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				<td>${memberView.googleId}</td>
 				</c:when>
 			</c:choose>
-			<td>${memberView.savemoney}</td>
-			<td>${memberView.division}</td>
-			<th>${memberView.passworddate}</th>
+			<td><img src="${pageContext.request.contextPath}/resources/profilepic/${memberView.profile}" width="100" height="100">${memberView.profile}</td>
 		</tr>
+		</c:if>
+		<c:if test="${sellerView ne null}">
+		<tr>
+			<th>사업자등록번호</th>
+			<th>회사명</th>
+			<th>아이디</th>
+			<th>비밀번호</th>
+			<th>대표자명</th>
+			<th>회사주소</th>
+			<th>휴대폰번호</th>
+			<th>회사로고</th>
+			<th>구분(1-회원 2-판매자 3-회원 블랙리스트 4-판매자 블랙리스트 5-관리자)</th>
+			<th>가입날짜</th>
+			<th>비밀번호 변경 기준 90일</th>
+		</tr>
+		<tr>
+			<td>${sellerView.s_number}</td>
+			<td>${sellerView.s_name}</td>
+			<td>${sellerView.id}</td>
+			<td>${sellerView.password}</td>
+			<td>${sellerView.name}</td>
+			<td>${sellerView.address}</td>
+			<td>${sellerView.phone}</td>
+			<td><img src="${pageContext.request.contextPath}/resources/profilepic/${sellerView.profile}" width="100" height="100">${sellerView.profile}</td>
+			<td>${sellerView.division}</td>
+			<td>${sellerView.sys_date}</td>
+			<td>${sellerView.change_date}</td>
+		</tr>
+		</c:if>
 	</table>
 	<button onclick="location.href='memberList'">이전으로</button>
 	<c:choose>
@@ -147,5 +182,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<button onclick="sellerBlackListDelete()">판매자 블랙리스트 해제</button>
 	</c:when>
 	</c:choose>
+	</div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

@@ -180,11 +180,6 @@ public class MemberController {
 		return "Main";
 	}
 	
-	@RequestMapping(value = "/memberMain", method = RequestMethod.GET)
-	public String memberMain() {
-		return "member/MemberMain";
-	}
-	
 	@RequestMapping(value = "/termsOfService", method = RequestMethod.GET)
 	public String termsOfService() {
 		return "member/TermsOfService";
@@ -232,6 +227,11 @@ public class MemberController {
 	public ModelAndView memberLogin(@ModelAttribute MemberDTO member) {
 		mav = memberService.memberLogin(member);
 		return mav;
+	}
+	
+	@RequestMapping(value="/myPage", method=RequestMethod.GET)
+	public String myPage() {
+		return "member/Mypage";
 	}
 	
 	@RequestMapping(value="/memberLoginCheck")
@@ -310,11 +310,23 @@ public class MemberController {
 		return sellerBlackListDelete;
 	}
 	
-//	@RequestMapping(value="/memberDelete", method=RequestMethod.GET)
-//	public ModelAndView memberDelete(@RequestParam("id") String id) {
-//		mav = memberService.memberDelete(id);
-//		return mav;
-//	}
+	@RequestMapping(value="/sellerDeleteForm", method=RequestMethod.GET)
+	public String memberDeleteForm() {
+		return "member/SellerDeleteForm";
+	}
+	
+	@RequestMapping(value="/sellerDelete", method=RequestMethod.POST)
+	public ModelAndView sellerDelete(@RequestParam("id") String id) {
+		mav = memberService.sellerDelete(id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerDeleteCheck", method=RequestMethod.POST)
+	public @ResponseBody String sellerDeleteCheck(@RequestParam("id") String id,
+												  @RequestParam("password") String password) {
+		String resultMsg = memberService.sellerDeleteCheck(id, password);
+		return resultMsg;
+	}
 	
 	@RequestMapping(value = "/memberAttendance", method = RequestMethod.GET)
 	public ModelAndView memberAttendance() {

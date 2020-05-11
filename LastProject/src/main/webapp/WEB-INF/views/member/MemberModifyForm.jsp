@@ -11,11 +11,13 @@
 		location.href="memberMain";
 	}
 	function doubleCheck() {
+		var re_name = /^[가-힝a-zA-Z]{2,}$/;
+		var re_phone = /^\d{3}-\d{3,4}-\d{4}$/;
 		var name = document.getElementById("name");
+		var phone = document.getElementById("phone");
 		var address1 = document.getElementById("sample6_postcode");
 		var address2 = document.getElementById("sample6_address");
 		var address3 = document.getElementById("sample6_detailAddress");
-		var phone = document.getElementById("phone");
 		// 이름 유효성
 		if((name.value) == "") {
 			alert("성명을 입력해 주세요");
@@ -88,9 +90,20 @@
             }).open();
         }
     </script>
+    <script>
+    	function myPage(){
+    		location.href="myPage";
+    	}
+    </script>
 </head>
 <body>
-	<form action="memberModify" method="post" id=memberModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
+	<div>
+	<jsp:include page="/WEB-INF/views/top.jsp"/>
+	</div>
+	<div class="container">
+	<div class="col-md-offset-12">　</div>
+	<div style="text-align:center"><h2>회원정보수정</h2></div><br>
+	<form class="col-md-offset-3" action="memberModify" method="post" id=memberModifyForm onsubmit="return doubleCheck()" enctype="multipart/form-data">
 	<input type="hidden" value="${memberModify.profile}" name="profile">
 		<table>
 			<tr>
@@ -118,8 +131,12 @@
 			</tr>
 		</table>
 			<input type="submit" value="수정">
-			<button type="button" onclick="memberMain()">돌아가기</button>
+			<button type="button" onclick="myPage()">돌아가기</button>
 	</form>
+	</div>
+	<div>
+	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+	</div>
 </body>
 <script>
 	function readURL(input){

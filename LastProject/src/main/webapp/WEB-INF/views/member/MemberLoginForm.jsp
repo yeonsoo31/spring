@@ -106,20 +106,20 @@
 	<div class="col-md-offset-12">　</div>
 	<form class="col-md-offset-4" action="memberLogin" method="post" id=loginForm>
 	<table>
-        <tr>
+		<h3>로그인</h3>
         	<td><input type="radio" name="division" value="1" checked>일반회원
         		<input type="radio" name="division" value="2">기업회원
         	</td>
         </tr>
         <tr>
-            <td>아이디 : </td><td><input type="text" name="id" id="id"></td>
+            <td><input type="text" name="id" id="id" placeholder="ID(이메일)를 입력해주세요." style="width: 250px; height:30px"></td>
         </tr>
         <tr>
-        	<td>비밀번호 : </td><td><input type="password" name="password" id="password"></td>
+        	<td><input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." style="width: 250px; height:30px"></td>
         </tr>
     </table>
-    <button type="button" onclick="login()">로그인</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="#" onclick="javascript: idFind(); return false;">아이디 찾기</a>/<a href="#" onclick="javascript: passwordFind(); return false;">비밀번호 찾기</a>
+    <button type="button" onclick="login()" style="width: 250px; height: 30px">로그인</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+    <a href="#" onclick="javascript: idFind(); return false;">아이디 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="javascript: passwordFind(); return false;">비밀번호 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="termsOfService">회원가입</a>
     </form><br>
     <div class="col-md-offset-4">
 	<h3>&nbsp;&nbsp;일반회원 간편로그인</h3>

@@ -21,23 +21,23 @@
 	</select>
 	
 	<insert id="googleJoin" parameterType="member">
- 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', '', '', #{googleId}, 0, 1, #{profile}, SYSDATE)
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', '', '', #{googleId}, #{profile})
  	</insert>
  	
  	<insert id="facebookJoin" parameterType="member">
- 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', '', #{facebookId}, '', 0, 1, #{profile}, SYSDATE)
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', '', #{facebookId}, '', #{profile})
  	</insert>
  	
  	<insert id="kakaoJoin" parameterType="member">
- 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, #{kakaoId}, '', '', '', 0, 1, #{profile}, SYSDATE)
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', #{kakaoId}, '', '', #{profile})
  	</insert>
  	
  	<insert id="naverJoin" parameterType="member">
- 		INSERT INTO MEMBER(ID, PASSWORD, NAME, BIRTH, ADDRESS, PHONE, KAKAOID, NAVERID, FACEBOOKID, GOOGLEID, SAVEMONEY, DIVISION, PROFILE, PASSWORDDATE)
-		VALUES(#{id}, '', #{name}, #{birth}, #{address}, #{phone}, '', #{naverId}, '', '', 0, 1, #{profile}, SYSDATE)
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, #{naverId}, '', '', '', #{profile})
  	</insert>
 	
  	<insert id="memberJoin" parameterType="member">
@@ -91,7 +91,7 @@
 	</update>
 	
 	<update id="sellerModify" parameterType="member">
-		UPDATE MEMBER_SALES SET B_NAME=#{b_name}, B_NUMBER=#{b_number}, NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
+		UPDATE MEMBER_SALES SET S_NAME=#{s_name}, S_NUMBER=#{s_number}, NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
 	</update>
 	
 	<select id="memberList" resultType="member">
@@ -125,6 +125,14 @@
 	<update id="sellerBlackListDelete" parameterType="String">
 		UPDATE MEMBER_SALES SET DIVISION=2 WHERE ID=#{id}
 	</update>
+	
+	<delete id="sellerDelete" parameterType="String">
+		DELETE FROM MEMBER_SALES WHERE ID=#{id}
+	</delete>
+	
+	<select id="sellerDeleteCheck" parameterType="map" resultType="String">
+		SELECT * FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+	</select>
 	
 	<select id="memberAttendance" parameterType="String" resultType="member">
  		SELECT ATT_DATE FROM ATTENDANCE WHERE ID=#{id}
