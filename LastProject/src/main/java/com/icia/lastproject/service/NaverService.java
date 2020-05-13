@@ -44,8 +44,10 @@ public class NaverService {
 		name = naverName.getName();
 //		session.setAttribute("loginId", naverMember.getMid());
 		session.setAttribute("loginId", naverEmail);
+		session.setAttribute("naverId", naverId);
+		session.setAttribute("name", name);
 		mav.addObject("naverId", naverId);
-		mav.addObject("name", name);
+//		mav.addObject("name", name);
 		mav.setViewName("Main");
 		}
 		return mav;

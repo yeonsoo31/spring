@@ -26,9 +26,7 @@ public class MemberDTO {
 	private int division;
 	private String sys_date;
 	private String change_date;
-	private int att_date;
-	private int continuity;
-	
 	private String s_name;
 	private String s_number;
+	
 }

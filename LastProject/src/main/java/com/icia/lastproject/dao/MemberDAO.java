@@ -84,14 +84,6 @@ public class MemberDAO {
 	public List<MemberDTO> sellerBlackList() {
 		return sql.selectList("Member.sellerBlackList");
 	}
-
-	public MemberDTO memberAttendance(String id) {
-		return sql.selectOne("Member.memberAttendance", id);
-	}
-
-	public int memberAttendanceCheck(MemberDTO member) {
-		return sql.insert("Member.memberAttendanceCheck", member);
-	}
 	
 	public int memberIdDivision(MemberDTO member) {
 		return sql.selectOne("Member.memberIdDivision", member);
@@ -148,6 +140,19 @@ public class MemberDAO {
 	public int memberDelete(String id) {
 		return sql.delete("Member.memberDelete", id);
 	}
+
+	public String idFind(MemberDTO member) {
+		return sql.selectOne("Member.idFind", member);
+	}
+
+	public int newPassword(HashMap<String, Object> hash) {
+		return sql.update("Member.newPassword", hash);
+	}
+
+	public String emailCheck(String id) {
+		return sql.selectOne("Member.emailCheck", id);
+	}
+
 
 
 

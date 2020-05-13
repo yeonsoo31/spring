@@ -141,15 +141,18 @@
 	<select id="memberDeleteCheckResult" parameterType="map" resultType="String">
 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
 	</select>
-	
-	<select id="memberAttendance" parameterType="String" resultType="member">
- 		SELECT ATT_DATE FROM ATTENDANCE WHERE ID=#{id}
+ 	
+ 	<select id="idFind" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE NAME=#{name} AND BIRTH=#{birth} AND PHONE=#{phone}
  	</select>
  	
- 	<insert id="memberAttendanceCheck" parameterType="member">
- 		INSERT INTO ATTENDANCE(ID, ATT_DATE)
-		VALUES(#{id}, #{att_date})
- 	</insert>
+ 	<update id="newPassword" parameterType="map">
+ 		UPDATE MEMBER SET PASSWORD=#{password} WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<select id="emailCheck" parameterType="String" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{id}
+ 	</select>
  	
  </mapper>
  

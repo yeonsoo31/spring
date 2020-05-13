@@ -184,5 +184,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	</c:choose>
 	</div>
 	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+	<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

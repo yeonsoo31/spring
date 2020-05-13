@@ -10,7 +10,6 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>MemberLoginForm</title>
 <script>
-	
 	function login() {
 		var id = document.getElementById("id").value;
 		var password = document.getElementById("password").value;
@@ -36,6 +35,20 @@
 				alert("통신오류");
 			}
 		});
+	}
+	function idFind(){
+		var popupX = (document.body.offsetWidth / 2) - (500 / 2);
+		//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+		var popupY= (window.screen.height / 2) - (400 / 2);
+		//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+		window.open('idFindForm', '아이디찾기', 'status=no, width=500, height=400, left='+ popupX + ', top='+ popupY);
+	}
+	function passwordFind(){
+			var popupX = (document.body.offsetWidth / 2) - (600 / 2);
+			//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY= (window.screen.height / 2) - (500 / 2);
+			//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+			window.open('passwordFindForm', '비밀번호찾기', 'status=no, width=600, height=500, left='+ popupX + ', top='+ popupY);
 	}
 </script>
 </head>
@@ -105,6 +118,7 @@
 	<div class="container">
 	<div class="col-md-offset-12">　</div>
 	<form class="col-md-offset-4" action="memberLogin" method="post" id=loginForm>
+	<input type="hidden" value="${url}" name="url">
 	<table>
 		<h3>로그인</h3>
         	<td><input type="radio" name="division" value="1" checked>일반회원
@@ -143,5 +157,7 @@
 	<div>
 	<jsp:include page="/WEB-INF/views/footer.jsp"/>
 	</div>
+	<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

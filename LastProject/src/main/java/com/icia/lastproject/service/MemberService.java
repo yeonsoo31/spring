@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,8 @@ public class MemberService {
 			MemberDTO googleName = mdao.memberView(googleEmail);
 			name = googleName.getName();
 			session.setAttribute("loginId", googleEmail);
-			mav.addObject("name", name);
+			session.setAttribute("name", name);
+			session.setAttribute("googleId", googleId);
 			mav.setViewName("Main");
 		}
 		return mav;
@@ -85,13 +87,14 @@ public class MemberService {
 			MemberDTO facebookName = mdao.memberView(facebookEmail);
 			name = facebookName.getName();
 			session.setAttribute("loginId", facebookEmail);
-			mav.addObject("name", name);
+			session.setAttribute("name", name);
+			session.setAttribute("facebookId", facebookId);
 			mav.setViewName("Main");
 		}
 		return mav;
 	}
 
-	public ModelAndView memberLogin(MemberDTO member) {
+	public ModelAndView memberLogin(MemberDTO member, String url) {
 		mav = new ModelAndView();
 		String loginId = null;
 		String name = null;
@@ -112,11 +115,12 @@ public class MemberService {
 			session.setAttribute("name", name);
 			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginIdDivision", loginIdDivision);
-			mav.setViewName("Main");
+			
+			//mav.setViewName("Main");
 		} else {
 			mav.setViewName("member/MemberLoginFail");
 		}
-		return mav;
+		return new ModelAndView("redirect:"+url);
 	}
 	
 	public ModelAndView memberModifyForm(String id) {
@@ -204,28 +208,6 @@ public class MemberService {
 		mav.addObject("memberBlackList", memberBlackList);
 		mav.addObject("sellerBlackList", sellerBlackList);
 		mav.setViewName("member/MemberList");
-		return mav;
-	}
-	
-	public ModelAndView memberAttendance(String id) {
-		mav = new ModelAndView();
-		MemberDTO memberAttendance = mdao.memberAttendance(id);
-		mav.addObject("memberAttendance", memberAttendance);
-		mav.setViewName("member/MemberAttendance2");
-		return mav;
-	}
-
-	public ModelAndView memberAttendanceCheck(String id, int att_date) {
-		mav = new ModelAndView();
-		MemberDTO member = new MemberDTO();
-		member.setId(id);
-		member.setAtt_date(att_date);
-		int memberAttendanceCheckResult = mdao.memberAttendanceCheck(member);
-		if(memberAttendanceCheckResult > 0) {
-			mav.setViewName("member/MemberAttendance2");
-		} else {
-			mav.setViewName("member/MemberAttendanceFail");
-		}
 		return mav;
 	}
 
@@ -363,6 +345,69 @@ public class MemberService {
 		}
 		return mav;
 	}
+
+	public ModelAndView idFind(String name, String birth, String phone) {
+		mav = new ModelAndView();
+		MemberDTO member = new MemberDTO();
+		member.setName(name);
+		member.setBirth(birth);
+		member.setPhone(phone);
+		String idFindResult = mdao.idFind(member);
+		if(idFindResult != null) {
+			mav.addObject("idFind", idFindResult);
+			mav.setViewName("member/IdFindSuccess");
+		} else {
+			mav.setViewName("member/IdFindFail");
+		}
+		return mav;
+	}
+
+	public ModelAndView newPassword(String id, String password) {
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		int newPasswordResult = mdao.newPassword(hash);
+		if(newPasswordResult > 0) {
+			mav.setViewName("member/NewPasswordSuccess");
+		} else {
+			mav.setViewName("member/NewPasswordFail");
+		}
+		return mav;
+	}
+
+	public String emailCheck(String id) {
+		String emailCheckResult = mdao.emailCheck(id);
+		String resultMsg = null;
+		if(emailCheckResult!=null) {
+			resultMsg = "OK";
+		} else {
+			resultMsg = "NO";
+		}
+		return resultMsg;
+	}
+
+	public ModelAndView adminMemberDelete(String id) {
+		mav = new ModelAndView();
+		int memberDeleteResult = mdao.memberDelete(id);
+		if(memberDeleteResult > 0) {
+			mav.setViewName("redirect:/memberList");
+		} else {
+			mav.setViewName("member/adminMemberDeleteFail");
+		}
+		return mav;
+	}
+
+	public ModelAndView adminSellerDelete(String id) {
+		mav = new ModelAndView();
+		int sellerDeleteResult = mdao.sellerDelete(id);
+		if(sellerDeleteResult > 0) {
+			mav.setViewName("redirect:/memberList");
+		} else {
+			mav.setViewName("member/adminSellerDeleteFail");
+		}
+		return mav;
+	}
+
 
 	
 	

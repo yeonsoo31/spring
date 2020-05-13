@@ -47,6 +47,20 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	        $('#divsellerBlackList').show();
 		}
 	}
+	function adminMemberDelete(index){
+		var memberId = document.getElementById("memberId"+index).value;
+		if(confirm("해당 회원을 탈퇴시키겠습니까?")){
+			alert("탈퇴처리 완료");
+			location.href="adminMemberDelete?id="+memberId;
+		}
+	}
+	function adminSellerDelete(index){
+		var sellerId = document.getElementById("sellerId"+index).value;
+		if(confirm("해당 기업회원을 탈퇴시키겠습니까?")){
+			alert("탈퇴처리 완료");
+			location.href="adminSellerDelete?id="+sellerId;
+		}
+	}
 </script>
 </head>
 <title>회원상세조회</title>
@@ -69,12 +83,13 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			<th>상세조회</th>
 			<th>회원탈퇴</th>
 		</tr>
-	<c:forEach var="memberList" items="${memberList}">
+	<c:forEach var="memberList" items="${memberList}" varStatus="memberStatus">
+	<input type="hidden" id="memberId${memberStatus.index}" value="${memberList.id}">
 		<tr>	
 			<td>${memberList.id}</td>
 			<td>${memberList.name}</td>
 			<td><a href="memberView?id=${memberList.id}">조회</a></td>
-			<td><a href="memberDelete?id=${memberList.id}">탈퇴</a></td>
+			<td><a href="#" onclick="adminMemberDelete(${memberStatus.index})">탈퇴</a></td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -88,12 +103,14 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 			<th>상세조회</th>
 			<th>회원탈퇴</th>
 		</tr>
-	<c:forEach var="sellerList" items="${sellerList}">
+	<c:forEach var="sellerList" items="${sellerList}" varStatus="sellerStatus">
+	<input type="hidden" id="sellerId${sellerStatus.index}" value="${sellerList.id}">
 		<tr>	
 			<td>${sellerList.id}</td>
 			<td>${sellerList.name}</td>
 			<td><a href="memberView?id=${sellerList.id}">조회</a></td>
-			<td><a href="memberDelete?id=${sellerList.id}">탈퇴</a></td>
+			<!-- <td><a href="memberDelete?id=${sellerList.id}">탈퇴</a></td> -->
+			<td><a href="#" onclick="adminSellerDelete(${sellerStatus.index})">탈퇴</a></td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -145,5 +162,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<button type="button" onclick="location.href='myPage'">이전으로</button>
 	</div>
 	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+	<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

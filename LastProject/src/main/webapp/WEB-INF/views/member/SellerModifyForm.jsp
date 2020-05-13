@@ -183,6 +183,8 @@
 	</form>
 	</div>
 	<jsp:include page="/WEB-INF/views/footer.jsp"/>
+	<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 <script>
 	function readURL(input){

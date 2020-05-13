@@ -72,24 +72,21 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				}
 			});
 		}
+
 </script>
 </head>
 <body>
 <h3 style="text-align:center">회원탈퇴</h3>
 아이디 : <input type="text" id="id" name="id" value="${sessionScope.loginId}" readonly><br>
 비밀번호 : <input type="password" id="password" name="password"><br>
-<c:if test="${sessionScope.loginIdDivision == 1}">
-<button onclick="memberDeleteProcess()">탈퇴하기</button>
+<c:if test="${sessionScope.loginIdDivision eq 1}">
+<button onclick="memberDeleteProcess()">회원탈퇴하기</button>
 </c:if>
-<c:if test="${sessionScope.loginIdDivision == 2}">
-<button onclick="sellerDeleteProcess()">탈퇴하기</button>
-</c:if>
-<c:if test="${sessionScope.loginIdDivision == 3}">
-<button onclick="memberDeleteProcess()">탈퇴하기</button>
-</c:if>
-<c:if test="${sessionScope.loginIdDivision == 4}">
-<button onclick="sellerDeleteProcess()">탈퇴하기</button>
+<c:if test="${sessionScope.loginIdDivision eq 2}">
+<button onclick="sellerDeleteProcess()">기업회원탈퇴하기</button>
 </c:if>
 <button onclick="window.close()">취소</button>
+<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

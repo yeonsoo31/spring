@@ -53,13 +53,15 @@ public class KakaoService {
 		MemberDTO kakaoName = mdao.memberView(kakaoEmail);
 		name = kakaoName.getName();
 		session.setAttribute("loginId", kakaoEmail);
+		session.setAttribute("name", name);
+		session.setAttribute("kakaoId", kakaoId);
 		mav.addObject("kakaoId", kakaoId);
 		mav.addObject("loginMember", member);
 //		mav.addObject("email", email);
 //		mav.addObject("nickName", nickName);
 		mav.addObject("kakaoProfile", kakaoProfile);
 //		mav.addObject("thumbnail", thumbnail);
-		mav.addObject("name", name);
+//		mav.addObject("name", name);
 		mav.setViewName("Main");
 		}
 		return mav;
