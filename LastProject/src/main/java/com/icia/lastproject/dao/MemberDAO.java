@@ -141,24 +141,28 @@ public class MemberDAO {
 		return sql.delete("Member.memberDelete", id);
 	}
 
-	public String idFind(MemberDTO member) {
-		return sql.selectOne("Member.idFind", member);
+	public String memberIdFind(MemberDTO member) {
+		return sql.selectOne("Member.memberIdFind", member);
+	}
+	
+	public String sellerIdFind(MemberDTO seller) {
+		return sql.selectOne("Member.sellerIdFind", seller);
 	}
 
 	public int newPassword(HashMap<String, Object> hash) {
 		return sql.update("Member.newPassword", hash);
 	}
-
+	
+	public int newSellerPassword(HashMap<String, Object> hash) {
+		return sql.update("Member.newSellerPassword", hash);
+	}
+	
 	public String emailCheck(String id) {
 		return sql.selectOne("Member.emailCheck", id);
 	}
 
+	public String blackMemberCheck(String id) {
+		return sql.selectOne("Member.blackMemberCheck", id);
+	}
 
-
-
-
-
-	
-
-	
 }

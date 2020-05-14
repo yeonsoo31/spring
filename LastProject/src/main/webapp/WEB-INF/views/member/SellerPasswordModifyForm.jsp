@@ -35,7 +35,7 @@
 </script>
 </head>
 <body>
-	<form action="newPassword" method="post" onsubmit="return doubleCheck()">
+	<form action="newSellerPassword" method="post" onsubmit="return doubleCheck()">
 		아이디 : <input type="text" name="id" value="${findEmail}" readonly><br>
 		새 비밀번호 : <input type="password" id="password" name="password"><br>
 		비밀번호 확인 : <input type="password" id="passwordCheck" name="passwordCheck"><br>

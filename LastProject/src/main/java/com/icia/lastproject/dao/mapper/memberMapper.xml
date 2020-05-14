@@ -142,16 +142,28 @@
 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
 	</select>
  	
- 	<select id="idFind" parameterType="member" resultType="String">
+ 	<select id="memberIdFind" parameterType="member" resultType="String">
  		SELECT ID FROM MEMBER WHERE NAME=#{name} AND BIRTH=#{birth} AND PHONE=#{phone}
+ 	</select>
+ 	
+ 	<select id="sellerIdFind" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER_SALES WHERE S_NAME=#{s_name} AND S_NUMBER=#{s_number} AND NAME=#{name}
  	</select>
  	
  	<update id="newPassword" parameterType="map">
  		UPDATE MEMBER SET PASSWORD=#{password} WHERE ID=#{id}
  	</update>
  	
+ 	<update id="newSellerPassword" parameterType="map">
+ 		UPDATE MEMBER_SALES SET PASSWORD=#{password} WHERE ID=#{id}
+ 	</update>
+ 	
  	<select id="emailCheck" parameterType="String" resultType="String">
  		SELECT ID FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="blackMemberCheck" parameterType="String" resultType="String">
+ 		SELECT ID FROM (SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND DIVISION=4 UNION ALL SELECT ID FROM MEMBER WHERE ID=#{id} AND DIVISION =3) GROUP BY ID
  	</select>
  	
  </mapper>

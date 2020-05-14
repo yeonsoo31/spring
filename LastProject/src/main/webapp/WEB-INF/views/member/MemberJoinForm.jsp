@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,9 +20,20 @@
 </style>
 </head>
 <body>
-<div>
-	<jsp:include page="/WEB-INF/views/top.jsp"/>
-</div>
+<!-- 이미 로그인 되어있으면 메인으로 이동 -->
+		<script>
+		if(self.name != 'reload'){
+			self.name = 'reload';
+			self.location.reload(true);
+		} else {
+			self.name = '';
+		}
+		</script>
+		<c:if test="${sessionScope.loginId ne null}">
+			<script>
+			location.href="goMain";
+			</script>
+		</c:if>
 <script>
 <!-- 구글 OAuth -->
 	var googleId;
@@ -82,6 +95,13 @@
   		);
 	}
 </script>
+	<!-- Logo -->
+	<div class="header-logo" style="text-align:center;">
+		<a class="logo" href="goMain">
+			<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+		</a>
+	</div>
+	<!-- /Logo -->
 <div class="container">
 <div class="col-md-12">　</div>
 <div class="col-md-12">　</div>
@@ -131,10 +151,5 @@
 <div class="col-md-12">　</div>
 <div class="col-md-12">　</div>
 </div>
-<div>
-	<jsp:include page="/WEB-INF/views/footer.jsp"/>
-</div>
-<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

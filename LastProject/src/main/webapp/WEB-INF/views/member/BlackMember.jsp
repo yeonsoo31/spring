@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>
-	alert("회원가입 성공")
-	location.href="goMain";
-</script>
+	<script>
+		alert("블랙리스트 회원은 이용하실 수 없습니다");
+		location.href="goMain";
+	</script>
 </body>
 </html>

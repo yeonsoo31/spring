@@ -60,7 +60,7 @@ public class MemberService {
 		return resultMsg;
 	}
 
-	public ModelAndView googleLogin(String googleId, String googleEmail) {
+	public ModelAndView googleLogin(String googleId, String googleEmail, String url) {
 		mav = new ModelAndView();
 		String name = null;
 		String loginId = mdao.googleLogin(googleId);
@@ -72,9 +72,9 @@ public class MemberService {
 			session.setAttribute("loginId", googleEmail);
 			session.setAttribute("name", name);
 			session.setAttribute("googleId", googleId);
-			mav.setViewName("Main");
+
 		}
-		return mav;
+		return new ModelAndView("redirect:"+url);
 	}
 
 	public ModelAndView facebookLogin(String facebookId, String facebookEmail) {
@@ -100,7 +100,11 @@ public class MemberService {
 		String name = null;
 		int loginIdDivision = 0;
 		String id = member.getId();
-		if(member.getDivision()==2) {
+		String blackMemberCheckResult = mdao.blackMemberCheck(id);
+		if(blackMemberCheckResult != null) {
+			mav.setViewName("member/BlackMember");
+			return mav;
+		} else if(member.getDivision()==2) {
 			loginId = mdao.sellerLogin(member);
 			loginIdDivision = mdao.sellerIdDivision(member);
 			MemberDTO sellerName = mdao.sellerView(id);
@@ -115,8 +119,6 @@ public class MemberService {
 			session.setAttribute("name", name);
 			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginIdDivision", loginIdDivision);
-			
-			//mav.setViewName("Main");
 		} else {
 			mav.setViewName("member/MemberLoginFail");
 		}
@@ -161,6 +163,8 @@ public class MemberService {
 		member.setAddress(member.getAddress1()+"/"+member.getAddress2()+"/"+member.getAddress3()+"/"+member.getAddress4());
 		int memberModifyResult = mdao.memberModify(member);
 		if(memberModifyResult > 0) {
+			String name = member.getName();
+			session.setAttribute("name", name);
 			mav.setViewName("member/MemberModifySuccess");
 		} else {
 			mav.setViewName("member/MemberModifyFail");
@@ -327,7 +331,7 @@ public class MemberService {
 		int memberDeleteResult = mdao.memberDelete(id);
 		if(memberDeleteResult > 0) {
 			session.invalidate();
-			mav.setViewName("Main");
+			mav.setViewName("redirect:/goMain");
 		} else {
 			mav.setViewName("member/memberDeleteFail");
 		}
@@ -339,30 +343,47 @@ public class MemberService {
 		int sellerDeleteResult = mdao.sellerDelete(id);
 		if(sellerDeleteResult > 0) {
 			session.invalidate();
-			mav.setViewName("Main");
+			mav.setViewName("redirect:/goMain");
 		} else {
 			mav.setViewName("member/sellerDeleteFail");
 		}
 		return mav;
 	}
 
-	public ModelAndView idFind(String name, String birth, String phone) {
+	public ModelAndView memberIdFind(String name, String birth, String phone) {
 		mav = new ModelAndView();
 		MemberDTO member = new MemberDTO();
 		member.setName(name);
 		member.setBirth(birth);
 		member.setPhone(phone);
-		String idFindResult = mdao.idFind(member);
-		if(idFindResult != null) {
-			mav.addObject("idFind", idFindResult);
+		String memberIdFindResult = mdao.memberIdFind(member);
+		if(memberIdFindResult != null) {
+			mav.addObject("idFind", memberIdFindResult);
 			mav.setViewName("member/IdFindSuccess");
 		} else {
 			mav.setViewName("member/IdFindFail");
 		}
 		return mav;
 	}
-
+	
+	public ModelAndView sellerIdFind(String s_name, String s_number, String name) {
+		mav = new ModelAndView();
+		MemberDTO seller = new MemberDTO();
+		seller.setS_name(s_name);
+		seller.setS_number(s_number);
+		seller.setName(name);
+		String sellerIdFindResult = mdao.sellerIdFind(seller);
+		if(sellerIdFindResult != null) {
+			mav.addObject("idFind", sellerIdFindResult);
+			mav.setViewName("member/IdFindSuccess");
+		} else {
+			mav.setViewName("member/IdFindFail");
+		}
+		return mav;
+	}
+	
 	public ModelAndView newPassword(String id, String password) {
+		mav = new ModelAndView();
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		hash.put("id", id);
 		hash.put("password", password);
@@ -404,6 +425,34 @@ public class MemberService {
 			mav.setViewName("redirect:/memberList");
 		} else {
 			mav.setViewName("member/adminSellerDeleteFail");
+		}
+		return mav;
+	}
+
+	public ModelAndView memberPasswordModifyForm(String id) {
+		mav = new ModelAndView();
+		mav.addObject("findEmail", id);
+		mav.setViewName("member/PasswordFindForm2");
+		return mav;
+	}
+
+	public ModelAndView sellerPasswordModifyForm(String id) {
+		mav = new ModelAndView();
+		mav.addObject("findEmail", id);
+		mav.setViewName("member/SellerPasswordModifyForm");
+		return mav;
+	}
+
+	public ModelAndView newSellerPassword(String id, String password) {
+		mav = new ModelAndView();
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		int newSellerPasswordResult = mdao.newSellerPassword(hash);
+		if(newSellerPasswordResult > 0) {
+			mav.setViewName("member/NewPasswordSuccess");
+		} else {
+			mav.setViewName("member/NewPasswordFail");
 		}
 		return mav;
 	}

@@ -110,6 +110,14 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         }
     </script>
 
+<script>
+	if(self.name != 'reload'){
+		self.name = 'reload';
+		self.location.reload(true);
+	} else {
+		self.name = '';
+	}
+</script>
 </head>
 
 
@@ -122,7 +130,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="#">
+						<a class="logo" href="goMain">
 							<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
 						</a>
 					</div>
@@ -174,6 +182,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="test"><i class="fa fa-user-o"></i> 테스트</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>

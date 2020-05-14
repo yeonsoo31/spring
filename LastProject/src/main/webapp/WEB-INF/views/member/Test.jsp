@@ -7,9 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>
-	alert("회원가입 성공")
-	location.href="goMain";
-</script>
+	<h2>야호</h2>
+	<button onclick="location.href='memberLogout'">로그아웃</button>
 </body>
 </html>

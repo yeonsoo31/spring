@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <script src="https://kit.fontawesome.com/62dd7438ee.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>MemberJoinForm2</title>
@@ -176,14 +175,29 @@
     </script>
 </head>
 <body>
-<div>
-	<jsp:include page="/WEB-INF/views/top.jsp"/>
-</div>
-<div class="container">
-	<div class="col-md-offset-12">　</div>
-	<div style="text-align:center"><h2>이메일로 회원가입</h2></div><br>
-	<form class="col-md-offset-3" action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
-		<table>
+	<!-- 이미 로그인 되어있으면 메인으로 이동 -->
+		<script>
+		if(self.name != 'reload'){
+			self.name = 'reload';
+			self.location.reload(true);
+		} else {
+			self.name = '';
+		}
+		</script>
+		<c:if test="${sessionScope.loginId ne null}">
+			<script>
+			location.href="goMain";
+			</script>
+		</c:if>
+	<!-- Logo -->
+	<div class="header-logo" style="text-align:center;">
+		<a class="logo" href="goMain">
+			<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+		</a>
+	</div>
+	<!-- /Logo -->
+	<table style="margin:auto;">
+	<form action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
 			<c:choose>
 				<c:when test="${kakaoId ne null}">
 					<tr>
@@ -280,16 +294,12 @@
 			<tr>
 				<td>프로필사진 : <input type="file" name="file"></td>
 			</tr>
-		</table>
-		<input type="submit" name="submit" value="회원가입">
-		<input type="reset" value="다시작성">
-		<button type="button" onclick="location.href='goMain'">이전으로</button>
-	</form><br>
-	</div>
-<div>
-	<jsp:include page="/WEB-INF/views/footer.jsp"/>
-	<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-</div>
+			<tr>
+				<td style="text-align:center;"><input type="submit" name="submit" value="회원가입">
+					<input type="reset" value="다시작성">
+				</td>
+			</tr>
+	</form>
+	</table>
 </body>
 </html>

@@ -9,9 +9,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
 	<title>E-SHOP HTML Template</title>
-
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 	<!-- Bootstrap -->
@@ -48,8 +46,16 @@ $(document).ready(function() {
 });
 
 });
-</script>
 
+</script>
+<script>
+	if(self.name != 'reload'){
+		self.name = 'reload';
+		self.location.reload(true);
+	} else {
+		self.name = '';
+	}
+</script>
 </head>
 
 

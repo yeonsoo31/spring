@@ -28,5 +28,4 @@ public class MemberDTO {
 	private String change_date;
 	private String s_name;
 	private String s_number;
-	
 }

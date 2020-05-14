@@ -76,6 +76,12 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 </script>
 </head>
 <body>
+<!-- 로그인이 안되어있으면 메인으로 이동 -->
+		<c:if test="${sessionScope.loginId eq null}">
+			<script>
+			location.href="goMain";
+			</script>
+		</c:if>
 <jsp:include page="/WEB-INF/views/top.jsp"/>
 	<div class="container">
 	<table border="1">

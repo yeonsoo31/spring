@@ -86,7 +86,5 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <button onclick="sellerDeleteProcess()">기업회원탈퇴하기</button>
 </c:if>
 <button onclick="window.close()">취소</button>
-<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

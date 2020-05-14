@@ -150,6 +150,10 @@
 		var idOverlapValue = document.getElementById("idOverlapValue");
 		idOverlapValue.value = "N";
 	}
+	function newSnumber(){
+		var s_numberOverlapValue = document.getElementById("s_numberOverlapValue");
+		s_numberOverlapValue.value = "N";
+	}
 	function s_numberOverlap() {
 		var bisNo = document.getElementById("s_number").value;
 		var sum = 0, key = [1, 3, 7, 1, 3, 7, 1, 3, 5];
@@ -223,7 +227,7 @@
 				<td>상호명(단체명) : <input type="text" id="s_name" name="s_name"></td>
 			</tr>
 			<tr>
-				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" maxlength="12" placeholder="000-00-00000">
+				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" onkeydown="newSnumber()" maxlength="12" placeholder="000-00-00000">
 					<button type="button" onclick="s_numberOverlap()">사업자등록번호 확인</button>
 					<input type="hidden" id="s_numberOverlapValue" value="N">
 				</td>

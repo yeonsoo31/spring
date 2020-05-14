@@ -100,6 +100,10 @@
         	s_numberOverlapValue.value = "Y";
         }
     }
+	function newSnumber(){
+		var s_numberOverlapValue = document.getElementById("s_numberOverlapValue");
+		s_numberOverlapValue.value = "N";
+	}
 </script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -149,7 +153,7 @@
 				<td>상호명(단체명) : <input type="text" id="s_name" name="s_name" value="${sellerModify.s_name}"></td>
 			</tr>
 			<tr>
-				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" maxlength="12" placeholder="000-00-00000" value="${sellerModify.s_number}">
+				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" onkeydown="newSnumber()" maxlength="12" placeholder="000-00-00000" value="${sellerModify.s_number}">
 					<button type="button" onclick="s_numberOverlap()">사업자등록번호 확인</button>
 					<input type="hidden" id="s_numberOverlapValue" value="N">
 				</td>

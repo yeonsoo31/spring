@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,23 +55,36 @@
 </script>
 </head>
 <body>
-<div>
-<jsp:include page="/WEB-INF/views/top.jsp"/>
-</div>
+<!-- 이미 로그인 되어있으면 메인으로 이동 -->
+		<script>
+		if(self.name != 'reload'){
+			self.name = 'reload';
+			self.location.reload(true);
+		} else {
+			self.name = '';
+		}
+		</script>
+		<c:if test="${sessionScope.loginId ne null}">
+			<script>
+			location.href="goMain";
+			</script>
+		</c:if>
 <script>
 <!-- 구글 OAuth -->
 	var googleId;
 	var googleEmail;
+	var url;
 	function googleLogin(googleUser){
 		var auth2 = gapi.auth2.getAuthInstance();
 		auth2.disconnect();
 		var profile = googleUser.getBasicProfile();
 		googleId = profile.getId();
 		googleEmail = profile.getEmail();
+		url = document.getElementById("url").value;
 			if(googleId == undefined){
 				alert("회원이 아닙니다.")
 			} else {
-				location.href="googleLogin?googleId="+googleId+"&googleEmail="+googleEmail;
+				location.href="googleLogin?googleId="+googleId+"&googleEmail="+googleEmail+"&url="+url;
 			}	
 	}
 <!-- 페이스북 OAuth -->
@@ -115,13 +130,18 @@
   		);
 	}
 </script>
-	<div class="container">
-	<div class="col-md-offset-12">　</div>
-	<form class="col-md-offset-4" action="memberLogin" method="post" id=loginForm>
-	<input type="hidden" value="${url}" name="url">
-	<table>
-		<h3>로그인</h3>
-        	<td><input type="radio" name="division" value="1" checked>일반회원
+	<!-- Logo -->
+		<div class="header-logo" style="text-align:center;">
+			<a class="logo" href="goMain">
+				<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+			</a>
+		</div>
+	<!-- /Logo -->
+	<form action="memberLogin" method="post" id=loginForm>
+	<input type="hidden" value="${url}" id="url" name="url">
+	<table style="margin: auto;">
+		<tr>
+        	<td style="text-align:center;"><input type="radio" name="division" value="1" checked>일반회원
         		<input type="radio" name="division" value="2">기업회원
         	</td>
         </tr>
@@ -131,33 +151,33 @@
         <tr>
         	<td><input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." style="width: 250px; height:30px"></td>
         </tr>
-    </table>
-    <button type="button" onclick="login()" style="width: 250px; height: 30px">로그인</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
-    <a href="#" onclick="javascript: idFind(); return false;">아이디 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="javascript: passwordFind(); return false;">비밀번호 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="termsOfService">회원가입</a>
-    </form><br>
-    <div class="col-md-offset-4">
-	<h3>&nbsp;&nbsp;일반회원 간편로그인</h3>
-	<!-- 구글 -->
-	<div class="g-signin2" data-onsuccess="googleLogin" data-theme="light" data-width="250" data-height="40" data-longtitle="true"></div>
-	<!-- 페이스북 -->
-	<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script> -->
-	<div id="fb-root"></div>
-	<div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="250" scope="public_profile,email"
-  	onlogin="checkLoginState();"></div><br>
-	<!-- 카카오톡 -->
-	<a href="kakaoLogin">
-		<img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png">
-	</a><br>
-	<!-- 네이버 -->
-	<a href="naverLogin">
-		<img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG">
-	</a>
-	</div>
-	</div>
-	<div>
-	<jsp:include page="/WEB-INF/views/footer.jsp"/>
-	</div>
-	<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    	<tr>
+     		<td><button type="button" onclick="login()" style="width: 254px; height: 30px">로그인</button></td>
+    	</tr>
+    	<tr>
+	    	<td style="text-align:center;"><a href="#" onclick="javascript: idFind(); return false;">아이디 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="javascript: passwordFind(); return false;">비밀번호 찾기</a></td>
+	    </tr>
+	    <tr>
+	    	<td style="text-align:center;">───────────────</td>
+	    </tr>
+	    <tr>
+		<!-- 구글 -->
+		<td><div class="g-signin2" data-onsuccess="googleLogin" data-theme="light" data-width="250" data-height="40" data-longtitle="true"></div></td>
+		</tr>
+		<tr>
+		<!-- 페이스북 -->
+		<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=1660742084088243&autoLogAppEvents=1"></script> -->
+			<td><div id="fb-root"></div><div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="250" scope="public_profile,email"	onlogin="checkLoginState();"></div></td>
+		</tr>
+		<tr>
+		<!-- 카카오톡 -->
+			<td><a href="kakaoLogin"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png"></a></td>
+		</tr>
+		<tr>
+		<!-- 네이버 -->
+			<td><a href="naverLogin"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG"></a></td>
+		</tr>
+	</table>
+	</form>
 </body>
 </html>

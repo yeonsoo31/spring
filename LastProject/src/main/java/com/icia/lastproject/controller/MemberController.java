@@ -135,7 +135,7 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
         //한번더 입력할 필요가 없게 한다.
         response_equals.setContentType("text/html; charset=UTF-8");
         PrintWriter out_equals = response_equals.getWriter();
-        out_equals.println("<script>alert('인증번호가 일치하였습니다. 로그인창으로 이동합니다.');</script>");
+        out_equals.println("<script>alert('인증번호가 일치하였습니다. 비밀번호 설정창으로 이동합니다.');</script>");
         out_equals.flush();
         return mv;        
     }else if (email_injeung != dice) {
@@ -223,9 +223,10 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	@RequestMapping(value="googleLogin", method = RequestMethod.GET)
 	public ModelAndView googleLogin(
 			@RequestParam("googleId") String googleId,
-			@RequestParam("googleEmail") String googleEmail) {
+			@RequestParam("googleEmail") String googleEmail,
+			@RequestParam("url") String url) {
 		mav = new ModelAndView();
-		return mav = memberService.googleLogin(googleId, googleEmail);
+		return mav = memberService.googleLogin(googleId, googleEmail, url);
 	}
 	@RequestMapping(value="facebookLogin", method = RequestMethod.GET)
 	public ModelAndView facebookLogin(
@@ -350,13 +351,17 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	@RequestMapping(value="/memberLogout", method=RequestMethod.GET)
 	public String memberLogout() {
 		session.invalidate();
-		return "member/MemberLoginForm";
+		return "redirect:/memberLoginForm";
 	}
 	
 	@RequestMapping(value="/memberModifyForm", method=RequestMethod.GET)
 	public ModelAndView modifyView() {
 		String id = (String) session.getAttribute("loginId");
-		mav = memberService.memberModifyForm(id);
+		if(id==null) {
+			mav.setViewName("member/MemberLoginForm");
+		} else {
+			mav = memberService.memberModifyForm(id);
+		}
 		return mav;
 	}
 	
@@ -462,9 +467,15 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return "member/PasswordFindForm";
 	}
 	
-	@RequestMapping(value="/idFind")
-	public ModelAndView idFind(String name, String birth, String phone) {
-		mav = memberService.idFind(name, birth, phone);
+	@RequestMapping(value="/memberIdFind")
+	public ModelAndView memberIdFind(String name, String birth, String phone) {
+		mav = memberService.memberIdFind(name, birth, phone);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerIdFind")
+	public ModelAndView sellerIdFind(String s_name, String s_number, String name) {
+		mav = memberService.sellerIdFind(s_name, s_number, name);
 		return mav;
 	}
 	
@@ -491,5 +502,31 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	public ModelAndView adminSellerDelete(@RequestParam("id") String id) {
 		mav = memberService.adminSellerDelete(id);
 		return mav;
+	}
+	
+	@RequestMapping(value="/memberPasswordModifyForm")
+	public ModelAndView memberPasswordModifyForm() {
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.memberPasswordModifyForm(id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerPasswordModifyForm")
+	public ModelAndView sellerPasswordModifyForm() {
+		String id = (String) session.getAttribute("loginId");
+		mav = memberService.sellerPasswordModifyForm(id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/newSellerPassword")
+	public ModelAndView newSellerPassword(@RequestParam("id") String id,
+										  @RequestParam("password") String password) {
+		mav = memberService.newSellerPassword(id, password);
+		return mav;
+	}
+	
+	@RequestMapping(value="/test")
+	public String test() {
+		return "member/Test";
 	}
 }
