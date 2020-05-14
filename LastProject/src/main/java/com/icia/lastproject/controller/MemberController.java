@@ -526,7 +526,8 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	}
 	
 	@RequestMapping(value="/test")
-	public String test() {
-		return "member/Test";
+	public ModelAndView test() {
+		mav = memberService.test();
+		return mav;
 	}
 }

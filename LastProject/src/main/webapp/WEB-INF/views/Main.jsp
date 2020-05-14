@@ -151,7 +151,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 						<c:choose>
 							<c:when test="${sessionScope.loginId eq null}">
 						<li class="header-account dropdown default-dropdown">
-							<a href="memberLoginForm" class="text-uppercase">로그인</a> / <a href="termsOfService" class="text-uppercase">회원가입</a>
+							<a href="memberLoginForm" class="text-uppercase">로그인</a> / <a href="termsOfService" class="text-uppercase">회원가입</a> / <a href="test" class="text-uppercase">테스트</a>
 						</li>
 							</c:when>
 							<c:when test="${sessionScope.loginIdDivision eq 5}">
@@ -182,7 +182,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="test"><i class="fa fa-user-o"></i> 테스트</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>

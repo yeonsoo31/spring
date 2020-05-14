@@ -8,6 +8,6 @@
 </head>
 <body>
 	<h2>야호</h2>
-	<button onclick="location.href='memberLogout'">로그아웃</button>
+	<button onclick="location.href='memberLoginForm'">로그인하러가기</button>
 </body>
 </html>

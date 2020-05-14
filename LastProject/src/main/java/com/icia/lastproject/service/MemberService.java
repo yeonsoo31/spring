@@ -72,7 +72,6 @@ public class MemberService {
 			session.setAttribute("loginId", googleEmail);
 			session.setAttribute("name", name);
 			session.setAttribute("googleId", googleId);
-
 		}
 		return new ModelAndView("redirect:"+url);
 	}
@@ -454,6 +453,12 @@ public class MemberService {
 		} else {
 			mav.setViewName("member/NewPasswordFail");
 		}
+		return mav;
+	}
+
+	public ModelAndView test() {
+		mav = new ModelAndView();
+		mav.setViewName("member/Test");
 		return mav;
 	}
 
