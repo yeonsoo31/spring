@@ -176,16 +176,14 @@
 </head>
 <body>
 	<!-- 이미 로그인 되어있으면 메인으로 이동 -->
-		<script>
-		if(self.name != 'reload'){
-			self.name = 'reload';
-			self.location.reload(true);
-		} else {
-			self.name = '';
-		}
-		</script>
 		<c:if test="${sessionScope.loginId ne null}">
 			<script>
+			if(self.name != 'reload'){
+				self.name = 'reload';
+				self.location.reload(true);
+			} else {
+				self.name = '';
+			}
 			location.href="goMain";
 			</script>
 		</c:if>

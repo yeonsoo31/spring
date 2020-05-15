@@ -21,7 +21,7 @@ public class KakaoService {
 	
 	private ModelAndView mav;
 	
-	public ModelAndView KakaoJoin(JsonNode profile) {
+	public ModelAndView KakaoJoin(JsonNode profile){
 		mav = new ModelAndView();
 		JsonNode kakaoAccount = profile.get("kakao_account");
 		JsonNode kakaoProfile = kakaoAccount.get("profile");
@@ -36,7 +36,7 @@ public class KakaoService {
 	}
 
 
-	public ModelAndView KakaoLogin(JsonNode profile) {
+	public ModelAndView KakaoLogin(JsonNode profile, String url) {
 		mav = new ModelAndView();
 		String name = null;
 		String kakaoId = profile.get("id").asText();
@@ -62,9 +62,9 @@ public class KakaoService {
 		mav.addObject("kakaoProfile", kakaoProfile);
 //		mav.addObject("thumbnail", thumbnail);
 //		mav.addObject("name", name);
-		mav.setViewName("Main");
+//		mav.setViewName("redirect:goMain");
 		}
-		return mav;
+		return new ModelAndView("redirect:"+url);
 	}
 
 }

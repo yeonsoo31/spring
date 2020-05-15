@@ -24,7 +24,7 @@ public class NaverService {
 	
 	private ModelAndView mav;
 	
-	public ModelAndView naverLogin(String profile) throws ParseException {
+	public ModelAndView naverLogin(String profile, String url) throws ParseException {
 		mav = new ModelAndView();
 		String name = null;
 		JSONParser parser = new JSONParser();
@@ -48,9 +48,9 @@ public class NaverService {
 		session.setAttribute("name", name);
 		mav.addObject("naverId", naverId);
 //		mav.addObject("name", name);
-		mav.setViewName("Main");
+//		mav.setViewName("Main");
 		}
-		return mav;
+		return new ModelAndView("redirect:"+url);
 	}
 	
 //	public ModelAndView naverLogin(JsonNode profile) {

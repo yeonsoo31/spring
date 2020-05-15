@@ -180,7 +180,6 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		String kakaoUrl = KakaoJoinApi.getAuthorizationUrl(session);
 		mav = new ModelAndView();
 		mav.addObject("kakaoUrl", kakaoUrl);
-		System.out.println(kakaoUrl);
 		mav.setViewName("member/KakaoLogin");
 		return mav;
 	}
@@ -231,12 +230,14 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	@RequestMapping(value="facebookLogin", method = RequestMethod.GET)
 	public ModelAndView facebookLogin(
 			@RequestParam("facebookId") String facebookId,
-			@RequestParam("facebookEmail") String facebookEmail) {
+			@RequestParam("facebookEmail") String facebookEmail,
+			@RequestParam("url") String url) {
 		mav = new ModelAndView();
-		return mav = memberService.facebookLogin(facebookId, facebookEmail);
+		return mav = memberService.facebookLogin(facebookId, facebookEmail, url);
 	}
 	@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
-	public ModelAndView kakaoLogin(HttpSession session) {
+	public ModelAndView kakaoLogin(HttpSession session, @RequestParam("url") String url) {
+		session.setAttribute("url", url);
 		String kakaoUrl = KakaoLoginApi.getAuthorizationUrl(session);
 		mav = new ModelAndView();
 		mav.addObject("kakaoUrl", kakaoUrl);
@@ -244,7 +245,8 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return mav;
 	}
 	@RequestMapping(value="/naverLogin")
-	public ModelAndView naverLogin(HttpSession session) {
+	public ModelAndView naverLogin(HttpSession session, @RequestParam("url") String url) {
+		session.setAttribute("url", url);
 		String naverUrl = naverLoginApi.getAuthorizationUrl(session);
 		mav = new ModelAndView();
 		mav.addObject("naverUrl", naverUrl);
@@ -253,20 +255,22 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	}
 	@RequestMapping(value="/yyskakaoLoginOK")
 	public ModelAndView kakaoLoginOK
-			(@RequestParam("code") String code, HttpSession session) {
+			(@RequestParam("code") String code, HttpSession session, String url) {
 		mav = new ModelAndView();
+		url = (java.lang.String) session.getAttribute("url");
 		JsonNode token = KakaoLoginApi.getAccessToken(code);
 		JsonNode profile = KakaoLoginApi.getKakaoUserInfo(token.path("access_token"));
-		mav = kakaoService.KakaoLogin(profile);
+		mav = kakaoService.KakaoLogin(profile, url);
 		return mav;
 	}
 	@RequestMapping(value="/yysnaverLoginOK")
 	public ModelAndView naverLoginOK
-		(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session) throws IOException, ParseException {
+		(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session, String url) throws IOException, ParseException {
 		mav = new ModelAndView();
+		url = (java.lang.String) session.getAttribute("url");
 		OAuth2AccessToken oauthToken = naverLoginApi.getAccessToken(session, code, state);
 		String profile = naverLoginApi.getUserProfile(oauthToken);
-		mav = naverService.naverLogin(profile);
+		mav = naverService.naverLogin(profile, url);
 		return mav;
 	}
 	//======================================================================================//

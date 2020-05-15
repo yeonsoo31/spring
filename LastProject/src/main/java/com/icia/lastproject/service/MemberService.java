@@ -76,7 +76,7 @@ public class MemberService {
 		return new ModelAndView("redirect:"+url);
 	}
 
-	public ModelAndView facebookLogin(String facebookId, String facebookEmail) {
+	public ModelAndView facebookLogin(String facebookId, String facebookEmail, String url) {
 		mav = new ModelAndView();
 		String name = null;
 		String loginId = mdao.facebookLogin(facebookId);
@@ -88,9 +88,8 @@ public class MemberService {
 			session.setAttribute("loginId", facebookEmail);
 			session.setAttribute("name", name);
 			session.setAttribute("facebookId", facebookId);
-			mav.setViewName("Main");
 		}
-		return mav;
+		return new ModelAndView("redirect:"+url);
 	}
 
 	public ModelAndView memberLogin(MemberDTO member, String url) {
@@ -121,6 +120,7 @@ public class MemberService {
 		} else {
 			mav.setViewName("member/MemberLoginFail");
 		}
+		//url은 로그인폼으로 돌아가는건데 로그인폼 jsp에 history(-1) 입력해서 그 전페이지로 돌아감 
 		return new ModelAndView("redirect:"+url);
 	}
 	

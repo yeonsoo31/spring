@@ -66,10 +66,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		</script>
 		<c:if test="${sessionScope.loginId ne null}">
 			<script>
-			location.href="goMain";
+				history.go(-1);
 			</script>
 		</c:if>
-<script>
+		<script>
 <!-- 구글 OAuth -->
 	var googleId;
 	var googleEmail;
@@ -118,6 +118,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	}
   	var facebookId;
   	var facebookEmail;
+  	var url;
 	function testAPI() {
   		FB.api(
     		'/me',
@@ -125,7 +126,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     			function(response) {
       				facebookId = response.id;
       				facebookEmail = response.email;
-      				location.href="facebookLogin?facebookId="+facebookId+"&facebookEmail="+facebookEmail;
+      				url = document.getElementById("url").value;
+      				location.href="facebookLogin?facebookId="+facebookId+"&facebookEmail="+facebookEmail+"&url="+url;
     			}
   		);
 	}
@@ -171,11 +173,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		</tr>
 		<tr>
 		<!-- 카카오톡 -->
-			<td><a href="kakaoLogin"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png"></a></td>
+			<td><a href="kakaoLogin?url=${url}"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/kakao_account_login_btn_large_narrow.png"></a></td>
 		</tr>
 		<tr>
 		<!-- 네이버 -->
-			<td><a href="naverLogin"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG"></a></td>
+			<td><a href="naverLogin?url=${url}"><img width="250" height="50" src="${pageContext.request.contextPath}/resources/oauthicon/Log in with NAVER_Official_Green.PNG"></a></td>
 		</tr>
 	</table>
 	</form>
