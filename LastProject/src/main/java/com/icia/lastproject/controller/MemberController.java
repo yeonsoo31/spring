@@ -334,7 +334,7 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	
 	@RequestMapping(value="/memberLogin", method=RequestMethod.POST)
 	public ModelAndView memberLogin(@ModelAttribute MemberDTO member,
-									@RequestParam("url") String url) {
+									@RequestParam("url") String url) throws java.text.ParseException {
 		mav = memberService.memberLogin(member, url);
 		return mav;
 	}
@@ -526,6 +526,20 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	public ModelAndView newSellerPassword(@RequestParam("id") String id,
 										  @RequestParam("password") String password) {
 		mav = memberService.newSellerPassword(id, password);
+		return mav;
+	}
+	
+	@RequestMapping(value="/memberOldPasswordChange", method=RequestMethod.POST)
+	public ModelAndView memberOldPasswordChange(@RequestParam("id") String id,
+									@RequestParam("password") String password) {
+		mav = memberService.memberOldPasswordChange(id, password);
+		return mav;
+	}
+	
+	@RequestMapping(value="/sellerOldPasswordChange", method=RequestMethod.POST)
+	public ModelAndView sellerOldPasswordChange(@RequestParam("id") String id,
+									@RequestParam("password") String password) {
+		mav = memberService.sellerOldPasswordChange(id, password);
 		return mav;
 	}
 	

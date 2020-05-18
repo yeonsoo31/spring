@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="AuctionMember"> 
+ 	<insert id="biddingAdd" parameterType="auctionMember">
+ 		INSERT INTO AUCTIONMEMBER(AM_NUMBER,A_NUMBER,ID,AM_PRICE,AM_DATE)
+ 			VALUES(AUCTIONMEMBER_SEQ.NEXTVAL,#{a_number},#{id},#{am_price},SYSDATE)
+ 	</insert>
+	
+	<select id="biddingList" parameterType="paging" resultType="auctionMember">
+ 		SELECT * FROM AUCTIONMEMBERLIST WHERE A_NUMBER=#{a_number} AND RN BETWEEN #{startRow} AND #{endRow}
+ 	</select>
+ 	
+ 	<select id="listCount" parameterType="int" resultType="int">
+ 		SELECT COUNT(*) FROM AUCTIONMEMBER WHERE A_NUMBER=#{a_number}
+ 	</select>
+ 	
+ 	<insert id="bidSuccess" parameterType="map">
+ 		INSERT INTO BIDMEMBER(ID,A_NUMBER)
+ 			VALUES(#{id},#{a_number})
+ 	</insert>
+ 	
+ 	<select id="bidCheck" parameterType="int" resultType="int">
+ 		SELECT COUNT(*) FROM BIDMEMBER WHERE A_NUMBER=#{a_number}
+ 	</select>
+ </mapper>
+ 

@@ -3,6 +3,19 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases> 
-		<typeAlias alias="member" type="com.icia.lastproject.dto.MemberDTO"/>
+		<typeAlias type="com.icia.lastproject.dto.MemberDTO" alias="member"/>
+		<typeAlias type="com.icia.lastproject.dto.PageDTO" alias="page"/>
+		<typeAlias type="com.icia.lastproject.dto.GroupBuyDTO" alias="groupbuy"/>
+		<typeAlias type="com.icia.lastproject.dto.CategoryDTO" alias="category"/>
+		<typeAlias type="com.icia.lastproject.dto.ProductListTempDTO" alias="plist"/>
+		<typeAlias type="com.icia.lastproject.dto.ProductDTO" alias="product"/>
+		<typeAlias type="com.icia.lastproject.dto.ProductListDTO" alias="productlist"/>
+		<typeAlias type="com.icia.lastproject.dto.CartDTO" alias="Cart"/>
+		<typeAlias type="com.icia.lastproject.dto.PagingDTO" alias="paging"/>
+		<typeAlias type="com.icia.lastproject.dto.AuctionDTO" alias="auction"/>
+		<typeAlias type="com.icia.lastproject.dto.AuctionMemberDTO" alias="auctionMember"/>
+		<typeAlias type="com.icia.lastproject.dto.OrderDTO" alias="order"/>
+		<typeAlias type="com.icia.lastproject.dto.AuctionQnADTO" alias="auctionQnA"/>
+		<typeAlias type="com.icia.lastproject.dto.AuctionQnAAnswerDTO" alias="auctionQnAAnswer"/>
 	</typeAliases>
 </configuration>

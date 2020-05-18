@@ -4,13 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -66,6 +62,7 @@ public class MemberService {
 		String loginId = mdao.googleLogin(googleId);
 		if(loginId==null) {
 			mav.setViewName("member/MemberJoinAsk");
+			return mav;
 		} else {
 			MemberDTO googleName = mdao.memberView(googleEmail);
 			name = googleName.getName();
@@ -82,6 +79,7 @@ public class MemberService {
 		String loginId = mdao.facebookLogin(facebookId);
 		if(loginId==null) {
 			mav.setViewName("member/MemberJoinAsk");
+			return mav;
 		} else {
 			MemberDTO facebookName = mdao.memberView(facebookEmail);
 			name = facebookName.getName();
@@ -92,31 +90,56 @@ public class MemberService {
 		return new ModelAndView("redirect:"+url);
 	}
 
-	public ModelAndView memberLogin(MemberDTO member, String url) {
+	public ModelAndView memberLogin(MemberDTO member, String url) throws java.text.ParseException {
 		mav = new ModelAndView();
 		String loginId = null;
 		String name = null;
 		int loginIdDivision = 0;
 		String id = member.getId();
+		MemberDTO memberView = mdao.memberView(id);
+		MemberDTO sellerView = mdao.sellerView(id);
 		String blackMemberCheckResult = mdao.blackMemberCheck(id);
 		if(blackMemberCheckResult != null) {
 			mav.setViewName("member/BlackMember");
 			return mav;
-		} else if(member.getDivision()==2) {
+		}
+		if(member.getDivision()==2) {
 			loginId = mdao.sellerLogin(member);
 			loginIdDivision = mdao.sellerIdDivision(member);
-			MemberDTO sellerName = mdao.sellerView(id);
-			name = sellerName.getName();
-		} else {
+//			MemberDTO sellerName = mdao.sellerView(id);
+			name = sellerView.getName();
+			String sellerDate = mdao.sellerDate(id);
+			if(sellerDate != null) {
+				session.setAttribute("name", name);
+				session.setAttribute("loginId", loginId);
+				session.setAttribute("loginIdDivision", loginIdDivision);
+				session.setAttribute("seller", sellerView);
+				mav.addObject("seller", sellerView);
+				mav.setViewName("member/PasswordChangePlease");
+				return mav;
+			}
+		} else if(member.getDivision()==1){
 			loginId = mdao.memberLogin(member);
 			loginIdDivision = mdao.memberIdDivision(member);
-			MemberDTO memberName = mdao.memberView(id);
-			name = memberName.getName();
+//			MemberDTO memberName = mdao.memberView(id);
+			name = memberView.getName();
+			String memberDate = mdao.memberDate(id);
+			if(memberDate != null) {
+				session.setAttribute("name", name);
+				session.setAttribute("loginId", loginId);
+				session.setAttribute("loginIdDivision", loginIdDivision);
+				session.setAttribute("member", memberView);
+				mav.addObject("member", memberView);
+				mav.setViewName("member/PasswordChangePlease");
+				return mav;
+			}
 		}
 		if(loginId!=null) {
 			session.setAttribute("name", name);
 			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginIdDivision", loginIdDivision);
+			session.setAttribute("member", memberView);
+			session.setAttribute("seller", sellerView);
 		} else {
 			mav.setViewName("member/MemberLoginFail");
 		}
@@ -455,12 +478,42 @@ public class MemberService {
 		}
 		return mav;
 	}
-
+	
+	public ModelAndView memberOldPasswordChange(String id, String password) {
+		mav = new ModelAndView();
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		int memberOldPasswordChangeResult = mdao.memberOldPasswordChange(hash);
+		if(memberOldPasswordChangeResult > 0) {
+			mav.setViewName("member/memberOldPasswordChangeSuccess");
+		} else {
+			mav.setViewName("member/memberOldPasswordChangeFail");
+		}
+		return mav;
+	}
+	
+	public ModelAndView sellerOldPasswordChange(String id, String password) {
+		mav = new ModelAndView();
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("password", password);
+		int sellerOldPasswordChangeResult = mdao.sellerOldPasswordChange(hash);
+		if(sellerOldPasswordChangeResult > 0) {
+			mav.setViewName("member/memberOldPasswordChangeSuccess");
+		} else {
+			mav.setViewName("member/memberOldPasswordChangeFail");
+		}
+		return mav;
+	}
+	
 	public ModelAndView test() {
 		mav = new ModelAndView();
 		mav.setViewName("member/Test");
 		return mav;
 	}
+
+	
 
 
 	

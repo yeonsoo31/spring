@@ -34,21 +34,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		<![endif]-->
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>		
 <script>
-$(document).ready(function() {
-	$(window).bind('mousewheel', function(event) { //마우스휠 감지
-	    if (event.originalEvent.wheelDelta >= 0) { //마우스휠 위로 돌릴때 이벤트
-	        var wheel =event.originalEvent.wheelDelta;
-	    	console.log(wheel);
-	    	console.log('Scroll up');
-	    }
-	    else {  //마우스휠 아래로 돌릴때 이벤트
-	    	 var wheel =event.originalEvent.wheelDelta;
-		    	console.log(wheel);
-	    	console.log('Scroll down');
-	    }
-});
-
-}); 
 </script>
 
 </head>

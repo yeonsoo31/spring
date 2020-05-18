@@ -157,6 +157,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
      		<td><button type="button" onclick="login()" style="width: 254px; height: 30px">로그인</button></td>
     	</tr>
     	<tr>
+    		<td><button type="button" onclick="location.href='termsOfService'" style="width: 254px; height: 30px">회원가입</button></td>
+    	</tr>
+    	<tr>
 	    	<td style="text-align:center;"><a href="#" onclick="javascript: idFind(); return false;">아이디 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="javascript: passwordFind(); return false;">비밀번호 찾기</a></td>
 	    </tr>
 	    <tr>

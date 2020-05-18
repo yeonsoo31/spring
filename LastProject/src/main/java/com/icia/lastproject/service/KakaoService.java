@@ -49,6 +49,7 @@ public class KakaoService {
 		MemberDTO member = mdao.kakaoLogin(kakaoId);
 		if(member==null) {
 			mav.setViewName("member/MemberJoinAsk");
+			return mav;
 		} else {
 		MemberDTO kakaoName = mdao.memberView(kakaoEmail);
 		name = kakaoName.getName();

@@ -33,50 +33,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		<![endif]-->
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>		
    <script type="text/javascript">
-        window.onload = function () {
-            var elm = ".box";
-            $(elm).each(function (index) {
-                // 개별적으로 Wheel 이벤트 적용
-                $(this).on("mousewheel DOMMouseScroll", function (e) {
-                    e.preventDefault();
-                    var delta = 0;
-                    if (!event) event = window.event;
-                    if (event.wheelDelta) {
-                        delta = event.wheelDelta / 120;
-                        if (window.opera) delta = -delta;
-                    } 
-                    else if (event.detail)
-                        delta = -event.detail / 3;
-                    var moveTop = $(window).scrollTop();
-                    var elmSelecter = $(elm).eq(index);
-                    // 마우스휠을 위에서 아래로
-                    if (delta < 0) {
-                        if ($(elmSelecter).next() != undefined) {
-                            try{
-                                moveTop = $(elmSelecter).next().offset().top;
-                                $(elmSelecter).next().addClass('move'); //  휠 내렸을시 애니메이션 이벤트
-                            }catch(e){}
-                        }
-                    // 마우스휠을 아래에서 위로
-                    } else {
-                        if ($(elmSelecter).prev() != undefined) {
-                            try{
-                                moveTop = $(elmSelecter).prev().offset().top;
-                                
-                            }catch(e){}
-                        }
-                    }
-                     
-                    // 화면 이동 0.8초(800)
-                    $("html,body").stop().animate({
-                        scrollTop: moveTop + 'px'
-                    }, {
-                        duration: 800, complete: function () {
-                        }
-                    });
-                });
-            });
-        }
         
         function imgArea1over(){
             document.getElementById("imgArea1").style.backgroundImage = "url('/lastproject/resources/img/banner04.jpg')";        		
@@ -109,7 +65,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         	document.getElementById("imgArea5").style.backgroundImage = "";
         }
     </script>
-
 <script>
 	if(self.name != 'reload'){
 		self.name = 'reload';
@@ -130,7 +85,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="goMain">
+						<a class="logo" href="#">
 							<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
 						</a>
 					</div>
@@ -165,7 +120,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
@@ -182,7 +137,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
@@ -215,8 +170,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 							<ul class="menu-list">
 								<li><a href="productlistpage">일반상품</a></li>
-								<li><a href="#">경매상품</a></li>
-								<li><a href="#">인기상품</a></li>
+								<li><a href="auctionList">경매상품</a></li>
+								<li><a href="imgtest">인기상품</a></li>
 							</ul>
 						</div>
 						<!-- menu nav -->
@@ -229,7 +184,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 			<div class="Main-img-area-1" onMouseOver="imgArea1over()" id="imgArea1" onMouseOut="imgArea1out()">
 				<div class="Main-text-area">
 					<h1>일반 상품</h1> <br>
-					<a href="#">일반 상품 보러가기</a>
+					<a href="productlistpage">일반 상품 보러가기</a>
 				</div>
 			</div>
 			<div class="Main-img-area-2" onMouseOver="imgArea2over()" id="imgArea2" onMouseOut="imgArea2out()">

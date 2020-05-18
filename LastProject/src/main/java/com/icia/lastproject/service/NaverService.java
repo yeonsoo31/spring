@@ -39,6 +39,7 @@ public class NaverService {
 		MemberDTO naverMember = mdao.naverLogin(naverId);
 		if(naverMember==null) {
 			mav.setViewName("member/MemberJoinAsk");
+			return mav;
 		} else {
 		MemberDTO naverName = mdao.memberView(naverEmail);
 		name = naverName.getName();

@@ -9,7 +9,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
 	<title>E-SHOP HTML Template</title>
+
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 	<!-- Bootstrap -->
@@ -31,24 +33,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		<![endif]-->
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>		
 <script>
-$(document).ready(function() {
-	$(window).bind('mousewheel', function(event) { //마우스휠 감지
-	    if (event.originalEvent.wheelDelta >= 0) { //마우스휠 위로 돌릴때 이벤트
-	        var wheel =event.originalEvent.wheelDelta;
-	    	console.log(wheel);
-	    	console.log('Scroll up');
-	    }
-	    else {  //마우스휠 아래로 돌릴때 이벤트
-	    	 var wheel =event.originalEvent.wheelDelta;
-		    	console.log(wheel);
-	    	console.log('Scroll down');
-	    }
-});
-
-});
-
-</script>
-<script>
 	if(self.name != 'reload'){
 		self.name = 'reload';
 		self.location.reload(true);
@@ -56,6 +40,7 @@ $(document).ready(function() {
 		self.name = '';
 	}
 </script>
+
 </head>
 
 
@@ -76,8 +61,8 @@ $(document).ready(function() {
 
 					<!-- Search -->
 					<div class="header-search">
-						<form>
-							<input class="input search-input" type="text" placeholder="검색창">
+						<form action="serch"  method="post" >
+							<input class="input search-input" type="text" placeholder="검색창" id="serch" name="serch">
 							<button class="search-btn"><i class="fa fa-search"></i></button>
 						</form>
 					</div>
@@ -103,7 +88,7 @@ $(document).ready(function() {
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="cartList"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberList"><i class="fa fa-user-o"></i> 회원목록</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
@@ -120,8 +105,8 @@ $(document).ready(function() {
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
@@ -167,14 +152,6 @@ $(document).ready(function() {
 	</div>
 	<!-- /NAVIGATION -->
 	<!-- 현재 페이지 목록 쓰면될거같습니당 -->
-<div id="breadcrumb">
-		<div class="container">
-			<ul class="breadcrumb">
-				<li><a href="#">현재 페이지 목록(대메뉴)</a></li>
-				<li class="active">현재 페이지 목록(소메뉴)</li>
-			</ul>
-		</div>
-	</div>
 	<!-- 가운데 영역 -->
 		<div class="container">
 			<!-- row -->

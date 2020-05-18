@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Product"> 
+	
+	<insert id="listinsert" parameterType="plist">
+ 		INSERT INTO product_temp(option1,option2,saleprice,stock)
+		VALUES(#{color},#{size},#{saleprice},#{stock})
+ 	</insert>
+ 	<insert id="productinset" parameterType="product">
+ 		INSERT INTO PRODUCT (PRODUCTNO,ID,CATEGORYNO,PRICE,EXPLANATION,HIT,PHOTO1,PHOTO2,PHOTO3,TRADE_NAME)
+ 		VALUES(PRODUCT_SEQ.NEXTVAL,#{id},#{categoryno},#{price},#{explanation},0,#{photo1},#{photo2},#{photo3},#{trade_name})
+ 	</insert>
+ 	<insert id="productListInsert" >
+ 	 insert into productlist
+ 		select a.*,'',option1,option2,'','',stock,'',saleprice,'',productlist_seq.nextval
+   from (
+           SELECT max(productno)
+            FROM PRODUCT
+        ) a
+        , product_temp b
+ 	</insert>
+ 	<select id="productList" parameterType="page" resultType="product">
+ 	  select *
+    from (
+          select a.* , ROW_NUMBER() OVER(ORDER BY productno asc) AS RN
+            from product a
+            )
+  where rn between #{startrow} and #{endrow}
+ 	</select>
+ 	<select id="pageCount" resultType="int">
+ 	  select count(1)
+   		 from product
+ 	</select>
+ 	<delete id="deleteList">
+ 		delete from product_temp
+ 	</delete>
+ 	<select id ="ProductView" resultType="product">
+ 		select * from product where productno = #{number}
+ 	</select>
+ 	<select id ="ProductListView" resultType="productlist">
+ 		select * from productList where productno = #{number}
+ 	</select>
+ 	<select id ="ProductPriceAjax" parameterType="int" resultType="Integer">
+ 		 select (a.price+b.saleprice) as price
+		   from product a
+		      , 
+		    (select productno, saleprice
+		      from productlist
+		     where listno = #{num}) b
+		 where a.productno = b.productno
+ 	</select>
+ 	<insert id="CartInsert" parameterType="map" >
+ 	insert into cart
+ 	select #{userid}, id as saleid,a.productno,b.listno, a.photo1, a.trade_name, ((a.price+b.saleprice)*#{cur}) as price, option1,option2,stock,saleprice,#{cur},cart_seq.nextval as cartno
+	  from product a
+	     , productlist b
+	 where a.productno =  b.productno
+	   and a.productno = #{productno}
+	   and listno = #{listno}
+ 	</insert>
+ 	<select id="CartView" parameterType="String" resultType="Cart">
+ 		select * from cart where id = #{userid}
+ 	</select>
+ 	<select id="productModifyForm" parameterType="int" resultType="product">
+ 		select * from product where productno = #{productno}
+ 	</select>
+ 	<select id="productListModifyForm" parameterType="int" resultType="productlist">
+ 		select * from productlist where productno = #{productno}
+ 	</select>
+ 	<update id="productModify1" parameterType="product">
+ 	  update product
+	     set price = #{price}
+	       , explanation = #{explanation}
+	       , trade_name = #{trade_name}
+	       , photo1 = #{photo1}
+	       , photo2 = ''
+	       , photo3 = ''
+	   where productno = #{productno}
+ 	</update>
+ 	<update id="productModify2" parameterType="product">
+ 	  update product
+	     set price = #{price}
+	       , explanation = #{explanation}
+	       , trade_name = #{trade_name}
+	       , photo1 = #{photo1}
+	       , photo2 = #{photo2}
+	       , photo3 = ''
+	   where productno = #{productno}
+ 	</update>
+ 	<update id="productModify3" parameterType="product">
+ 	  update product
+	     set price = #{price}
+	       , explanation = #{explanation}
+	       , trade_name = #{trade_name}
+	       , photo1 = #{photo1}
+	       , photo2 = #{photo2}
+	       , photo3 = #{photo3}
+	   where productno = #{productno}
+ 	</update>
+ 	<delete id="productDelete" parameterType="int">
+ 		delete from product where productno = #{productno}
+ 	</delete>
+ 	<delete id="productListDalete" parameterType="int">
+ 		delete from productlist where productno = #{productno}
+ 	</delete>
+ 	<select id="Order" parameterType="java.util.List" resultType="Cart">
+ 		select *
+ 		  from cart
+ 		 where cartno in
+ 		 <foreach collection="list" item="item" open="(" close=")" separator=",">
+ 		 	#{item.value}
+ 		 </foreach>
+ 	</select>
+ 	<select id="OrderUser" parameterType="String" resultType="member">
+ 	select *
+ 	  from member
+ 	 where id = #{userid}
+ 	</select>
+ 	<select id="ScrollCount" parameterType="int" resultType="int">
+ 	select count(1)
+ 	  from product
+ 	 where categoryno = #{categoryno}
+ 	</select>
+ 	<select id="ScrollSelect" parameterType="page" resultType="product">
+  select *
+    from (
+          select a.* , ROW_NUMBER() OVER(ORDER BY productno DESC) AS RN
+            from product a
+           where categoryno = #{categoryno}
+            )
+  where rn between #{startrow} and #{endrow}
+ 	</select>
+ 	<select id="Serch" parameterType="String" resultType="product">
+ 	select *
+ 	  from product
+ 	 where trade_name like '%'||#{serch}||'%'
+ 	</select>
+ 	<update id="HitUpdate" parameterType="int">
+ 		update product
+ 		   set hit = hit+1
+ 		 where productno = #{number}
+ 	</update>
+ 	<select id="productList1" resultType="product">
+select *
+  from (
+      select *
+        from product
+      where categoryno = '1'
+    order by 1 desc
+        )
+   where rownum between '1' and '4'
+ 	</select>
+ 	 	<select id="productList2" resultType="product">
+select *
+  from (
+      select *
+        from product
+      where categoryno = '2'
+    order by 1 desc
+        )
+   where rownum between '1' and '4'
+ 	</select>
+ 	 	<select id="productList3" resultType="product">
+select *
+  from (
+      select *
+        from product
+      where categoryno = '3'
+    order by 1 desc
+        )
+   where rownum between '1' and '4'
+ 	</select>
+ 	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -11,7 +11,7 @@
 <script language="javascript">
 	function doubleCheck() {
 		var re_id = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-		var re_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+		var re_password = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,15}$/;
 		var re_name = /^[가-힝a-zA-Z]{2,}$/;
 		var re_phone = /^\d{3}-\d{3,4}-\d{4}$/;
 		var s_name = document.getElementById("s_name");
@@ -69,7 +69,7 @@
 			return false;
 		}
 		if(!re_password.test(password.value)) {
-			alert("8~16자리 영문,숫자,특수문자의 조합으로 만들어주세요");
+			alert("최소 1개의 숫자 혹은 특수문자를 포함시켜주세요");
 			return false;
 		}
 		// 비밀번호 확인 유효성

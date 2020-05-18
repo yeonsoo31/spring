@@ -165,4 +165,22 @@ public class MemberDAO {
 		return sql.selectOne("Member.blackMemberCheck", id);
 	}
 
+	public String memberDate(String id) {
+		return sql.selectOne("Member.memberDate", id);
+	}
+	
+	public String sellerDate(String id) {
+		return sql.selectOne("Member.sellerDate", id);
+	}
+
+	public int memberOldPasswordChange(HashMap<String, Object> hash) {
+		return sql.update("Member.memberOldPasswordChange", hash);
+	}
+
+	public int sellerOldPasswordChange(HashMap<String, Object> hash) {
+		return sql.update("Member.sellerOldPasswordChange", hash);
+	}
+
+
+
 }

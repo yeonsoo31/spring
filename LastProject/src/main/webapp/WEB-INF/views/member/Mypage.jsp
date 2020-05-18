@@ -36,6 +36,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
 		var popupY= (window.screen.height / 2) - (200 / 2);
 		//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+		var password = ""
 		window.open('memberPasswordModifyForm', '회원 비밀번호 변경', 'status=no, width=460, height=200, left='+ popupX + ', top='+ popupY);
 	}
 	function sellerPasswordModifyForm(){

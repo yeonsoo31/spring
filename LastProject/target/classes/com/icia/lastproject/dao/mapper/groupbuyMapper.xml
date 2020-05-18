@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="GroupBuy">
+ 	<insert id="groupBuyingAdd" parameterType="groupBuy">
+ 		INSERT INTO GROUP_BUY(G_NUMBER,ID,CATEGORYNO,G_PRICE,G_NAME,G_HIT,G_PHOTO1NAME,G_PHOTO2NAME,G_PHOTO3NAME,G_EXPLANATION,G_PERSON, G_DEADLINE)
+ 			VALUES(GROUP_SEQ.nextval, #{id}, 2, #{g_price}, #{g_name}, 0, #{g_photo1name}, #{g_photo2name}, #{g_photo3name}, #{g_explanation},#{g_person}, TO_DATE(#{g_deadline}, 'YYYY-MM-DD HH24:MI:SS'))
+ 	</insert>
+
+ 	<select id="listCount" resultType="int">
+ 		SELECT COUNT(*) FROM GROUPBUYLISTVIEW
+ 	</select>
+
+	<select id = "groupBuyListPaging" parameterType="page" resultType="groupBuy">
+ 		SELECT * FROM GROUPBUYLISTVIEW WHERE RN BETWEEN #{startrow} AND #{endrow}
+ 	</select>
+
+	<update id="groupBuyHit" parameterType="int">
+		UPDATE GROUP_BUY SET G_HIT
+		= G_HIT+1 WHERE g_number = #{g_number}
+	</update>
+
+	<select id="groupBuyView" parameterType="Integer"
+		resultType="groupBuy">
+		SELECT * FROM GROUP_BUY WHERE G_NUMBER = #{g_number}
+	</select>
+
+ </mapper>

@@ -22,22 +22,22 @@
 	
 	<insert id="googleJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
-		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', '', '', #{googleId}, #{profile})
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', '', '', #{googleId}, #{profile})
  	</insert>
  	
  	<insert id="facebookJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
-		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', '', #{facebookId}, '', #{profile})
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', '', #{facebookId}, '', #{profile})
  	</insert>
  	
  	<insert id="kakaoJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
-		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', #{kakaoId}, '', '', #{profile})
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', #{kakaoId}, '', '', #{profile})
  	</insert>
  	
  	<insert id="naverJoin" parameterType="member">
  		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
-		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, #{naverId}, '', '', '', #{profile})
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', #{naverId}, '', '', '', #{profile})
  	</insert>
 	
  	<insert id="memberJoin" parameterType="member">
@@ -165,6 +165,22 @@
  	<select id="blackMemberCheck" parameterType="String" resultType="String">
  		SELECT ID FROM (SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND DIVISION=4 UNION ALL SELECT ID FROM MEMBER WHERE ID=#{id} AND DIVISION =3) GROUP BY ID
  	</select>
+ 	
+ 	<select id="memberDate" parameterType="String" resultType="String">
+ 		<![CDATA[SELECT CHANGE_DATE FROM MEMBER WHERE ID = #{id} AND CHANGE_DATE < TO_CHAR(SYSDATE, 'YYYYMMDD')]]> 
+ 	</select>
+ 	
+ 	<select id="sellerDate" parameterType="String" resultType="String">
+ 		<![CDATA[SELECT CHANGE_DATE FROM MEMBER_SALES WHERE ID = #{id} AND CHANGE_DATE < TO_CHAR(SYSDATE, 'YYYYMMDD')]]> 
+ 	</select>
+ 	
+ 	<update id="memberOldPasswordChange" parameterType="map">
+ 		UPDATE MEMBER SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90  WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<update id="sellerOldPasswordChange" parameterType="map">
+ 		UPDATE MEMBER_SALES SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90  WHERE ID=#{id}
+ 	</update>
  	
  </mapper>
  

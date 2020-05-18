@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Auction"> 
+ 	<select id="listCount" resultType="int">
+ 		SELECT COUNT(*) FROM AUCTION
+ 	</select>
+ 	
+ 	<select id="auctionList" parameterType="paging" resultType="auction">
+ 		SELECT * FROM AUCTIONLIST WHERE RN BETWEEN #{startRow} AND #{endRow}
+ 	</select>
+ 	
+ 	<insert id="auctionAdd" parameterType="auction">
+ 		INSERT INTO AUCTION(A_NUMBER,A_NAME,ID,A_INFORMATION,A_PRICE,A_DATE,A_HIT,A_PHOTO,A_PHOTO1,A_PHOTO2)
+ 			VALUES(AUCTION_SEQ.NEXTVAL,#{a_name},#{id},#{a_information},#{a_price},SYSDATE+#{a_date},0,#{a_photo},#{a_photo1},#{a_photo2})
+ 	</insert>
+ 	
+ 	<insert id="auctionAdd1" parameterType="auction">
+ 		INSERT INTO AUCTION(A_NUMBER,A_NAME,ID,A_INFORMATION,A_PRICE,A_DATE,A_HIT,A_PHOTO,A_PHOTO1,A_PHOTO2)
+ 			VALUES(AUCTION_SEQ.NEXTVAL,#{a_name},#{id},#{a_information},#{a_price},SYSDATE+#{a_date},0,#{a_photo},#{a_photo1},'')
+ 	</insert>
+ 	
+ 	<insert id="auctionAdd2" parameterType="auction">
+ 		INSERT INTO AUCTION(A_NUMBER,A_NAME,ID,A_INFORMATION,A_PRICE,A_DATE,A_HIT,A_PHOTO,A_PHOTO1,A_PHOTO2)
+ 			VALUES(AUCTION_SEQ.NEXTVAL,#{a_name},#{id},#{a_information},#{a_price},SYSDATE+#{a_date},0,#{a_photo},'','')
+ 	</insert>
+ 	
+ 	<select id="auctionView" parameterType="int" resultType="auction">
+ 		SELECT * FROM AUCTION WHERE A_NUMBER=#{a_number}
+ 	</select>
+ 	
+ 	<update id="bidding" parameterType="map">
+ 		UPDATE AUCTION SET A_PRICE=#{a_price} WHERE A_NUMBER=#{a_number}
+ 	</update>
+ 	
+ 	<update id="auctionModify" parameterType="auction">
+ 		UPDATE AUCTION SET A_NAME=#{a_name}, A_INFORMATION=#{a_information}, A_PHOTO=#{a_photo}, A_PHOTO1='', A_PHOTO2='' WHERE A_NUMBER=#{a_number}
+ 	</update>
+ 	
+ 	<update id="auctionModify1" parameterType="auction">
+ 		UPDATE AUCTION SET A_NAME=#{a_name}, A_INFORMATION=#{a_information}, A_PHOTO=#{a_photo}, A_PHOTO1=#{a_photo1}, A_PHOTO2='' WHERE A_NUMBER=#{a_number}
+ 	</update>
+ 	
+ 	<update id="auctionModify2" parameterType="auction">
+ 		UPDATE AUCTION SET A_NAME=#{a_name}, A_INFORMATION=#{a_information}, A_PHOTO=#{a_photo}, A_PHOTO1=#{a_photo1}, A_PHOTO2=#{a_photo2} WHERE A_NUMBER=#{a_number}
+ 	</update>
+ 	
+ 	<delete id="auctionDelete" parameterType="int">
+ 		DELETE AUCTION WHERE A_NUMBER=#{a_number}
+ 	</delete>
+ 	
+ 	<insert id="payment" parameterType="order">
+ 		INSERT INTO AUCTIONORDER(O_NUMBER,ID,A_NUMBER,O_NAME,O_PHONE,O_ADDRESS)
+ 			VALUES(AUCTIONORDER_SEQ.NEXTVAL,#{id},#{a_number},#{o_name},#{o_phone},#{o_address})
+ 	</insert>
+ 	
+ 	<select id="auctionQnA" parameterType="paging" resultType="auctionQnA">
+ 		SELECT Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE FROM
+          (SELECT Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE,ROW_NUMBER() OVER(ORDER BY Q_NUMBER DESC) AS RN
+          FROM AUCTIONQNA WHERE A_NUMBER=#{a_number}) WHERE RN BETWEEN #{startRow} AND #{endRow}
+ 	</select>
+ 	
+ 	<select id="countQnA" parameterType="int" resultType="int">
+ 		SELECT COUNT(*) FROM AUCTIONQNA WHERE A_NUMBER=#{a_number}
+ 	</select>
+ 	
+ 	<select id="auctionQnAAnswer" resultType="auctionQnAAnswer">
+ 		SELECT * FROM AUCTIONQNAANSWER
+ 	</select>
+ 	
+ 	<insert id="auctionQnAWrite" parameterType="auctionQnA">
+ 		INSERT INTO AUCTIONQNA(Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE)
+ 			VALUES(AUCTIONQNA_SEQ.NEXTVAL,#{id},#{a_number},#{s_id},#{q_contents},SYSDATE)
+ 	</insert>
+
+ </mapper>

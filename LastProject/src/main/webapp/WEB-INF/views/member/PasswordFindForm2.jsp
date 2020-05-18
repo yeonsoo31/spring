@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +10,7 @@
 <script>
 	function doubleCheck(){
 		var re_password = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,15}$/;
+		var memberOldPassword = document.getElementById("memberOldPassword");
 		var password = document.getElementById("password");
 		var passwordCheck = document.getElementById("passwordCheck");
 		if((password.value) == "") {
@@ -17,6 +20,11 @@
 		}
 		if(!re_password.test(password.value)) {
 			alert("최소 1개의 숫자 혹은 특수문자를 포함시켜주세요");
+			return false;
+		}
+		if(memberOldPassword.value == password.value){
+			alert("이전과 다른 비밀번호를 입력해주세요");
+			password.focus();
 			return false;
 		}
 		// 비밀번호 확인 유효성
@@ -37,6 +45,7 @@
 <body>
 	<form action="newPassword" method="post" onsubmit="return doubleCheck()">
 		아이디 : <input type="text" name="id" value="${findEmail}" readonly><br>
+		<input type="hidden" id="memberOldPassword" value="${sessionScope.member.password}">
 		새 비밀번호 : <input type="password" id="password" name="password"><br>
 		비밀번호 확인 : <input type="password" id="passwordCheck" name="passwordCheck"><br>
 	<input type="submit" value="확인">&nbsp;<button type="button" onclick="window.close()">닫기</button>

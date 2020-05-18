@@ -23,7 +23,6 @@
 	</repositories>
 
 	<dependencies>
-	
 	<!-- 카카오 로그인 -->
 	 <!-- httpcore(카카오) -->
         <dependency>
