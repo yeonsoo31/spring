@@ -105,6 +105,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
+								<li><a href="test"><i class="fa fa-user-o"></i> 테스트</a></li>
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
 								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>

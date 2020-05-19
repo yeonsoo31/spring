@@ -151,11 +151,11 @@
  	</select>
  	
  	<update id="newPassword" parameterType="map">
- 		UPDATE MEMBER SET PASSWORD=#{password} WHERE ID=#{id}
+ 		UPDATE MEMBER SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90 WHERE ID=#{id}
  	</update>
  	
  	<update id="newSellerPassword" parameterType="map">
- 		UPDATE MEMBER_SALES SET PASSWORD=#{password} WHERE ID=#{id}
+ 		UPDATE MEMBER_SALES SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90 WHERE ID=#{id}
  	</update>
  	
  	<select id="emailCheck" parameterType="String" resultType="String">
@@ -181,6 +181,10 @@
  	<update id="sellerOldPasswordChange" parameterType="map">
  		UPDATE MEMBER_SALES SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90  WHERE ID=#{id}
  	</update>
+ 	
+ 	<select id="memberAddress" parameterType="String" resultType="String">
+ 		SELECT ADDRESS FROM MEMBER WHERE ID = #{id}
+ 	</select>
  	
  </mapper>
  

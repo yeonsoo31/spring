@@ -181,6 +181,10 @@ public class MemberDAO {
 		return sql.update("Member.sellerOldPasswordChange", hash);
 	}
 
+	public String memberAddress(String id) {
+		return sql.selectOne("Member.memberAddress", id);
+	}
+
 
 
 }

@@ -96,6 +96,13 @@ public class MemberService {
 		String name = null;
 		int loginIdDivision = 0;
 		String id = member.getId();
+		String memberAddress = mdao.memberAddress(id);
+		String[] array = memberAddress.split("/");
+		member.setAddress1(array[0]);
+		member.setAddress2(array[1]);
+		member.setAddress3(array[2]);
+		member.setAddress4(array[3]);
+		session.setAttribute("memberAddress", member.getAddress2());
 		MemberDTO memberView = mdao.memberView(id);
 		MemberDTO sellerView = mdao.sellerView(id);
 		String blackMemberCheckResult = mdao.blackMemberCheck(id);
