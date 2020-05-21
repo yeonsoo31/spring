@@ -6,6 +6,7 @@ import lombok.Data;
 public class OrderDTO {
 	private int a_number;
 	private String id;
+	private String s_id;
 	private String o_name;
 	private String o_phone;
 	private String o_address;

@@ -51,14 +51,14 @@
  	</delete>
  	
  	<insert id="payment" parameterType="order">
- 		INSERT INTO AUCTIONORDER(O_NUMBER,ID,A_NUMBER,O_NAME,O_PHONE,O_ADDRESS)
- 			VALUES(AUCTIONORDER_SEQ.NEXTVAL,#{id},#{a_number},#{o_name},#{o_phone},#{o_address})
+ 		INSERT INTO AUCTIONORDER(O_NUMBER,ID,A_NUMBER,S_ID,O_NAME,O_PHONE,O_ADDRESS)
+ 			VALUES(AUCTIONORDER_SEQ.NEXTVAL,#{id},#{a_number},#{s_id},#{o_name},#{o_phone},#{o_address})
  	</insert>
  	
  	<select id="auctionQnA" parameterType="paging" resultType="auctionQnA">
  		SELECT Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE FROM
-          (SELECT Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE,ROW_NUMBER() OVER(ORDER BY Q_NUMBER DESC) AS RN
-          FROM AUCTIONQNA WHERE A_NUMBER=#{a_number}) WHERE RN BETWEEN #{startRow} AND #{endRow}
+ 			(SELECT Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE,ROW_NUMBER() OVER(ORDER BY Q_NUMBER DESC) AS RN
+ 			FROM AUCTIONQNA WHERE A_NUMBER=#{a_number}) WHERE RN BETWEEN #{startRow} AND #{endRow}
  	</select>
  	
  	<select id="countQnA" parameterType="int" resultType="int">
@@ -72,6 +72,11 @@
  	<insert id="auctionQnAWrite" parameterType="auctionQnA">
  		INSERT INTO AUCTIONQNA(Q_NUMBER,ID,A_NUMBER,S_ID,Q_CONTENTS,Q_DATE)
  			VALUES(AUCTIONQNA_SEQ.NEXTVAL,#{id},#{a_number},#{s_id},#{q_contents},SYSDATE)
+ 	</insert>
+ 	
+ 	<insert id="auctionQnAAnswerWrite" parameterType="auctionQnAAnswer">
+ 		INSERT INTO AUCTIONQNAANSWER(QA_NUMBER,Q_NUMBER,ID,QA_CONTENTS,QA_DATE)
+ 			VALUES(AUCTIONQNAANSWER_SEQ.NEXTVAL,#{q_number},#{id},#{qa_contents},SYSDATE)
  	</insert>
 
  </mapper>

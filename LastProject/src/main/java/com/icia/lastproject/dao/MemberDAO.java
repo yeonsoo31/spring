@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.icia.lastproject.dto.MemberDTO;
+import com.icia.lastproject.dto.ProductReportDTO;
 
 @Repository
 public class MemberDAO {
@@ -71,6 +72,10 @@ public class MemberDAO {
 	
 	public List<MemberDTO> memberList() {
 		return sql.selectList("Member.memberList");
+	}
+	
+	public List<ProductReportDTO> reportList() {
+		return sql.selectList("Member.reportList");
 	}
 	
 	public List<MemberDTO> sellerList() {
@@ -184,6 +189,16 @@ public class MemberDAO {
 	public String memberAddress(String id) {
 		return sql.selectOne("Member.memberAddress", id);
 	}
+
+	public int deleteSellerProductReport(String id) {
+		return sql.delete("Member.deleteSellerProductReport", id);
+	}
+
+	public int reportDelete(ProductReportDTO productReport) {
+		return sql.delete("Member.reportDelete", productReport);
+	}
+
+
 
 
 

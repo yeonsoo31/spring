@@ -36,6 +36,12 @@
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>	
 <script type="text/javascript">
 // Add contents for max height
+function productPrice(categoryno){
+	location.href="ProductPriceList?categoryno="+categoryno;
+}
+function productHit(categoryno){
+	location.href="ProductHitList?categoryno="+categoryno;
+}
 function comma(num){
 	  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	  }
@@ -126,7 +132,9 @@ $(document).ready(function () {
 				<div class="col-md-12">
 					<div class="section-title">
 						<h2 class="title">상품 목록</h2>
-						<button onclick="productpage()">글쓰기</button>
+						<button class="primary-btn" onclick="productpage()">글쓰기</button>
+						<button class="primary-btn" onclick="productPrice(${categoryno })">가격순 정렬</button>
+						<button class="primary-btn" onclick="productHit(${categoryno })">조회순정렬</button>
 						<input type="hidden" value=${categoryno } id="categoryno">
 					</div>
 				</div>

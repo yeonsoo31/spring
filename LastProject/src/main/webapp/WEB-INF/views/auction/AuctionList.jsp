@@ -60,6 +60,13 @@
 	<jsp:include page="/WEB-INF/views/top.jsp"></jsp:include>
 </div>
 <div class="container">
+<div class="row">
+	<div class="col-md-12">
+	<div class="line" style="padding:10px 0px 0px 0px;">
+		<h3>경매 상품목록</h3>
+	</div>
+	</div>
+	</div>
 		<!-- Product Single -->
 			<c:forEach var="auctionList" items="${auctionList}" varStatus="status">
 			<input type="hidden" id="id${status.index}" value="${auctionList.id}">
@@ -88,7 +95,9 @@
 				</c:forEach>
 				</div>
 				<div class="container">
+					<c:if test="${sessionScope.loginIdDivision eq 2}">
 					<a href="auctionAddForm">상품등록</a>
+					</c:if>
 				<div style="text-align: center;">
 					<c:if test="${paging.page<=1}">
 						[이전]&nbsp;
@@ -116,6 +125,9 @@
 				</div>
 				</div>
 			
+				<div>
+					<jsp:include page="/WEB-INF/views/quick.jsp"></jsp:include>
+				</div>	
 				
 				<div>
 				<jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>

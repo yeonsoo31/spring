@@ -172,7 +172,125 @@ select *
         )
    where rownum between '1' and '4'
  	</select>
+ 	<insert id="Reviewinsert" parameterType="review">
+ 		  insert into review values(review_seq.nextval,#{productno},#{id},#{contents},sysdate,#{rating})
+ 	</insert>
  	
+
+ 	<select id="ReviewCount" parameterType="int" resultType="int">
+ 		select count(1)
+ 		  from review
+ 		 where productno = #{number}
+ 	</select>
+ 	 	<select id="ReviewList" parameterType="page" resultType="review">
+  select *
+    from (
+          select a.* , ROW_NUMBER() OVER(ORDER BY sys_date DESC) AS RN
+            from (
+           select reviewno,productno,id,contents,to_char(sys_date , 'YYYY-MM-dd HH24:mi:ss') as sys_date,rating
+            from review a
+           where productno = #{categoryno}
+           ) a
+            )
+  where rn between #{startrow} and #{endrow}
+ 	</select>
+ 	<select id="ProductPriceList" parameterType="page" resultType="product" >
+ 	  select *
+    from (
+          select a.* , ROW_NUMBER() OVER(ORDER BY price DESC) AS RN
+            from product a
+           where categoryno = #{categoryno}
+            )
+  where rn between #{startrow} and #{endrow}
+ 	</select>
+ 	
+ 		<select id="ProductHitList" parameterType="page" resultType="product" >
+ 	  select *
+    from (
+          select a.* , ROW_NUMBER() OVER(ORDER BY hit DESC) AS RN
+            from product a
+           where categoryno = #{categoryno}
+            )
+  where rn between #{startrow} and #{endrow}
+ 	</select>
+ 	<insert id="QnaInsert" parameterType="qna">
+ 		insert into product_qna
+ 		values(product_qna_seq.nextval,#{productno},#{id},#{contents},sysdate,#{password},#{qnacheck})
+ 	</insert>
+ 	<select id="QnaCount" parameterType="int" resultType="int">
+ 		select count(1) from product_qna where productno = #{productno}
+ 	</select>
+ 	<select id="QnaList" parameterType="page" resultType="qna">
+ 	  select *
+   		 from (
+	          select a.* , ROW_NUMBER() OVER(ORDER BY sys_date DESC) AS RN
+	            from (
+	           select qnano,productno,id,contents,to_char(sys_date , 'YYYY-MM-dd HH24:mi:ss') as sys_date,password,qnacheck
+	            from product_qna a
+	           where productno = #{categoryno}
+	           ) a
+            )
+            where rn between #{startrow} and #{endrow}  
+ 	</select>
+ 	<select id="QnaView" parameterType="qna" resultType="qna">
+ 		select *
+ 		  from product_qna
+ 		 where qnano = #{qnano}
+ 		   and password = #{password}
+ 	</select>
+ 	<select id="ReplyInsert" parameterType="answer">
+ 		insert into product_qna_answer values(qna_answer_SEQ.nextval,#{qnano},#{id},#{contents},sysdate)
+ 	</select>
+ 	<select id="ReplySelect" parameterType="answer" resultType="answer">
+ 		select *
+ 		  from product_qna_answer
+ 		 where qnano = #{qnano}
+ 	</select>
+ 	<select id="ReplyList" parameterType="page" resultType="answer">
+ 	select *
+  from product_qna_answer
+ where qnano in (
+                  select qnano
+                     from (
+                           	  select *
+                             from (
+                                  select a.* , ROW_NUMBER() OVER(ORDER BY sys_date DESC) AS RN
+                                    from (
+                                   select qnano,productno,id,contents,to_char(sys_date , 'YYYY-MM-dd HH24:mi:ss') as sys_date,password,qnacheck
+                                    from product_qna a
+                                   where productno = #{categoryno}
+                                   ) a
+                                )
+                                where rn between #{startrow} and #{endrow}  
+                        )
+                    )
+ 	</select>
+ 	<select id="RereplyList" parameterType="int" resultType="answer">
+ 		select *
+ 		  from product_qna_answer
+ 		 where qnano = #{qnano}
+ 	</select>
+ 	<delete id="CartDel" parameterType="int">
+ 		delete from cart where cartno = #{cartno}
+ 	</delete>
+ 	<select id="CartPrice" parameterType="java.util.List" resultType="cartprice">
+ 	 		select sum(price) price, count(1) count ,max(id) id
+ 	 		  from (
+	 	 		  select *
+	 		  from cart
+	 		 where cartno in
+	 		 <foreach collection="list" item="item" open="(" close=")" separator=",">
+	 		 	#{item.value}
+	 		 </foreach>
+ 		 		)
+ 	</select>
+ 	<select id="productReportCheck" parameterType="productReport" resultType="String">
+ 		SELECT SELLERID FROM PRODUCTREPORT WHERE MEMBERID = #{memberId} AND SELLERID = #{sellerId} AND PRODUCTNO = #{productno} AND TRADE_NAME = #{trade_name} AND REPORTTYPE = #{reporttype}
+ 	</select>
+ 	
+ 	<insert id="productReport" parameterType="productReport">
+ 		INSERT INTO PRODUCTREPORT VALUES (#{memberId}, #{sellerId}, #{productno}, #{trade_name}, #{reporttype})
+ 	</insert>
  </mapper>
  
  

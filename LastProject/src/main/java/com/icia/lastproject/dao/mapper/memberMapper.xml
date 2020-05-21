@@ -98,6 +98,14 @@
 		SELECT * FROM MEMBER WHERE DIVISION=1
 	</select>
 	
+	<select id="reportList" resultType="productReport">
+		SELECT * FROM PRODUCTREPORT
+	</select>
+	
+	<delete id="reportDelete" parameterType="productReport">
+		DELETE FROM PRODUCTREPORT WHERE SELLERID = #{sellerId} AND PRODUCTNO = #{productno} AND TRADE_NAME = #{trade_name} AND REPORTTYPE = #{reporttype}
+	</delete>
+	
 	<select id="sellerList" resultType="member">
 		SELECT * FROM MEMBER_SALES WHERE DIVISION=2
 	</select>
@@ -109,6 +117,10 @@
 	<select id="sellerBlackList" resultType="member">
 		SELECT * FROM MEMBER_SALES WHERE DIVISION=4
 	</select>
+	
+	<delete id="deleteSellerProductReport" parameterType="String">
+		DELETE FROM PRODUCTREPORT WHERE SELLERID = #{id}
+	</delete>
 	
 	<update id="memberBlackListAdd" parameterType="String">
 		UPDATE MEMBER SET DIVISION=3 WHERE ID=#{id}

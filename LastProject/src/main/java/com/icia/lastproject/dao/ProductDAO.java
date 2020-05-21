@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.icia.lastproject.dto.CartDTO;
+import com.icia.lastproject.dto.CartPriceDTO;
 import com.icia.lastproject.dto.MemberDTO;
 import com.icia.lastproject.dto.PageDTO;
+import com.icia.lastproject.dto.ProductAnswerDTO;
 import com.icia.lastproject.dto.ProductDTO;
 import com.icia.lastproject.dto.ProductListDTO;
 import com.icia.lastproject.dto.ProductListTempDTO;
+import com.icia.lastproject.dto.ProductQnaDTO;
+import com.icia.lastproject.dto.ProductReportDTO;
+import com.icia.lastproject.dto.ReviewDTO;
 
 @Repository
 public class ProductDAO {
@@ -145,6 +150,97 @@ public class ProductDAO {
 	public List<ProductDTO> productList3() {
 		return sql.selectList("Product.productList3");
 	}
+	public int ReviewInsert(ReviewDTO review) {
+		return sql.insert("Product.Reviewinsert", review);
+	}
+	public List<ReviewDTO> ReviewSelect(PageDTO paging) {
+		return sql.selectList("Product.ReviewSelect", paging);
+	}
+
+	public int ReviewlistCount(int number) {
+		return sql.selectOne("Product.ReviewCount", number);
+	}
+
+	public List<ReviewDTO> ReviewList(PageDTO paging) {
+		return sql.selectList("Product.ReviewList", paging);
+	}
+
+
+	public List<ProductDTO> productPriceList(PageDTO paging) {
+		return sql.selectList("Product.ProductPriceList", paging);
+	}
+
+
+	public List<ProductDTO> productPriceScorll(PageDTO paging) {
+		return sql.selectList("Product.ProductPriceScroll", paging);
+	}
+
+
+	public List<ProductDTO> productHitList(PageDTO paging) {
+		return sql.selectList("Product.ProductHitList", paging);
+	}
+
+
+	public int qnaInsert(ProductQnaDTO qna) {
+		return sql.insert("Product.QnaInsert", qna);
+	}
+
+	public int QnalistCount(int productno) {
+		return sql.selectOne("Product.QnaCount", productno);
+	}
+	
+	public List<ProductQnaDTO> qnaList(PageDTO paging) {
+		return sql.selectList("Product.QnaList", paging);
+	}
+
+
+	public ProductQnaDTO QnaView(ProductQnaDTO qna) {
+		return sql.selectOne("Product.QnaView", qna);
+	}
+
+
+	public int ReplyInsert(ProductAnswerDTO list) {
+		return sql.insert("Product.ReplyInsert", list);
+	}
+
+
+	public List<ProductAnswerDTO> ReplySelect(ProductAnswerDTO list) {
+		return sql.selectList("Product.ReplySelect", list);
+	}
+
+
+	public List<ProductAnswerDTO> replyList(PageDTO paging) {
+		return sql.selectList("Product.ReplyList", paging);
+	}
+
+
+	public List<ProductAnswerDTO> ReReply(int qnano) {
+		return sql.selectList("Product.RereplyList", qnano);
+	}
+
+
+	public int CartDel(int cartno) {
+		return sql.delete("Product.CartDel", cartno);
+	}
+
+
+	public CartPriceDTO OrderPrice(List<Integer> list) {
+		return sql.selectOne("Product.CartPrice", list);
+	}
+
+
+	public String productReportCheck(ProductReportDTO productReport) {
+		return sql.selectOne("Product.productReportCheck", productReport);
+	}
+
+
+	public int productReport(ProductReportDTO productReport) {
+		return sql.insert("Product.productReport", productReport);
+	}
+
+
+
+	
 
 
 

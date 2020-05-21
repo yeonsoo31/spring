@@ -35,9 +35,6 @@ public class GroupBuyService {
 		MultipartFile photo2 = groupBuy.getPhoto2();
 		MultipartFile photo3 = groupBuy.getPhoto3();
 
-
-//		String savePath = "C:\\Users\\rlatjddn\\Desktop\\ListProject\\source\\servlet\\SynthesisProject\\src\\main\\webapp\\resources\\fileuplode\\";
-//		String savePath = "C:\\Users\\rlatjddn\\Desktop\\ListProject\\src\\main\\webapp\\resources\\fileuplode";
 		if(!photo1.isEmpty()) {
 			photo1.transferTo(new File(savePath+photo1.getOriginalFilename()));
 			groupBuy.setG_photo1name(photo1.getOriginalFilename());

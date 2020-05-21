@@ -47,6 +47,7 @@ public class AuctionService {
 	
 	public static final int PAGE_LIMIT = 8;
 	public static final int QNA_PAGE_LIMIT = 3;
+	public static final int QNA_PAGE_MORT_LIMIT = 6;
 	public static final int BLOCK_LIMIT = 5;
 	public static final String PREFIX_URL = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\fileupload\\";
 
@@ -164,6 +165,8 @@ public class AuctionService {
 		paging.setStartPage(startPage);
 		AuctionDTO auctionView = adao.auctionView(a_number);
 		List<AuctionQnAAnswerDTO> answer = adao.auctionQnAAnswer();
+		AuctionMemberDTO bidMember = amdao.auctionBidMember(a_number);
+		mav.addObject("bidMember", bidMember);
 		mav.addObject("answer", answer);
 		mav.addObject("auctionQnA", auctionQnA);
 		mav.addObject("paging", paging);
@@ -406,20 +409,44 @@ public class AuctionService {
 		
 	}
 
-	public String auctionQnA(AuctionQnADTO auctionQnA) {
-		String resultMsg = null;
+	public List<Object> auctionQnA(AuctionQnADTO auctionQnA, int addpage) {
 		int resultQnA = adao.auctionQnAWrite(auctionQnA);
+		int a_number = auctionQnA.getA_number();
+		List<Object> result = new ArrayList<Object>();
 		if(resultQnA > 0) {
-			resultMsg = "OK";
-		}else {
-			resultMsg = "NO";
+			int startRow = (addpage-1) * QNA_PAGE_LIMIT + 1 ;
+			int endRow = addpage * QNA_PAGE_LIMIT;
+			System.out.println(a_number);
+			System.out.println(addpage);
+			PagingDTO paging = new PagingDTO();
+			paging.setStartRow(startRow);
+			paging.setEndRow(endRow);
+			paging.setA_number(a_number);
+			
+			List<AuctionQnADTO> auctionQnAList = adao.auctionQnA(paging);
+			int listCount = adao.qnaListCount(a_number);
+			
+			int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_LIMIT));
+			int startPage = (((int)(Math.ceil((double) addpage / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1 ;
+			int endPage = startPage + BLOCK_LIMIT - 1 ;
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			paging.setPage(addpage);
+			paging.setMaxPage(maxPage);
+			paging.setEndPage(endPage);
+			paging.setStartPage(startPage);
+			List<AuctionQnAAnswerDTO> auctionQnAAnswer = adao.auctionQnAAnswer();
+			result.add(auctionQnAList);
+			result.add(auctionQnAAnswer);
+			result.add(paging);
 		}
-		return resultMsg;
+		return result;
 	}
 
 	public List<Object> qnaList(int a_number, int addpage) {
-		int startRow = (addpage-1) * QNA_PAGE_LIMIT + 1 ;
-		int endRow = addpage * QNA_PAGE_LIMIT;
+		int startRow = (addpage-1) * QNA_PAGE_MORT_LIMIT + 1 ;
+		int endRow = addpage * QNA_PAGE_MORT_LIMIT;
 		System.out.println(a_number);
 		System.out.println(addpage);
 		PagingDTO paging = new PagingDTO();
@@ -430,17 +457,125 @@ public class AuctionService {
 		List<AuctionQnADTO> auctionQnA = adao.auctionQnA(paging);
 		int listCount = adao.qnaListCount(a_number);
 		
-		int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_LIMIT));
+		int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_MORT_LIMIT));
 		int startPage = (((int)(Math.ceil((double) addpage / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1 ;
 		int endPage = startPage + BLOCK_LIMIT - 1 ;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
 		List<AuctionQnAAnswerDTO> auctionQnAAnswer = adao.auctionQnAAnswer();
-		List<Object> aaaa = new ArrayList<Object>();
-		aaaa.add(auctionQnA);
-		aaaa.add(auctionQnAAnswer);
-		return aaaa;
+		List<Object> collection = new ArrayList<Object>();
+		paging.setPage(addpage);
+		paging.setMaxPage(maxPage);
+		paging.setEndPage(endPage);
+		paging.setStartPage(startPage);
+		collection.add(auctionQnA);
+		collection.add(auctionQnAAnswer);
+		collection.add(paging);
+		return collection;
+	}
+
+	public List<Object> auctionQnAAnswer(AuctionQnAAnswerDTO auctionQnAAnswer, int addPage) {
+		List<Object> collection = new ArrayList<Object>();
+		System.out.println(auctionQnAAnswer.getQa_contents());
+		int answerResult = adao.auctionQnAAnswerWrite(auctionQnAAnswer);
+		int a_number = auctionQnAAnswer.getA_number();
+		if(answerResult > 0) {
+			int startRow = (addPage-1) * QNA_PAGE_LIMIT + 1 ;
+			int endRow = addPage * QNA_PAGE_LIMIT;
+			System.out.println(a_number);
+			System.out.println(addPage);
+			PagingDTO paging = new PagingDTO();
+			paging.setStartRow(startRow);
+			paging.setEndRow(endRow);
+			paging.setA_number(a_number);
+			
+			List<AuctionQnADTO> auctionQnA = adao.auctionQnA(paging);
+			int listCount = adao.qnaListCount(a_number);
+			
+			int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_LIMIT));
+			int startPage = (((int)(Math.ceil((double) addPage / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1 ;
+			int endPage = startPage + BLOCK_LIMIT - 1 ;
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			List<AuctionQnAAnswerDTO> auctionQnAAnswerList = adao.auctionQnAAnswer();
+			paging.setPage(addPage);
+			paging.setMaxPage(maxPage);
+			paging.setEndPage(endPage);
+			paging.setStartPage(startPage);
+			collection.add(auctionQnA);
+			collection.add(auctionQnAAnswerList);
+			collection.add(paging);
+		}
+		return collection;
+	}
+
+	public List<Object> auctionQnAAnswerMoreList(AuctionQnAAnswerDTO auctionQnAAnswer, int addPage) {
+		List<Object> collection = new ArrayList<Object>();
+		System.out.println(auctionQnAAnswer.getQa_contents());
+		int answerResult = adao.auctionQnAAnswerWrite(auctionQnAAnswer);
+		int a_number = auctionQnAAnswer.getA_number();
+		if(answerResult > 0) {
+			int startRow = (addPage-1) * QNA_PAGE_MORT_LIMIT + 1 ;
+			int endRow = addPage * QNA_PAGE_MORT_LIMIT;
+			System.out.println(a_number);
+			System.out.println(addPage);
+			PagingDTO paging = new PagingDTO();
+			paging.setStartRow(startRow);
+			paging.setEndRow(endRow);
+			paging.setA_number(a_number);
+			
+			List<AuctionQnADTO> auctionQnA = adao.auctionQnA(paging);
+			int listCount = adao.qnaListCount(a_number);
+			
+			int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_MORT_LIMIT));
+			int startPage = (((int)(Math.ceil((double) addPage / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1 ;
+			int endPage = startPage + BLOCK_LIMIT - 1 ;
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			paging.setPage(addPage);
+			paging.setMaxPage(maxPage);
+			paging.setEndPage(endPage);
+			paging.setStartPage(startPage);
+			List<AuctionQnAAnswerDTO> auctionQnAAnswerList = adao.auctionQnAAnswer();
+			collection.add(auctionQnA);
+			collection.add(auctionQnAAnswerList);
+			collection.add(paging);
+	}
+		return collection;
+	}
+
+	public List<Object> qnaPaging(int a_number, int qnaPage) {
+		List<Object> collection = new ArrayList<Object>();
+		int startRow = (qnaPage-1) * QNA_PAGE_MORT_LIMIT + 1 ;
+		int endRow = qnaPage * QNA_PAGE_MORT_LIMIT;
+		System.out.println(a_number);
+		System.out.println(qnaPage);
+		PagingDTO paging = new PagingDTO();
+		paging.setStartRow(startRow);
+		paging.setEndRow(endRow);
+		paging.setA_number(a_number);
+		
+		List<AuctionQnADTO> auctionQnA = adao.auctionQnA(paging);
+		int listCount = adao.qnaListCount(a_number);
+		
+		int maxPage = (int)(Math.ceil((double) listCount / QNA_PAGE_MORT_LIMIT));
+		int startPage = (((int)(Math.ceil((double) qnaPage / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1 ;
+		int endPage = startPage + BLOCK_LIMIT - 1 ;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		List<AuctionQnAAnswerDTO> auctionQnAAnswerList = adao.auctionQnAAnswer();
+		paging.setPage(qnaPage);
+		paging.setMaxPage(maxPage);
+		paging.setEndPage(endPage);
+		paging.setStartPage(startPage);
+		collection.add(auctionQnA);
+		collection.add(auctionQnAAnswerList);
+		collection.add(paging);
+		return collection;
 	}
 	
 

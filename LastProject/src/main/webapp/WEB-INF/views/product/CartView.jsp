@@ -162,6 +162,9 @@ function countPlus(e){
 		 console.log(arr);
 		 location.href="Order?arr="+arr;
 	 }
+	 function delCart(e){
+		 location.href="CartDel?cartno="+e;
+	 }
 </script>
 </head>
 
@@ -179,9 +182,9 @@ function countPlus(e){
 		</div>
 	</div>
 	<!-- 가운데 영역 -->
-	<div class="background-color" style="background-color:#eee; height:70%;">
+	<div class="background-color" style="background-color:#eee; padding-bottom:50px;">
 		<div class="col-md-2" style="float: right; background-color: white; height: 50%; margin-top: 3.9%; margin-right: 1%;">
-			<div class="cartArea">
+			<div class="cartArea" style="padding:15px;">
 				<div style="text-align:left; margin-top:5px;border-bottom:1px solid;" >
 					<h4><strong>전체 합계</strong></h4>
 				</div>
@@ -212,19 +215,19 @@ function countPlus(e){
 			</div>
 			 <c:forEach var="result" items="${cart }" varStatus="status">
 			 <input type="hidden" value="${result.cartno}" id="cart${status.index }">
-			<div class="col-md-12" style="height:200px; background-color:white;margin-bottom:30px;" id="count${status.index}">
+			<div class="col-md-12" style="background-color:white; margin-bottom:30px; padding:30px 15px;" id="count${status.index}">
 				<div style="float:right;margin-top: 7%; margin-right: 6%;">
-					<button class="delBtn"><i class="fa fa-close"></i></button>
+					<button class="delBtn" onclick="delCart('${result.cartno}')"><i class="fa fa-close"></i></button>
 				</div>
 				
-				<div class="col-md-10" style="border-bottom:1px solid;">
+				<div class="col-md-10" style="padding-bottom:10px; border-bottom:1px solid #dddddd;">
 					<div class="checks etrans">
 					  <input type="checkbox" id="ex_chk3${status.index}" name="check${status.index}" onclick="checkBox('${status.index}')" class="chBox" value="${result.price }"> 
 					 	 <label for="ex_chk3${status.index}"></label> 
-					  <h3 class="product-name" style="margin-top: 10px;margin-left: 30px;" >${result.saleid }</h3>
+					  <h3 class="product-name" style="display:inline-block;" >${result.saleid }</h3>
 					 </div>
 				</div>
-				<div class="col-md-10">
+				<div class="col-md-10" style="margin-top:20px;">
 					<img src="${pageContext.request.contextPath}/resources/fileupload/${result.photo1}" alt="" style="width:150px; height: 120px; float:left;">
 						<div style="float:left;margin-top:20px;margin-left: 20px">
 							<h4 class="product-name" style="width:400px;">${result.trade_name}</h4>

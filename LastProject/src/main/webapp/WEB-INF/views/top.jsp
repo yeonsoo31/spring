@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -31,16 +32,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>		
-<script>
-	if(self.name != 'reload'){
-		self.name = 'reload';
-		self.location.reload(true);
-	} else {
-		self.name = '';
-	}
-</script>
 
+<script>
+   if(self.name != 'reload'){
+      self.name = 'reload';
+      self.location.reload(true);
+   } else {
+      self.name = '';
+   }
+</script>
 </head>
 
 
@@ -61,8 +61,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
 					<!-- Search -->
 					<div class="header-search">
-						<form action="serch"  method="post" >
-							<input class="input search-input" type="text" placeholder="검색창" id="serch" name="serch">
+						<form>
+							<input class="input search-input" type="text" placeholder="검색창">
 							<button class="search-btn"><i class="fa fa-search"></i></button>
 						</form>
 					</div>
@@ -88,7 +88,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
 								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="cartList"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberList"><i class="fa fa-user-o"></i> 회원목록</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
@@ -105,9 +105,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
+								<li><a href="#"><i class="fa fa-user-o"></i> 마이페이지</a></li>
 								<li><a href="test"><i class="fa fa-user-o"></i> 테스트</a></li>
-								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="cartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
@@ -122,9 +122,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 					</ul>
 				</div>
 			</div>
-		<!-- container -->
+			<!-- header -->
 		</div>
-		<!-- header -->
+		<!-- container -->
 	</header>
 	<!-- /HEADER -->
 
@@ -154,14 +154,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	<!-- /NAVIGATION -->
 	<!-- 현재 페이지 목록 쓰면될거같습니당 -->
 	<!-- 가운데 영역 -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div >
-				
-				</div>
-			</div>
-		</div>
 	<!-- jQuery Plugins -->
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>

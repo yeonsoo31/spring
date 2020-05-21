@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.JsonObject;
 import com.icia.lastproject.dto.AuctionDTO;
 import com.icia.lastproject.dto.AuctionMemberDTO;
+import com.icia.lastproject.dto.AuctionQnAAnswerDTO;
 import com.icia.lastproject.dto.AuctionQnADTO;
 import com.icia.lastproject.dto.OrderDTO;
 import com.icia.lastproject.service.AuctionService;
@@ -124,9 +125,10 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/auctionQnA")
-	public @ResponseBody String auctionQnA(@ModelAttribute AuctionQnADTO auctionQnA) {
-		String resultMsg = auctionService.auctionQnA(auctionQnA);
-		return resultMsg;
+	public @ResponseBody List<Object> auctionQnA(@ModelAttribute AuctionQnADTO auctionQnA,
+										   @RequestParam("addpage") int addpage) {
+		List<Object> result = auctionService.auctionQnA(auctionQnA,addpage);
+		return result;
 	}
 	
 	@RequestMapping(value="/moreList")
@@ -134,5 +136,31 @@ public class AuctionController {
 													 @RequestParam("addpage") int addpage) {
 		List<Object> qnaList = auctionService.qnaList(a_number,addpage);
 		return qnaList;
+	}
+	
+	@RequestMapping(value="/auctionQnAAnswer")
+	public @ResponseBody List<Object> auctionQnAAnswer(@ModelAttribute AuctionQnAAnswerDTO auctionQnAAnswer,
+													   @RequestParam("addPage") int addPage){
+		List<Object> qnaAnswerList = auctionService.auctionQnAAnswer(auctionQnAAnswer,addPage);
+		return qnaAnswerList;
+	}
+	
+	@RequestMapping(value="/auctionQnAAnswerMoreList")
+	public @ResponseBody List<Object> auctionQnAAnswerMoreList(@ModelAttribute AuctionQnAAnswerDTO auctionQnAAnswer,
+															   @RequestParam("addPage") int addPage){
+		List<Object> qnaAnswerList = auctionService.auctionQnAAnswerMoreList(auctionQnAAnswer,addPage);
+		return qnaAnswerList;
+	}
+	
+	@RequestMapping(value="/qnaPaging")
+	public @ResponseBody List<Object> qnaPaging(@RequestParam("a_number") int a_number,
+												@RequestParam("qnaPage") int qnaPage){
+		List<Object> qnaList = auctionService.qnaPaging(a_number,qnaPage);
+		return qnaList;
+	}
+	
+	@RequestMapping(value="/orderSuccess")
+	public String orderSuccess() {
+		return "auction/OrderSuccess";
 	}
 }

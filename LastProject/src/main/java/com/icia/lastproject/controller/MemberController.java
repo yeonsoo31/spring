@@ -400,6 +400,27 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return mav;
 	}
 	
+	@RequestMapping(value="/reportList", method=RequestMethod.GET)
+	public ModelAndView reportList() {
+		mav = memberService.reportList();
+		return mav;
+	}
+	
+	@RequestMapping(value="/reportDelete", method=RequestMethod.POST)
+	public @ResponseBody String reportDelete(@RequestParam("sellerId") String sellerId,
+									 @RequestParam("productno") int productno,
+									 @RequestParam("trade_name") String trade_name,
+									 @RequestParam("reporttype") String reporttype) {
+		String resultMsg = memberService.reportDelete(sellerId, productno, trade_name, reporttype);
+		return resultMsg;
+	}
+	
+	@RequestMapping(value="/reportSellerBlackListAdd", method=RequestMethod.POST)
+	public @ResponseBody String reportSellerBlackListAdd(@RequestParam("id") String id) {
+		String reportSellerBlackListAdd = memberService.reportSellerBlackListAdd(id);
+		return reportSellerBlackListAdd;
+	}
+	
 	@RequestMapping(value="/memberBlackListAdd", method=RequestMethod.POST)
 	public @ResponseBody String memberBlackListAdd(@RequestParam("id") String id) {
 		String memberBlackListAdd = memberService.memberBlackListAdd(id);

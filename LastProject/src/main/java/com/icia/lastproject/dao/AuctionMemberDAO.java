@@ -36,4 +36,8 @@ public class AuctionMemberDAO {
 	public int bidCheck(int a_number) {
 		return sql.selectOne("AuctionMember.bidCheck", a_number);
 	}
+
+	public AuctionMemberDTO auctionBidMember(int a_number) {
+		return sql.selectOne("AuctionMember.auctionBidMember", a_number);
+	}
 }

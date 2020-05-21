@@ -79,4 +79,8 @@ public class AuctionDAO {
 	public int auctionQnAWrite(AuctionQnADTO auctionQnA) {
 		return sql.insert("Auction.auctionQnAWrite", auctionQnA);
 	}
+
+	public int auctionQnAAnswerWrite(AuctionQnAAnswerDTO auctionQnAAnswer) {
+		return sql.insert("Auction.auctionQnAAnswerWrite", auctionQnAAnswer);
+	}
 }

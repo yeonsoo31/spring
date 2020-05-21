@@ -81,6 +81,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		</c:if>
 		<c:if test="${sessionScope.loginIdDivision eq 5}">
 		<button onclick="location.href='memberList'">회원목록조회</button>
+		<button onclick="location.href='reportList'">신고자 목록</button>
 		<button onclick="location.href='noticeList'">공지사항</button>
 		<button onclick="location.href='chart'">통계</button>
 		</c:if>

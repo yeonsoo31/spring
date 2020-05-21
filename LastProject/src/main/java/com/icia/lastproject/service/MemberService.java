@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.lastproject.dao.MemberDAO;
 import com.icia.lastproject.dto.MemberDTO;
+import com.icia.lastproject.dto.ProductReportDTO;
 
 
 @Service
@@ -96,13 +97,6 @@ public class MemberService {
 		String name = null;
 		int loginIdDivision = 0;
 		String id = member.getId();
-		String memberAddress = mdao.memberAddress(id);
-		String[] array = memberAddress.split("/");
-		member.setAddress1(array[0]);
-		member.setAddress2(array[1]);
-		member.setAddress3(array[2]);
-		member.setAddress4(array[3]);
-		session.setAttribute("memberAddress", member.getAddress2());
 		MemberDTO memberView = mdao.memberView(id);
 		MemberDTO sellerView = mdao.sellerView(id);
 		String blackMemberCheckResult = mdao.blackMemberCheck(id);
@@ -243,6 +237,14 @@ public class MemberService {
 		mav.setViewName("member/MemberList");
 		return mav;
 	}
+	
+	public ModelAndView reportList() {
+		mav = new ModelAndView();
+		List<ProductReportDTO> reportList = mdao.reportList();
+		mav.addObject("reportList", reportList);
+		mav.setViewName("member/ReportList");
+		return mav;
+	}
 
 	public ModelAndView sellerJoin(MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
@@ -298,6 +300,17 @@ public class MemberService {
 		int sellerBlackListAddResult = mdao.sellerBlackListAdd(id);
 		String ResultMsg = null;
 		if(sellerBlackListAddResult > 0) {
+			ResultMsg = "OK";
+		} else {
+			ResultMsg = "NO";
+		}
+		return ResultMsg;
+	}
+	public String reportSellerBlackListAdd(String id) {
+		int reportSellerBlackListAddResult = mdao.sellerBlackListAdd(id);
+		String ResultMsg = null;
+		if(reportSellerBlackListAddResult > 0) {
+			mdao.deleteSellerProductReport(id);
 			ResultMsg = "OK";
 		} else {
 			ResultMsg = "NO";
@@ -519,6 +532,26 @@ public class MemberService {
 		mav.setViewName("member/Test");
 		return mav;
 	}
+
+	public String reportDelete(String sellerId, int productno, String trade_name, String reporttype) {
+		String resultMsg = null;
+		ProductReportDTO productReport = new ProductReportDTO();
+		productReport.setSellerId(sellerId);
+		productReport.setProductno(productno);
+		productReport.setTrade_name(trade_name);
+		productReport.setReporttype(reporttype);
+		int reportDeleteResult = mdao.reportDelete(productReport);
+		if(reportDeleteResult > 0) {
+			resultMsg = "OK";
+		} else {
+			resultMsg = "NO";
+		}
+		return resultMsg;
+	}
+
+	
+
+	
 
 	
 

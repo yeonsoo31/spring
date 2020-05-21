@@ -24,5 +24,9 @@
  	<select id="bidCheck" parameterType="int" resultType="int">
  		SELECT COUNT(*) FROM BIDMEMBER WHERE A_NUMBER=#{a_number}
  	</select>
+ 	
+ 	<select id="auctionBidMember" parameterType="int" resultType="auctionMember">
+ 		SELECT * FROM BIDMEMBER WHERE A_NUMBER=#{a_number}
+ 	</select>
  </mapper>
  

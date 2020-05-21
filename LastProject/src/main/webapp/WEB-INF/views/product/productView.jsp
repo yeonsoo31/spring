@@ -27,6 +27,8 @@
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slick-theme.css" />
 	<!-- nouislider -->
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nouislider.min.css" />
+	<!-- popup -->
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layer-pop.css" />
 	<!-- Font Awesome Icon -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 	<!-- Custom stlylesheet -->
@@ -37,6 +39,82 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+	<script src="https://kit.fontawesome.com/d928ba27e6.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+	<script>
+	function productReport(){
+		var id = "${sessionScope.loginId}";
+		if(id==""){
+			alert("로그인이 필요한 서비스입니다");
+		} else {
+			popupOpen();
+			wrapWindowByMask();
+		}
+	}
+	function wrapWindowByMask(){
+		var maskWidth = $(window).width();
+		var maskHeight = $(document).height();
+		$('#mask').css({
+			'width':maskWidth,
+			'height':maskHeight
+		});
+		$('#mask').fadeTo('slow',0.5);
+	}
+	function popupOpen(){
+		$('.layerpop').css("position","absolute");
+		$('.layerpop').css("top",(($(window).height() - $('.layerpop').outerHeight())/2) + $(window).scrollTop());
+	    $('.layerpop').css("left",(($(window).width() - $('.layerpop').outerWidth())/2) + $(window).scrollLeft());
+	    $('.layerpop').draggable();
+	    $('#layerbox').show();
+	}
+	function reportFormClose(){
+		$('#mask').hide();
+		$('#layerbox').hide();
+	}
+	
+	function productReportSubmit(){
+		var memberId = document.getElementById("memberId").value;
+		var sellerId = document.getElementById("sellerId").value;
+		var productno = document.getElementById("productno").value;
+		var trade_name = document.getElementById("trade_name").value;
+		var reporttype = document.getElementById("reporttype").value;
+		console.log(memberId);
+		console.log(sellerId);
+		console.log(productno);
+		console.log(trade_name);
+		console.log(reporttype);
+		if(reporttype==""){
+			alert("신고유형을 선택해주세요");
+			return false;
+		} else {
+		$.ajax({
+			type : "POST",
+			url : "productReportCheck",
+			data : {
+					"memberId" : memberId,
+					"sellerId" : sellerId,
+					"productno" : productno,
+					"trade_name" : trade_name,
+					"reporttype" : reporttype
+					},
+			dataType : "text",
+			success : function(result){
+				if(result=="OK"){
+					alert("해당 판매자는 신고처리 되었습니다");
+					reportFormClose();
+				} else {
+					alert("이미 신고처리 된 판매자입니다");
+					reportFormClose();
+				}
+			},
+			error : function(){
+				console.log("통신 실패!!");
+				alert("통신 실패!!");
+			}
+		});
+		}
+	}
+</script>
 </head>
 <script>
 
@@ -152,8 +230,487 @@
     			location.href="productDelete?productno="+no;
     		}
     	}
+    	
+    	function Review(no){
+    		var number = no;
+    		var rating = $('#starVal').val();
+    		var contents = $('#contents').val();
+    		console.log(rating, contents, number);
+    		$.ajax({
+ 	    		url:'Review',
+ 	    		type:'get',
+ 	    		data:{number:number,
+ 	    			rating:rating,
+ 	    			contents:contents
+ 	    			},
+ 	    		success:function(result){
+ 	    			var content="";
+ 		 			$.each(result, function(i, item){
+ 	    			content +="<div class='single-review'>";
+ 	    			content += "<div class='review-heading'>";
+ 	    			content += "<div><a ><i class='fa fa-user-o'></i>"+ item.id+"</a></div>";
+ 	    			content += "<div><a ><i class='fa fa-clock-o'></i>"+item.sys_date+"</a></div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			if(item.rating==1){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==2){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==3){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==4){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==5){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    			};
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-body'>";
+ 	    			content +="<p>"+item.contents+"</p>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			/* $('#reviewList').append(content); */
+ 	    			});
+ 	    			$('#reviewadd').html(content);
+ 	    	}
+    	});
+ 		$('#contents').val("");
+ 		$('input[name="rating"]').removeAttr('checked');
+
+ 	   }
+    	function ratingval(e){
+    		$('#starVal').val(e); 
+    	}
+    	var page=1;
+    	function pageplus(){
+    		page ++;
+    		var productno = ${product.productno};
+    		console.log(page,productno);
+    		$.ajax({
+ 	    		url:'ReviewAjax',
+ 	    		type:'get',
+ 	    		data:{page:page,
+ 	    			productno:productno},
+ 	    		success:function(result){
+ 	    			var leng = result.length;
+ 	    			console.log(leng);
+ 	    			if(leng ==0){
+ 	    				alert('마지막페이지입니다.')
+ 	    			} else{
+ 	    			var content="";
+ 		 			$.each(result, function(i, item){
+ 	    			content +="<div class='single-review'>";
+ 	    			content += "<div class='review-heading'>";
+ 	    			content += "<div><a ><i class='fa fa-user-o'></i>"+ item.id+"</a></div>";
+ 	    			content += "<div><a ><i class='fa fa-clock-o'></i>"+item.sys_date+"</a></div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			if(item.rating==1){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==2){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==3){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==4){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==5){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    			};
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-body'>";
+ 	    			content +="<p>"+item.contents+"</p>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			/* $('#reviewList').append(content); */
+ 	    			});
+ 		 			};
+ 	    			$('#reviewadd').html(content);
+ 	    		}
+    	});
+   	}
+    	
+    	function pageminus(){
+    		page --;
+    		var productno = ${product.productno};
+    		console.log(page,productno);
+    		$.ajax({
+ 	    		url:'ReviewAjax',
+ 	    		type:'get',
+ 	    		data:{page:page,
+ 	    			productno:productno},
+ 	    		success:function(result){
+ 	    			var leng = result.length;
+ 	    			console.log(leng);
+ 	    			if(leng ==0){
+ 	    				page=1;
+ 	    			} else{
+ 	    			var content="";
+ 		 			$.each(result, function(i, item){
+ 	    			content +="<div class='single-review'>";
+ 	    			content += "<div class='review-heading'>";
+ 	    			content += "<div><a ><i class='fa fa-user-o'></i>"+ item.id+"</a></div>";
+ 	    			content += "<div><a ><i class='fa fa-clock-o'></i>"+item.sys_date+"</a></div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			if(item.rating==1){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==2){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==3){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==4){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star-o empty'></i>";
+ 	    			} else if(item.rating==5){
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    				content += "<i class='fa fa-star'></i>";
+ 	    			};
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-rating pull-right'>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			content += "<div class='review-body'>";
+ 	    			content +="<p>"+item.contents+"</p>";
+ 	    			content += "</div>";
+ 	    			content += "</div>";
+ 	    			/* $('#reviewList').append(content); */
+ 	    			});
+ 	    			};
+ 	    			$('#reviewadd').html(content);
+ 	    		}
+    	});
+    	}
+    	
+    	function ProductQna(no){
+    		var check = $("input:checkbox[name=qnacheck]").is(":checked"); 
+    		if(check ==true){
+    			check=1;
+    		} else{
+    			check=2;
+    		};
+    		var number = no;
+    		var qnacheck = check;
+    		var password =$('#password').val();
+    		var qnacontents = $('#qnacontents').val();
+    		console.log(password, qnacheck,qnacontents, number);
+    		$.ajax({
+ 	    		url:'ProductQna',
+ 	    		type:'get',
+ 	    		data:{number:number,
+ 	    			qnacheck:qnacheck,
+ 	    			password:password,
+ 	    			qnacontents:qnacontents
+ 	    			},
+ 	    		success:function(result){
+ 	    			var QnaContents="";
+ 	    			$.each(result, function(i, item){
+ 	    				if(item.qnacheck==2){
+			   				    QnaContents += "<div class='single-review'>";
+			   			        QnaContents += "<div class='review-heading'>";
+			   			        QnaContents += "<div><a ><i class='fa fa-user-o'></i> "+item.id+"</a></div>";
+			   			        QnaContents += "<div><a ><i class='fa fa-clock-o'></i> "+item.sys_date+"</a></div>";
+			   			        QnaContents += "<div class='review-rating pull-right'>";
+			   			        QnaContents += "</div>";
+			   			        QnaContents += "</div>";
+			   			        QnaContents += "<div class='review-body'>";
+			   			        QnaContents += "<p>"+item.contents+"</p>";
+		 	    			    QnaContents += "<div id='replyAdd"+i+"'>";
+		 	    			    QnaContents += "</div>";
+		 	    			    QnaContents += "<a style='text-align:right; float:right;' onclick='replayShow("+i+")'><i class='fa fa-commenting'> 답글달기</i></a>"
+		 	    			    QnaContents += "<div style='display:none' id='replyArea"+i+"'>";
+		 	    			    QnaContents += "<input style='width:90% ; margin-top:20px;' class='input' type='text' id='answer"+i+"'> ";
+		 	    			    QnaContents += "<button class='primary-btn' onclick="+"qnaanswer('"+item.qnano+"','"+i+"'"+")>"+"저장</button>";
+		  			            QnaContents += "</div>";
+		 	    			    QnaContents += "</div>";
+		 	    			    QnaContents += "</div>";
+		 	    			   var test = rereply(item.qnano,i);
+ 	    				} else if(item.qnacheck==1){
+ 	    				      QnaContents += "<div class='single-review'>";
+ 	    				      QnaContents += "<div id='QnaviewList"+i+"'>";
+ 	    				      QnaContents += "<a onclick="+"qnaview('"+item.qnano+"','"+item.password+"','"+i+"'"+")>"+"<i class='fa fa-lock'></i> 비밀글입니다.</a>";
+ 	    				      QnaContents += "</div>";
+ 	    				      QnaContents += "</div>";
+ 	    				     var test = rereply(item.qnano,i);
+ 	    				} 	    						
+    				});
+ 	    			$('#qnaadd').html(QnaContents);
+ 	    			$('#password').val("");
+ 	    			$('#qnacontents').val("");
+ 	    			$('input[name="qnacheck"]').removeAttr('checked');
+    		}
+    		});
+    		}
+    	
+    	function qnaview(no,pw,index){
+    		var qnano =no;
+    		var inputString = prompt('비밀번호를입력하세요.');
+    		console.log(index);
+    		if(inputString == pw){
+    			$.ajax({
+     	    		url:'QnaView',
+     	    		type:'get',
+     	    		data:{qnano:qnano,
+     	    			inputString:inputString
+     	    			},
+     	    		success:function(result){
+     	    			var QnaContents = "<div class='review-heading'>";
+     	 	    			QnaContents += "<div><a ><i class='fa fa-user-o'></i> "+result.id+"</a></div>";
+     	 	    			QnaContents += "<div><a ><i class='fa fa-clock-o'></i> "+result.sys_date+"</a></div>";
+     	 	    			QnaContents += "<div class='review-rating pull-right'>";
+     	 	    			QnaContents += "</div>";
+     	 	    			QnaContents += "</div>";
+     	 	    			QnaContents += "<div class='review-body'>";
+     	 	    			QnaContents += "<p>"+result.contents+"</p>";
+							QnaContents += "<div id='replyAdd"+index+"'>";
+							QnaContents += "</div>";
+							QnaContents += "<a style='text-align:right; float:right;' onclick='replayShow("+index+")'><i class='fa fa-commenting'> 답글달기</i></a>"
+							QnaContents += "<div style='display:none' id='replyArea"+index+"'>";
+							QnaContents += "<input style='width:90% ; margin-top:20px;' class='input' type='text' id='answer"+index+"'> ";
+							QnaContents += "<button class='primary-btn' onclick="+"qnaanswer('"+result.qnano+"','"+index+"'"+")>"+"저장</button>";
+	     	 	    		QnaContents += "</div>";
+     	 	    			QnaContents += "</div>";
+     	 	    			console.log(QnaContents);
+     	 	    			$('#QnaviewList'+index).html(QnaContents);
+     	 	    			var test = rereply(result.qnano,index);
+							console.log(test);
+        				}
+        		});
+    		} else{
+ 				alert("비밀번호를 다시확인주세요.");
+    		}
+    		
+    	}
+    	
+    	function qnaanswer(no,e){
+    		var qnano = no;
+    		var qnaanswer = $('#answer'+e).val();
+    		console.log(qnaanswer);
+    		$.ajax({
+ 	    		url:'Qnareply',
+ 	    		type:'get',
+ 	    		data:{qnano:qnano,
+ 	    			qnaanswer:qnaanswer
+ 	    			},
+ 	    		success:function(result){
+ 	    			var reply="";
+ 	    			console.log(result);
+ 	    			$.each(result, function(i, item){
+ 	    			reply += "<div class='single-review' style='margin-left:20px;'>";
+ 	    			reply += "<div class='review-heading'>";
+ 	    			reply +="<div><a ><i class='fa fa-user-o'></i>"+ item.id +"</a></div>";
+ 	    			reply +="<div><a ><i class='fa fa-clock-o'></i>"+ item.sys_date +"</a></div>";
+ 	    			reply +="<div class='review-rating pull-right'>";
+ 	    			reply += "</div>";
+ 	    			reply += "</div>";
+ 	    			reply += "<div class='review-body' style='margin-left:20px'>";	
+ 	    			reply += "<p><i class='fas fa-arrow-right'></i>"+item.contents+"</p>"; 
+ 	    			reply += "</div>";
+ 	    			reply += "</div>";
+    				});
+ 	    			$('#replyAdd'+e).html(reply);
+ 	    			$('#answer'+e).val("");
+ 	    			$('#replyArea'+e).hide();
+    		}
+    	})
+    	}
+    	function replayShow(e){
+    		$('#replyArea'+e).show();
+    	}
+    	function rereply(e,a){
+ 			var reply="";
+			var qnano = e;
+    		$.ajax({
+ 	    		url:'QnaRereply',
+ 	    		type:'get',
+ 	    		data:{qnano:qnano
+ 	    			},
+ 	    		success:function(result){
+ 	    			console.log(result);
+ 	    			$.each(result, function(i, item){
+ 	    			reply += "<div class='single-review' style='margin-left:20px;'>";
+ 	    			reply += "<div class='review-heading' >";
+ 	    			reply +="<div><a ><i class='fa fa-user-o'></i>"+ item.id +"</a></div>";
+ 	    			reply +="<div><a ><i class='fa fa-clock-o'></i>"+ item.sys_date +"</a></div>";
+ 	    			reply +="<div class='review-rating pull-right'>";
+ 	    			reply += "</div>";
+ 	    			reply += "</div>";
+ 	    			reply += "<div class='review-body' style='margin-left:20px'>";	
+ 	    			reply += "<p><i class='fas fa-arrow-right'></i>"+item.contents+"</p>"; 
+ 	    			reply += "</div>";
+ 	    			reply += "</div>";
+ 	    		})
+	    	 		console.log(reply);
+ 		    		$('#replyAdd'+a).html(reply);
+    		}
+
+    	})
+
+    	}
+    	var qnapage=1;
+    	function qnaplus(){
+    		page ++;
+    		var productno = ${product.productno};
+    		console.log(page,productno);
+    		$.ajax({
+ 	    		url:'QnaAjax',
+ 	    		type:'get',
+ 	    		data:{page:page,
+ 	    			productno:productno},
+ 	    		success:function(result){
+ 	    			var leng = result.length;
+ 	    			console.log(leng);
+ 	    			if(leng ==0){
+ 	    				alert('마지막페이지입니다.')
+ 	    			} else{
+ 	    				var QnaContents="";
+ 	    				$.each(result, function(i, item){
+ 	    					if(item.qnacheck==2){
+ 	    						QnaContents += "<div class='single-review'>";
+ 	    	    				QnaContents += "<div class='review-heading'>";
+ 	    	 	    			QnaContents += "<div><a ><i class='fa fa-user-o'></i> "+item.id+"</a></div>";
+ 	    	 	    			QnaContents += "<div><a ><i class='fa fa-clock-o'></i> "+item.sys_date+"</a></div>";
+ 	    	 	    			QnaContents += "<div class='review-rating pull-right'>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "<div class='review-body'>";
+ 	    	 	    			QnaContents += "<p>"+item.contents+"</p>";
+	 	   						QnaContents += "<div id='replyAdd"+i+"'>";
+	 	   						QnaContents += "</div>";
+	 	   						QnaContents += "<a style='text-align:right; float:right;' onclick='replayShow("+i+")'><i class='fa fa-commenting'> 답글달기</i></a>"
+	 	   						QnaContents += "<div style='display:none' id='replyArea"+i+"'>";
+	 	   						QnaContents += "<input style='width:90% ; margin-top:20px;' class='input' type='text' id='answer"+i+"'> ";
+	 	   						QnaContents += "<button class='primary-btn' onclick="+"qnaanswer('"+item.qnano+"','"+i+"'"+")>"+"저장</button>";
+ 	        	 	    		QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			var test = rereply(item.qnano,i);
+ 	 	    				} else if(item.qnacheck==1){
+ 	 	    					QnaContents += "<div class='single-review'>";
+ 	 	    					QnaContents += "<div id='QnaviewList"+i+"'>";
+ 	 	    					QnaContents += "<a onclick="+"qnaview('"+item.qnano+"','"+item.password+"','"+i+"'"+")>"+"<i class='fa fa-lock'></i> 비밀글입니다.</a>";
+ 	 	    					QnaContents += "</div>";
+ 	 	    					QnaContents += "</div>";
+ 	 	    				} 	    			
+ 	    				})
+ 	 	    			$('#qnaadd').html(QnaContents);
+ 	    			}
+ 	    		}
+    		});
+    	}
+    	
+    	function qnaminus(){
+    		page --;
+    		var productno = ${product.productno};
+    		console.log(page,productno);
+    		$.ajax({
+ 	    		url:'QnaAjax',
+ 	    		type:'get',
+ 	    		data:{page:page,
+ 	    			productno:productno},
+ 	    		success:function(result){
+ 	    			var leng = result.length;
+ 	    			console.log(leng);
+ 	    			console.log(result);
+ 	    			if(leng ==0){
+ 	    				page=1;
+ 	    			} else{
+ 	    				var QnaContents="";
+ 	    				$.each(result, function(i, item){
+ 	    					if(item.qnacheck==2){
+ 	    						QnaContents += "<div class='single-review'>";
+ 	    	    				QnaContents += "<div class='review-heading'>";
+ 	    	 	    			QnaContents += "<div><a ><i class='fa fa-user-o'></i> "+item.id+"</a></div>";
+ 	    	 	    			QnaContents += "<div><a ><i class='fa fa-clock-o'></i> "+item.sys_date+"</a></div>";
+ 	    	 	    			QnaContents += "<div class='review-rating pull-right'>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "<div class='review-body'>";
+ 	    	 	    			QnaContents += "<p>"+item.contents+"</p>";
+	 	   						QnaContents += "<div id='replyAdd"+i+"'>";
+	 	   						QnaContents += "</div>";
+	 	   						QnaContents += "<a style='text-align:right; float:right;' onclick='replayShow("+i+")'><i class='fa fa-commenting'> 답글달기</i></a>"
+	 	   						QnaContents += "<div style='display:none' id='replyArea"+i+"'>";
+	 	   						QnaContents += "<input style='width:90% ; margin-top:20px;' class='input' type='text' id='answer"+i+"'> ";
+	 	   						QnaContents += "<button class='primary-btn' onclick="+"qnaanswer('"+item.qnano+"','"+i+"'"+")>"+"저장</button>";
+ 	        	 	    		QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			QnaContents += "</div>";
+ 	    	 	    			var test = rereply(item.qnano,i);
+ 	 	    				} else if(item.qnacheck==1){
+ 	 	    					QnaContents += "<div class='single-review'>";
+ 	 	    					QnaContents += "<div id='QnaviewList"+i+"'>";
+ 	 	    					QnaContents += "<a onclick="+"qnaview('"+item.qnano+"','"+item.password+"','"+i+"'"+")>"+"<i class='fa fa-lock'></i> 비밀글입니다.</a>";
+ 	 	    					QnaContents += "</div>";
+ 	 	    					QnaContents += "</div>";
+ 	 	    				}
+ 	    				})
+ 	 	    			$('#qnaadd').html(QnaContents);
+ 	    			}
+ 	    		}
+    		});
+    	}
 </script>
-<body >
+<body>
 <div class="all-background-color" id="all-background-color">
 </div>
 <div>
@@ -220,7 +777,7 @@
 							</div>
 							<div class="product-btns" style="margin-top:20px;">
 							<button class="primary-btn" style="width:49%;" onclick="on()"> 장바구니 </button>
-							<button class="primary-btn" style="width:49%;"> 구매하기 </button>
+							<button class="primary-btn" style="width:49%;"> 구매하기 </button><br>
 							</div>
 							<div id="overlay" style="display:none;" >
 								 <div class="popup-layout" onclick="off()" >
@@ -248,64 +805,105 @@
 									<div class="section-title">
 										<h2 class="title">제품 설명 이미지</h2>
 									</div>
-									<img src="${pageContext.request.contextPath}/resources/fileupload/${product.photo3}" alt="" style="width:auto;height:auto;margin-left: auto; margin-right: auto; display: block; ">
+									<img src="${pageContext.request.contextPath}/resources/fileupload/${product.photo3}" alt="" style="width:auto;height:auto;margin-left: auto; margin-right: auto; display: block; "><br>
+									<p>────────────────────────────────────────────────────────────────────────────────────</p>
+									<div class="col-md-4">
+									<h5>주의사항</h5><br>
+									<p>전자상거래 등에서의 소비자보호법에 관한 법률에 의거하여 미성년자가 체결한 계약은 법정대리인이 동의하지 않은 경우 본인 또는 법정대리인이 취소할 수 있습니다. E-SHOP에 등록된 판매상품과 상품의 내용은 판매자가 등록한 것으로 E-SHOP에서는 그 등록내역에 대하여 일체의 책임을 지지 않습니다.</p>
+									</div>
+									<div class="col-md-4">
+									<h5>E-SHOP 신고센터&nbsp;&nbsp;&nbsp;<button onclick="productReport()">신고하기</button></h5><br>
+									<p>E-SHOP은 소비자의 보호와 사이트 안전거래를 위해 신고센터를 운영하고 있습니다.<br>
+									불법상품 및 부적격 상품의 판매 또는 부적절한 광고내용이나 안전거래를 저해하는 경우 신고하여 주시기 바랍니다.</p>
+									</div>
+									<p>────────────────────────────────────────────────────────────────────────────────────</p>
 								</div>
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-6">
-											<div class="product-reviews">
-											
-											<!-- 리뷰 댓글 표출 영역 -->
+											<div class="product-reviews" id="reviewList">
+
+											<div id="reviewadd">
+											<c:forEach var="review" items="${review }">
 												<div class="single-review">
 													<div class="review-heading">
-														<div><a ><i class="fa fa-user-o"></i> John</a></div>
-														<div><a ><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
+														<div><a ><i class="fa fa-user-o"></i> ${review.id }</a></div>
+														<div><a ><i class="fa fa-clock-o"></i> ${review.sys_date} </a></div>
 														<div class="review-rating pull-right">
+														<c:if test="${review.rating ==1}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														</c:if>
+														<c:if test="${review.rating ==2}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														</c:if>
+														<c:if test="${review.rating ==3}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star-o empty"></i>
+														</c:if>
+														<c:if test="${review.rating ==4}">
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star"></i>
 															<i class="fa fa-star-o empty"></i>
+														</c:if>
+														<c:if test="${review.rating ==5}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</c:if>
 														</div>
 													</div>
 													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+														<p>${review.contents }</p>
 													</div>
 												</div>
-											<!-- 리뷰 댓글 표출 영역 끝 -->	
-												
-												<ul class="reviews-pages">
-													<li class="active">1</li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-												</ul>
+											</c:forEach>
+											</div>
+											<!-- ★리뷰 댓글 표출 영역 끝★ -->	
+											<div style="text-align: center;">
+												<button class="primary-btn" onclick="pageminus()">이전 페이지</button>
+												<button class="primary-btn" onclick="pageplus()">다음 페이지</button>
+											</div>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<h4 class="text-uppercase">리뷰작성</h4>
-											<form class="review-form">
+											<div class="review-form">
 												<div class="form-group">
 													작성자 <input class="input" type="text" placeholder="Your Name" value="${userid }" readonly>
 												</div>
 												<div class="form-group">
-													리뷰작성 <textarea class="input" placeholder="리뷰를 작성해주세요."></textarea>
+													리뷰작성 <textarea class="input" placeholder="리뷰를 작성해주세요." id="contents"></textarea>
 												</div>
 												<div class="form-group">
-													<div class="input-rating">
+													 <div class="input-rating">
 														<strong class="text-uppercase">Your Rating: </strong>
-														<div class="stars">
-															<input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
-															<input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
-															<input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
-															<input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
-															<input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+														<div class="stars" >
+															<input type="radio" id="star5" name="rating" value="5" onclick="ratingval(5)"><label for="star5"></label>
+															<input type="radio" id="star4" name="rating" value="4" onclick="ratingval(4)"><label for="star4"></label>
+															<input type="radio" id="star3" name="rating" value="3" onclick="ratingval(3)"><label for="star3"></label>
+															<input type="radio" id="star2" name="rating" value="2" onclick="ratingval(2)"><label for="star2"></label>
+															<input type="radio" id="star1" name="rating" value="1" onclick="ratingval(1)"><label for="star1"></label>
+															<input type="hidden" id="starVal">
 														</div>
-													</div>
+													</div> 
 												</div>
-												<button class="primary-btn">Submit</button>
-											</form>
+												<button class="primary-btn"  onclick="Review('${product.productno}')">Submit</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -320,77 +918,89 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="product-reviews">
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
+												<div id="qnaadd">
+													<c:forEach var="qna" items="${qna }" varStatus="status">
+														<c:if test="${qna.qnacheck ==2 }">
+														<div class="single-review">
+															<div class="review-heading">
+																<div><a ><i class="fa fa-user-o"></i> ${qna.id }</a></div>
+																<div><a ><i class="fa fa-clock-o"></i> ${qna.sys_date} </a></div>
+																<div class="review-rating pull-right">
+																</div>
+															</div>
+															<div class="review-body" >
+																<p>${qna.contents }</p>
+																<div id="replyAdd${status.index }">
+																	<c:forEach var="answer" items="${answer }" varStatus="status">
+																		<c:if test="${qna.qnano==answer.qnano }">
+																			<div class="single-review" style="margin-left:20px;">
+																				<div class="review-heading">
+																					<div><a ><i class="fa fa-user-o"></i> ${answer.id }</a></div>
+																					<div><a ><i class="fa fa-clock-o"></i> ${answer.sys_date} </a></div>
+																					<div class="review-rating pull-right">
+																					</div>
+																				</div>
+																				<div class="review-body" style="margin-left:20px;">
+																					<p><i class="fas fa-arrow-right"></i>${answer.contents }</p>
+																					<div id="replyAdd${status.index}">
+																					</div>
+																					<div style="display:none" id="replyArea">
+																						<input style="width:90% ; margin-top:20px;" class="input" type="text" id="answer"> 
+																						<!-- <i class="fas fa-arrow-right" style="font-size:25px;"></i> -->
+																						<button class="primary-btn" onclick="qnaanswer('${qna.qnano}','${status.index }')"> 저장</button>
+																					</div>
+																				</div>
+																			</div>
+																		</c:if>
+																	</c:forEach>
+																</div>
+																<a style="text-align:right; float:right;" onclick="replayShow(${status.index })"><i class="fa fa-commenting"> 답글달기</i></a>
+																<div style="display:none" id="replyArea${status.index }">
+																	<input style="width:90% ; margin-top:20px;" class="input" type="text" id="answer"> 
+																	<!-- <i class="fas fa-arrow-right" style="font-size:25px;"></i> -->
+																	<button class="primary-btn" onclick="qnaanswer('${qna.qnano}','${status.index }')"> 저장</button>
+																</div>
+															</div>
 														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
+								
+														</c:if>
+														<c:if test="${qna.qnacheck==1 }">	
+															<div class="single-review">
+																<div id="QnaviewList${status.index }">
+																	<a onclick="qnaview('${qna.qnano}','${qna.password }','${status.index }')"> <i class="fa fa-lock"></i> 비밀글입니다.</a>
+																</div>
+															</div>
+														</c:if>
+													</c:forEach>
 												</div>
-
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
-												</div>
-
-												<ul class="reviews-pages">
-													<li class="active">1</li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-												</ul>
+													<div style="text-align: center;">
+													<button class="primary-btn" onclick="qnaminus()">이전 페이지</button>
+													<button class="primary-btn" onclick="qnaplus()">다음 페이지</button>
+											</div>
 											</div>
 										</div>
 										<div class="col-md-6">
-											<h4 class="text-uppercase">Write Your Review</h4>
-											<p>Your email address will not be published.</p>
-											<form class="review-form" action="Review" >
+											<h4 class="text-uppercase">문의사항 작성</h4>
+											<div class="review-form" >
 												<div class="form-group">
-													<input class="input" type="text" placeholder="Your Name">
+													<input class="input" type="text" placeholder="아이디" value="${userid }" readonly>
 												</div>
 												<div class="form-group">
-													<input class="input" type="email" placeholder="Email Address">
+													<input class="input" type="password" placeholder="비밀번호 4자리" id="password">
 												</div>
 												<div class="form-group">
-													<textarea class="input" placeholder="Your review"></textarea>
+													<textarea class="input" placeholder="문의사항 작성" id="qnacontents"></textarea>
 												</div>
 												<div class="form-group">
 													<div class="input-rating">
-														<strong class="text-uppercase">리뷰 별점: </strong>
+														<strong class="text-uppercase">비밀글 : </strong>
 														<div class="stars">
-															<input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
-															<input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
-															<input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
-															<input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
-															<input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+															<input type="checkbox" id="qnacheck" value="2" name="qnacheck" >
 														</div>
 													</div>
 												</div>
-												<button class="primary-btn">Submit</button>
-											</form>
+												<button class="primary-btn"  onclick="ProductQna('${product.productno}')">작성</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -406,10 +1016,48 @@
 		<!-- /container -->
 	</div>
 </div>
-<div>
+	<div id="mask"></div>
+	<div id="layerbox" class="layerpop" style="width:700px; height:400px;">
+	<article class="layerpop_area">
+	<form action="productReport" method="post" id="productReportForm">
+	<table border="1" style="margin:auto;">
+	<tr>
+		<td>신고 유형 :&nbsp;</td>
+		<td><select id="reporttype" name="reporttype">
+            <option value="">선택</option>
+            <option value="지식재산권 침해">지식재산권 침해</option>
+            <option value="개인정보도용">개인정보도용</option>
+            <option value="불법물">불법물</option>
+            <option value="배송">배송</option>
+        </select></td>
+	</tr>
+	<tr>
+		<td>상품번호 :&nbsp;</td>
+		<td>${productno}<input type="hidden" id="productno" name="productno" value="${productno}"></td>
+	</tr>
+	<tr>
+		<td>상품명 :&nbsp;</td>
+		<td>${trade_name}<input type="hidden" id="trade_name" name="trade_name" value="${trade_name}"></td>
+	</tr>
+	<tr>
+		<td>판매자 ID :&nbsp;</td>
+		<td>${sellerId}<input type="hidden" id="sellerId" name="sellerId" value="${sellerId}"></td>
+		<td><input type="hidden" id="memberId" name="memberId" value="${userid}"></td>
+	</tr>
+	<tr>
+		<td><button type="button" onclick="productReportSubmit()">제출하기</button></td>
+		<td><button type="button" onclick="reportFormClose()">취소</button></td>
+	</tr>
+	</table>
+	</form>
+	</article>
+	</div>
+	<div>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 	<!-- /FOOTER -->
+	<!-- jQuery Plugins -->
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 </body>
 
 </html>

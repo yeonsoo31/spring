@@ -44,8 +44,8 @@
         		this.action = 'payment';
         		this.method = 'post';
         		this.target = 'payviewer';
-        	})
-        })
+        	});
+        });
       </script>
 </head>
 <body>
@@ -71,6 +71,7 @@
 	<form id="pay">
 	<input type="hidden" value="${auction.a_number}" name="a_number">
 	<input type="hidden" value="${member.id}" name="id">
+	<input type="hidden" value="${auction.id }" name="s_id">
 	<table>
 		<tr>
 			<td>받는이</td>

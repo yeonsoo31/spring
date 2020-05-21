@@ -7,11 +7,13 @@
 <title>Insert title here</title>
 	<script>
 		function timeOut(){
-			location.href="main";
+			var theURL = "goMain";
+			opener.window.location = theURL;
+			window.close();
 		}
 	</script>
 </head>
-<body onload="timeOut('forwarding()',3000)">
+<body onload="timeOut('forwarding()',5000)">
 	<div>
 		<jsp:include page="/WEB-INF/views/top.jsp"></jsp:include>
 	</div>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -132,6 +133,7 @@
 					});
 				}
 			});
+			$("#paging").hide();
 		});
 	</script>
 	
@@ -196,6 +198,19 @@
 		$('#layerbox').show();
 	}
 	
+	function popupOpen2(){
+		$('.layerpop').css("position","absolute");
+		$('.layerpop').css("top",(($(window).height() - $('.layerpop').outerHeight())/2) + $(window).scrollTop());
+		$('.layerpop').css("left",(($(window).width() - $('.layerpop').outerWidth())/2) + $(window).scrollLeft());
+		$('.layerpop').draggable();
+		$('#layerbox2').show();
+	}
+	
+	function popupClose2(){
+		$('#layerbox2').hide();
+		$('#mask').hide();
+	}
+	
 	function popupClose(){
 		$('#layerbox').hide();
 		$('#mask').hide();
@@ -210,10 +225,25 @@
 		wrapWindowByMask();
 		}
 	}
+	$(document).on('click',".qnaAnswer",function(){
+		var idx = $(".qnaAnswer").index(this);
+		console.log(idx);
+		var q_number = document.getElementById('q_number'+idx).value;
+		var qnaPage = document.getElementById('qnaPage'+idx).value;
+		console.log(qnaPage);
+		console.log(q_number);
+		document.getElementById('index').value = idx;
+		document.getElementById('q_number').value = q_number;
+		document.getElementById('qnaPage').value = qnaPage;
+		popupOpen2();
+		wrapWindowByMask();
+		
+	});
 	
-	function moreList(){
+	$(document).on('click','#moreListBtn',function(){
 		var a_number = "${auctionView.a_number}";
-		var paging = 2;
+		var paging = 1;
+		var index = parseInt(0);
 		$.ajax({
 			type : "post",
 			url : "moreList",
@@ -223,18 +253,25 @@
 			success : function(result){
 				console.log(result);
 				console.log(result[0][0]);
-				var output='<div>';
+				var output='<div class="col-md-12">';
 				for(var i in result[0]){
+					console.log("인덱스"+index);
+					console.log("i"+i);
 					output += '<div class="col-md-1">질문</div>';
 					output += '<div class="col-md-11">';
 					output += '<div class="product-reviews">';
 					output += '<div class="single-review">';
 					output += '<div class="review-heading">';
+					output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+i+'">';
 					output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
 					output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
 					output += '</div>';
 					output += '<div class="review-body">';
 					output += '<p>'+result[0][i].q_contents+'</p>';
+					output += '</div>';
+					output += '<div class="col-md-offset-11">';
+					output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+					output += '<button class="qnaAnswer">답글</button>';
 					output += '</div>';
 					output += '</div>';
 					output += '</div>';
@@ -265,20 +302,59 @@
 					}
 				}
 				output+= '</div>';
+				var output2 = '<div style="text-align: center;">';
+				if(result[2].page <= 1){
+				output2 += '[이전]&nbsp;';
+				}
+				if(result[2].page > 1){
+				output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+				}
+				var i = parseInt(result[2].startPage);
+				var index = 1;
+				do{
+					if(i==result[2].page){
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += i;
+						index++;
+						i++;
+					}else{
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+						output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+						console.log("index값 "+index);
+						i++;
+						index++;
+						
+					}
+				} while(i<=parseInt(result[2].endPage));
+				if(result[2].page >= result[2].maxPage){
+					output2 += '[다음]';
+				}
+				if(result[2].page < result[2].maxPage){
+					output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+				}
+				output2 +='</div>';
+				$('#paging').show();
 				$('#moreListBtn').hide();
-				$('#addList').html(output);
+				$('#qnaWrite').html(output);
+				$('#paging').html(output2);
 			},
 			error : function(){
 				console.log("통신오류");
 			}
 		});
-	}
+	})
+	
 	
 	function auctionQnA(){
 		var id='${sessionScope.loginId}';
 		var a_number='${auctionView.a_number}';
 		var s_id='${auctionView.id}';
 		var q_contents=document.getElementById("contents").value;
+		var paging = 1;
+		var index = 0;
 		console.log(id);
 		console.log(a_number);
 		console.log(s_id);
@@ -289,22 +365,662 @@
 			data:{"id":id,
 				  "a_number":a_number,
 				  "s_id":s_id,
-				  "q_contents":q_contents},
-			dataType:"text",
+				  "q_contents":q_contents,
+				  "addpage":paging},
+			dataType:"json",
 			success:function(result){
-				if(result=="OK"){
 					alert("등록되었습니다");
+					$("#paging").hide();
 					popupClose();
-					var output
-				}else{
-					alert("오류");
-				}
+					var output='<div class="col-md-12">';
+					for(var i in result[0]){
+						index = i ;
+						console.log(index);
+						output += '<div class="col-md-1">질문</div>';
+						output += '<div class="col-md-11">';
+						output += '<div class="product-reviews">';
+						output += '<div class="single-review">';
+						output += '<div class="review-heading">';
+						output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+index+'">';
+						output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+						output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+						output += '</div>';
+						output += '<div class="review-body">';
+						output += '<p>'+result[0][i].q_contents+'</p>';
+						output += '</div>';
+						output += '<div class="col-md-offset-11">';
+						output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+						output += '<button class="qnaAnswer">답글</button>';
+						output += '</div>';
+						output += '</div>';
+						output += '</div>';
+						output += '</div>';
+						output += '<div class="col-md-12 line">';
+						output += '</div>';
+						for(var j in result[1]){
+							if(result[0][i].q_number == result[1][j].q_number){
+								output +='<div class="col-md-12 answer">';
+								output +='<div class="col-md-1">';
+								output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+								output +='<em>답변</em></div>';
+								output +='<div class="col-md-11">';
+								output +='<div class="product-reviews">';
+								output +='<div class="single-review">';
+								output +='<div class="review-heading">';
+								output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+								output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+								output +='</div>';
+								output +='<div class="review-body">';
+								output +='<p>'+result[1][j].qa_contents+'</p>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+							}
+						}
+					}
+					if(result[0].length == 3){
+						output += '<div style="text-align:center;"class="col-md-12">';
+						output += '<button id="moreListBtn"style="width:800px;">더보기</button>';
+						output += '</div>';
+					}
+					output+= '<div id="addList">';
+					output+= '</div>';
+					output+= '</div>';
+					$('#qnaWrite').html(output);
+					var output2 = '<div style="text-align: center;">';
+					if(result[2].page <= 1){
+					output2 += '[이전]&nbsp;';
+					}
+					if(result[2].page > 1){
+					output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+					}
+					var i = parseInt(result[2].startPage);
+					var index = 1;
+					do{
+						if(i==result[2].page){
+							console.log("i의값"+i);
+							console.log("endpage값"+result[2].endPage);
+							output2 += i;
+							index++;
+							i++;
+						}else{
+							console.log("i의값"+i);
+							console.log("endpage값"+result[2].endPage);
+							output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+							output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+							console.log("index값 "+index);
+							i++;
+							index++;
+							
+						}
+					} while(i<=parseInt(result[2].endPage));
+					if(result[2].page >= result[2].maxPage){
+						output2 += '[다음]';
+					}
+					if(result[2].page < result[2].maxPage){
+						output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+					}
+					output2 +='</div>';
+					$('#paging').html(output2);
+					
 			},
 			error:function(){
 				console.log("통신오류");
 			}
 		});
-		
+	}
+	
+	function auctionQnAAnswer(){
+		var q_number = document.getElementById("q_number").value;
+		var id = '${sessionScope.loginId}';
+		var contents = document.getElementById("answerContents").value;
+		var a_number='${auctionView.a_number}';
+		var index = 0;
+		var addPage = document.getElementById("qnaPage").value;
+		var pageDivition = parseInt(addPage);
+		console.log(q_number);
+		console.log(id);
+		console.log(contents);
+		if(pageDivition == 1){
+		$.ajax({
+			type:"post",
+			url:"auctionQnAAnswer",
+			data:{"q_number":q_number,
+				  "id":id,
+				  "qa_contents":contents,
+				  "a_number":a_number,
+				  "addPage":addPage},
+			dataType:"json",
+			success:function(result){
+				alert("등록되었습니다");
+				popupClose2();
+				var output='<div class="col-md-12">';
+				for(var i in result[0]){
+					console.log(index);
+					output += '<div class="col-md-1">질문</div>';
+					output += '<div class="col-md-11">';
+					output += '<div class="product-reviews">';
+					output += '<div class="single-review">';
+					output += '<div class="review-heading">';
+					output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+i+'">';
+					output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+					output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+					output += '</div>';
+					output += '<div class="review-body">';
+					output += '<p>'+result[0][i].q_contents+'</p>';
+					output += '</div>';
+					output += '<div class="col-md-offset-11">';
+					output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+					output += '<button class="qnaAnswer">답글</button>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '<div class="col-md-12 line">';
+					output += '</div>';
+					index++
+					for(var j in result[1]){
+						if(result[0][i].q_number == result[1][j].q_number){
+							output +='<div class="col-md-12 answer">';
+							output +='<div class="col-md-1">';
+							output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+							output +='<em>답변</em></div>';
+							output +='<div class="col-md-11">';
+							output +='<div class="product-reviews">';
+							output +='<div class="single-review">';
+							output +='<div class="review-heading">';
+							output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+							output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+							output +='</div>';
+							output +='<div class="review-body">';
+							output +='<p>'+result[1][j].qa_contents+'</p>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+						}
+					}
+				}
+				if(result[0].length == 3){
+					output += '<div style="text-align:center;"class="col-md-12">';
+					output += '<button id="moreListBtn"style="width:800px;">더보기</button>';
+					output += '</div>';
+				}
+				output+= '<div id="addList">';
+				output+= '</div>';
+				output+= '</div>';
+				$('#qnaWrite').html(output);
+				output+= '<div id="addList">';
+				output+= '</div>';
+				output+= '</div>';
+				$('#qnaWrite').html(output);
+				var output2 = '<div style="text-align: center;">';
+				if(result[2].page <= 1){
+				output2 += '[이전]&nbsp;';
+				}
+				if(result[2].page > 1){
+				output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+				}
+				var i = parseInt(result[2].startPage);
+				var index = 1;
+				do{
+					if(i==result[2].page){
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += i;
+						index++;
+						i++;
+					}else{
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+						output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+						console.log("index값 "+index);
+						i++;
+						index++;
+						
+					}
+				} while(i<=parseInt(result[2].endPage));
+				if(result[2].page >= result[2].maxPage){
+					output2 += '[다음]';
+				}
+				if(result[2].page < result[2].maxPage){
+					output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+				}
+				output2 +='</div>';
+				$('#paging').html(output2);
+			},
+			error:function(){
+				console.log("통신오류");
+			}
+		});
+		} else{
+			$.ajax({
+				type:"post",
+				url:"auctionQnAAnswerMoreList",
+				data:{"q_number":q_number,
+					  "id":id,
+					  "qa_contents":contents,
+					  "a_number":a_number,
+					  "addPage":addPage},
+				dataType:"json",
+				success:function(result){
+					alert("등록되었습니다");
+					popupClose2();
+					var output='<div class="col-md-12">';
+					for(var i in result[0]){
+						console.log(index);
+						output += '<div class="col-md-1">질문</div>';
+						output += '<div class="col-md-11">';
+						output += '<div class="product-reviews">';
+						output += '<div class="single-review">';
+						output += '<div class="review-heading">';
+						output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+i+'">';
+						output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+						output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+						output += '</div>';
+						output += '<div class="review-body">';
+						output += '<p>'+result[0][i].q_contents+'</p>';
+						output += '</div>';
+						output += '<div class="col-md-offset-11">';
+						output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+						output += '<button class="qnaAnswer">답글</button>';
+						output += '</div>';
+						output += '</div>';
+						output += '</div>';
+						output += '</div>';
+						output += '<div class="col-md-12 line">';
+						output += '</div>';
+						for(var j in result[1]){
+							if(result[0][i].q_number == result[1][j].q_number){
+								output +='<div class="col-md-12 answer">';
+								output +='<div class="col-md-1">';
+								output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+								output +='<em>답변</em></div>';
+								output +='<div class="col-md-11">';
+								output +='<div class="product-reviews">';
+								output +='<div class="single-review">';
+								output +='<div class="review-heading">';
+								output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+								output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+								output +='</div>';
+								output +='<div class="review-body">';
+								output +='<p>'+result[1][j].qa_contents+'</p>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+								output +='</div>';
+							}
+						}
+					}
+					if(result[0].length == 3){
+						output += '<div style="text-align:center;"class="col-md-12">';
+						output += '<button id="moreListBtn"style="width:800px;">더보기</button>';
+						output += '</div>';
+					}
+					output+= '<div id="addList">';
+					output+= '</div>';
+					output+= '</div>';
+					$('#qnaWrite').html(output);
+					var output2 = '<div style="text-align: center;">';
+					if(result[2].page <= 1){
+					output2 += '[이전]&nbsp;';
+					}
+					if(result[2].page > 1){
+					output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+					}
+					var i = parseInt(result[2].startPage);
+					var index = 1;
+					do{
+						if(i==result[2].page){
+							console.log("i의값"+i);
+							console.log("endpage값"+result[2].endPage);
+							output2 += i;
+							index++;
+							i++;
+						}else{
+							console.log("i의값"+i);
+							console.log("endpage값"+result[2].endPage);
+							output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+							output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+							console.log("index값 "+index);
+							i++;
+							index++;
+							
+						}
+					} while(i<=parseInt(result[2].endPage));
+					if(result[2].page >= result[2].maxPage){
+						output2 += '[다음]';
+					}
+					if(result[2].page < result[2].maxPage){
+						output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+					}
+					output2 +='</div>';
+					$('#paging').html(output2);
+				},
+				error:function(){
+					console.log("통신오류");
+				}
+			});
+		}
+	}
+	
+	function qnaPage(index){
+		var page = document.getElementById("page"+index).value;
+		console.log("page값>>>>"+page);
+		var a_number = '${auctionView.a_number}';
+		$.ajax({
+			type : "post",
+			url : "qnaPaging",
+			data : {"qnaPage":page,
+					"a_number":a_number},
+			dataType : "json",
+			success : function(result){
+				var output='<div class="col-md-12">';
+				for(var i in result[0]){
+					index = i ;
+					console.log(index);
+					output += '<div class="col-md-1">질문</div>';
+					output += '<div class="col-md-11">';
+					output += '<div class="product-reviews">';
+					output += '<div class="single-review">';
+					output += '<div class="review-heading">';
+					output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+index+'">';
+					output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+					output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+					output += '</div>';
+					output += '<div class="review-body">';
+					output += '<p>'+result[0][i].q_contents+'</p>';
+					output += '</div>';
+					output += '<div class="col-md-offset-11">';
+					output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+					output += '<button class="qnaAnswer">답글</button>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '<div class="col-md-12 line">';
+					output += '</div>';
+					for(var j in result[1]){
+						if(result[0][i].q_number == result[1][j].q_number){
+							output +='<div class="col-md-12 answer">';
+							output +='<div class="col-md-1">';
+							output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+							output +='<em>답변</em></div>';
+							output +='<div class="col-md-11">';
+							output +='<div class="product-reviews">';
+							output +='<div class="single-review">';
+							output +='<div class="review-heading">';
+							output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+							output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+							output +='</div>';
+							output +='<div class="review-body">';
+							output +='<p>'+result[1][j].qa_contents+'</p>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+						}
+					}
+				}
+				output+= '<div id="addList">';
+				output+= '</div>';
+				output+= '</div>';
+				$('#qnaWrite').html(output);
+				var output2 = '<div style="text-align: center;">';
+				if(result[2].page <= 1){
+				output2 += '[이전]&nbsp;';
+				}
+				if(result[2].page > 1){
+					output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';
+				}
+				var i = parseInt(result[2].startPage);
+				var index = 1;
+				do{
+					if(i==result[2].page){
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += i;
+						index++;
+						i++;
+					}else{
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+						output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+						console.log("index값 "+index);
+						i++;
+						index++;
+						
+					}
+				} while(i<=parseInt(result[2].endPage));
+				if(result[2].page >= result[2].maxPage){
+					output2 += '[다음]';
+				}
+				if(result[2].page < result[2].maxPage){
+					output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+				}
+				output2 +='</div>';
+				$('#paging').html(output2);
+			},
+			error : function(){
+				console.log("통신오류");
+			}
+		});
+	}
+	function nextPage(page){
+		var qnaPage = parseInt(page)+1;
+		console.log("nextPage>>>>>>>>>>>>>"+qnaPage);
+		var a_number = '${auctionView.a_number}';
+		$.ajax({
+			type : "post",
+			url : "qnaPaging",
+			data : {"qnaPage":qnaPage,
+					"a_number":a_number},
+			dataType : "json",
+			success : function(result){
+				var output='<div class="col-md-12">';
+				for(var i in result[0]){
+					index = i ;
+					console.log(index);
+					output += '<div class="col-md-1">질문</div>';
+					output += '<div class="col-md-11">';
+					output += '<div class="product-reviews">';
+					output += '<div class="single-review">';
+					output += '<div class="review-heading">';
+					output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+index+'">';
+					output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+					output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+					output += '</div>';
+					output += '<div class="review-body">';
+					output += '<p>'+result[0][i].q_contents+'</p>';
+					output += '</div>';
+					output += '<div class="col-md-offset-11">';
+					output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+					output += '<button class="qnaAnswer">답글</button>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '<div class="col-md-12 line">';
+					output += '</div>';
+					for(var j in result[1]){
+						if(result[0][i].q_number == result[1][j].q_number){
+							output +='<div class="col-md-12 answer">';
+							output +='<div class="col-md-1">';
+							output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+							output +='<em>답변</em></div>';
+							output +='<div class="col-md-11">';
+							output +='<div class="product-reviews">';
+							output +='<div class="single-review">';
+							output +='<div class="review-heading">';
+							output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+							output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+							output +='</div>';
+							output +='<div class="review-body">';
+							output +='<p>'+result[1][j].qa_contents+'</p>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+						}
+					}
+				}
+				output+= '<div id="addList">';
+				output+= '</div>';
+				output+= '</div>';
+				$('#qnaWrite').html(output);
+				var output2 = '<div style="text-align: center;">';
+				if(result[2].page <= 1){
+				output2 += '[이전]&nbsp;';
+				}
+				if(result[2].page > 1){
+					output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+				}
+				var i = parseInt(result[2].startPage);
+				var index = 1;
+				do{
+					if(i==result[2].page){
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += i;
+						index++;
+						i++;
+					}else{
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+						output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+						console.log("index값 "+index);
+						i++;
+						index++;
+						
+					}
+				} while(i<=parseInt(result[2].endPage));
+				if(result[2].page >= result[2].maxPage){
+					output2 += '[다음]';
+				}
+				if(result[2].page < result[2].maxPage){
+					output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+				}
+				output2 +='</div>';
+				$('#paging').html(output2);
+			},
+			error : function(){
+				console.log("통신오류");
+			}
+		});
+	}
+	
+	function backPage(page){
+		var qnaPage = parseInt(page)-1;
+		console.log("nextPage>>>>>>>>>>>>>"+qnaPage);
+		var a_number = '${auctionView.a_number}';
+		$.ajax({
+			type : "post",
+			url : "qnaPaging",
+			data : {"qnaPage":qnaPage,
+					"a_number":a_number},
+			dataType : "json",
+			success : function(result){
+				var output='<div class="col-md-12">';
+				for(var i in result[0]){
+					index = i ;
+					console.log(index);
+					output += '<div class="col-md-1">질문</div>';
+					output += '<div class="col-md-11">';
+					output += '<div class="product-reviews">';
+					output += '<div class="single-review">';
+					output += '<div class="review-heading">';
+					output += '<input type="hidden" value="'+result[0][i].q_number+'"id="q_number'+index+'">';
+					output += '<div><a href="#"><i class="fa fa-user-o"></i>'+result[0][i].id+'</a></div>';
+					output += '<div><a href="#"><i class="fa fa-clock-o"></i>'+result[0][i].q_date+'</a></div>';
+					output += '</div>';
+					output += '<div class="review-body">';
+					output += '<p>'+result[0][i].q_contents+'</p>';
+					output += '</div>';
+					output += '<div class="col-md-offset-11">';
+					output += '<input type="hidden" value="'+result[2].page+'" id="qnaPage'+i+'">';
+					output += '<button class="qnaAnswer">답글</button>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					output += '<div class="col-md-12 line">';
+					output += '</div>';
+					for(var j in result[1]){
+						if(result[0][i].q_number == result[1][j].q_number){
+							output +='<div class="col-md-12 answer">';
+							output +='<div class="col-md-1">';
+							output +='<img width="20" height="20" src="${pageContext.request.contextPath}/resources/img/화살표.PNG">';
+							output +='<em>답변</em></div>';
+							output +='<div class="col-md-11">';
+							output +='<div class="product-reviews">';
+							output +='<div class="single-review">';
+							output +='<div class="review-heading">';
+							output +='<div><a href="#"><i class="fa fa-user-o"></i>'+result[1][j].id+'</a></div>';
+							output +='<div><a href="#"><i class="fa fa-clock-o"></i>'+result[1][j].qa_date+'</a></div>';
+							output +='</div>';
+							output +='<div class="review-body">';
+							output +='<p>'+result[1][j].qa_contents+'</p>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+							output +='</div>';
+						}
+					}
+				}
+				output+= '<div id="addList">';
+				output+= '</div>';
+				output+= '</div>';
+				$('#qnaWrite').html(output);
+				var output2 = '<div style="text-align: center;">';
+				if(result[2].page <= 1){
+				output2 += '[이전]&nbsp;';
+				}
+				if(result[2].page > 1){
+				output2 += '<a href="#" onclick="backPage('+result[2].page+');return false;">[이전]</a>&nbsp;';	
+				}
+				var i = parseInt(result[2].startPage);
+				var index = 1;
+				do{
+					if(i==result[2].page){
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += i;
+						index++;
+						i++;
+					}else{
+						console.log("i의값"+i);
+						console.log("endpage값"+result[2].endPage);
+						output2 += '<a href="#" onclick="qnaPage('+index+');return false;">'+i+'</a>';
+						output2 += '<input type="hidden" value="'+index+'"id="page'+index+'">';
+						console.log("index값 "+index);
+						i++;
+						index++;
+						
+					}
+				} while(i<=parseInt(result[2].endPage));
+				if(result[2].page >= result[2].maxPage){
+					output2 += '[다음]';
+				}
+				if(result[2].page < result[2].maxPage){
+					output2 +='<a href="#" onclick="nextPage('+result[2].page+');return false;">[다음]</a>';
+				}
+				output2 +='</div>';
+				$('#paging').html(output2);
+			},
+			error : function(){
+				console.log("통신오류");
+			}
+		});
 	}
 	</script>
 
@@ -401,14 +1117,21 @@
 							</script>
 							<h4>상세 설명 </h4>
 							<br><br><br><br>
-				
+							<c:if test="${bidMember.id eq null }">
+							<c:if test="${sessionScope.loginIdDivision eq 1}">
 								<span class="text-uppercase">입찰가격 : </span>
 								<input type="text" id="am_price">						
 								<button id="biddingBtn"> 입찰하기</button>
+							</c:if>
+							</c:if>
+							<c:if test="${bidMember.id eq sessionScope.loginId}">
 								<button onclick="buy()">구매하기</button>
+							</c:if>
+							<c:if test="${sessionScope.loginIdDivision eq 2}">
 								<button onclick="location.href='auctionModifyForm?a_number=${auctionView.a_number}'">수정</button>
 								<button onclick="location.href='auctionDelete?a_number=${auctionView.a_number}'">삭제</button>
 								<button onclick="popup_open()">입찰자목록</button>
+							</c:if>
 									
 				
 						</div>
@@ -452,19 +1175,28 @@
 			<div class="section-title">
 			　
 			</div>
-				<div class="col-md-12" id="qnaWrite">
+				<div id="qnaWrite">
+				<div class="col-md-12">
 				<c:forEach var="auctionQnA" items="${auctionQnA}" varStatus="status">
 					<div class="col-md-1">질문</div>
 					<div class="col-md-11">
 					<div class="product-reviews">
 						<div class="single-review">
 							<div class="review-heading">
+								<input type="hidden" value="${auctionQnA.q_number }" id="q_number${status.index }">
 								<div><a href="#"><i class="fa fa-user-o"></i>${auctionQnA.id} </a></div>
 								<div><i class="fa fa-clock-o"></i> ${auctionQnA.q_date}</div>
 							</div>
 							<div class="review-body">
 								<p>${auctionQnA.q_contents}</p>
 							</div>
+							<!-- 글쓴이만 보이게 -->
+							<c:if test="${sessionScope.loginId eq auctionView.id }">
+							<div class="col-md-offset-11">
+								<input type="hidden" value="${paging.page}" id="qnaPage${status.index }">
+								<button class="qnaAnswer">답글</button>
+							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -497,15 +1229,44 @@
 				</c:if>
 				</c:forEach>
 				</c:forEach>
+				<c:if test="${fn:length(auctionQnA) == 3}">
 				<div style="text-align:center;"class="col-md-12">
-				<c:if test="${fn:length(auctionQnA) > 5}">
 				<button id="moreListBtn"style="width:800px;" onclick="moreList()">더보기</button>
-				</c:if>
 				</div>
+				</c:if>
 				<div id="addList">
 				
 				</div>
 			</div>
+			</div>
+			<div id="paging">
+			<div style="text-align: center;">
+					<c:if test="${paging.page<=1}">
+						[이전]&nbsp;
+					</c:if>
+					<c:if test="${paging.page>1}">
+						<a href="#" onclick="backPage(${paging.page}); return false;">[이전]</a>&nbsp;
+					</c:if>
+					<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="i" step="1" varStatus="status">
+						<c:choose>
+							<c:when test="${i eq paging.page}">
+								${i}
+							</c:when>
+							<c:otherwise>
+								<a href="#" onclick="qnaPage(${status.index});return false;">${i}</a>
+								<input type="hidden" value="${i }" id="page${status.index }">
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+
+					<c:if test="${paging.page>=paging.maxPage}">
+						[다음]
+					</c:if>
+					<c:if test="${paging.page<paging.maxPage}">
+						<a href="#" onclick="nextPage(${paging.page}); return false;">[다음]</a>
+					</c:if>
+				</div>
+				</div>
 	
 	</div>
 	</div>
@@ -517,7 +1278,7 @@
 
 <!-- 팝업뜰때 배경 -->
 <div id="mask"></div>
-<!-- 레이어 팝업 Open -->
+<!-- QnA레이어 팝업 Open -->
 <div id="layerbox" class="layerpop" style="width:700px; height:400px;">
 	<article class="layerpop_area">
 		<div class="title">상품 문의</div>
@@ -542,6 +1303,35 @@
 	</article>
 </div>
 <!-- 팝업 End -->
+<!-- QnA답변 팝업 Open -->
+<div id="layerbox2" class="layerpop" style="width:700px; height:400px;">
+	<article class="layerpop_area">
+		<div class="title">문의 답변</div>
+			<a href="javascript:popupClose2();" class="layerpop_close2" id="layerbox_close2">
+			<img style="width:25px; height:25px; display:block; position:absolute;" src="${pageContext.request.contextPath}/resources/img/close-button_icon-icons.com_72803.png">
+			</a><br>
+			<div class="content">
+			<input type="hidden" id="q_number">
+			<input type="hidden" id="index">
+			<input type="hidden" id="qnaPage">
+			<table>
+				<tr>
+					<th>문의상품</th>
+					<td><input type="text" value="${auctionView.a_name}" name="a_name" size="20" style="width:100%; border:0"></td>
+				</tr>
+				<tr>
+					<th>답변내용</th>
+					<td><textarea id="answerContents" style="resize: none; width:100%; border:0" rows="8" cols="50"></textarea>
+				</tr>
+			</table>
+		<div style="text-align:right;">
+			<button onclick="auctionQnAAnswer()">문의답변</button>
+		</div>
+		</div>
+	</article>
+</div>
+<!-- QnA답변 팝업 End -->
+	
 
 	<div>
 		<jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>

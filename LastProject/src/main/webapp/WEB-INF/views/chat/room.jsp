@@ -50,7 +50,7 @@
             },
             methods: {
                 findAllRoom: function() {
-                    axios.get('http://localhost:8090/chat/chat/rooms').then(response => { this.chatrooms = response.data; });
+                    axios.get('http://localhost:8091/lastproject/chat/rooms').then(response => { this.chatrooms = response.data; });
                 },
                 createRoom: function() {
                     if("" === this.room_name) {
@@ -59,7 +59,7 @@
                     } else {
                         var params = new URLSearchParams();
                         params.append("name",this.room_name);
-                        axios.post('http://localhost:8090/chat/chat/room', params)
+                        axios.post('http://localhost:8091/lastproject/chat/room', params)
                         .then(
                             response => {
                                 alert(response.data.name+"방 개설에 성공하였습니다.")

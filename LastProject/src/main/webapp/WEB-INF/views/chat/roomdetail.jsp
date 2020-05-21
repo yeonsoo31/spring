@@ -41,7 +41,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script>
         // websocket & stomp initialize
-        var sock = new SockJS("http://localhost:8090/chat/ws-stomp");
+        var sock = new SockJS("http://localhost:8091/lastproject/ws-stomp");
         var ws = Stomp.over(sock);
         // vue.js
         var vm = new Vue({
@@ -60,7 +60,7 @@
             },
             methods: {
                 findRoom: function() {
-                    axios.get('http://localhost:8090/chat/chat/room/'+this.roomId).then(response => {
+                    axios.get('http://localhost:8091/lastproject/chat/room/'+this.roomId).then(response => {
                     	this.room = response.data;
                     	console.log(response.data);
                     });
