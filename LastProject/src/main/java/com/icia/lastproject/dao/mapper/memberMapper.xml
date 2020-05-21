@@ -55,23 +55,23 @@
 	</select>
  	
  	<select id="memberLogin" parameterType="member" resultType="String">
- 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
  	</select>
  	
  	<select id="sellerLogin" parameterType="member" resultType="String">
- 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT * FROM MEMBER_SALES WHERE ID=#{id}
  	</select>
  	
  	<select id="memberIdDivision" parameterType="member" resultType="int">
- 		SELECT DIVISION FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT DIVISION FROM MEMBER WHERE ID=#{id}
  	</select>
  	
  	<select id="sellerIdDivision" parameterType="member" resultType="int">
- 		SELECT DIVISION FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT DIVISION FROM MEMBER_SALES WHERE ID=#{id}
  	</select>
  	
  	<select id="memberLoginCheck" parameterType="map" resultType="String">
- 		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
  	</select>
  	
  	<select id="sellerLoginCheck" parameterType="map" resultType="String">
@@ -196,6 +196,10 @@
  	
  	<select id="memberAddress" parameterType="String" resultType="String">
  		SELECT ADDRESS FROM MEMBER WHERE ID = #{id}
+ 	</select>
+ 	
+ 	<select id="loginMember" parameterType="member" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID = #{id}
  	</select>
  	
  </mapper>

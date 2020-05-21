@@ -198,6 +198,11 @@ public class MemberDAO {
 		return sql.delete("Member.reportDelete", productReport);
 	}
 
+	public MemberDTO loginMember(MemberDTO member) {
+		return sql.selectOne("Member.loginMember", member);
+	}
+
+
 
 
 

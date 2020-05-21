@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,6 +59,9 @@ public class MemberController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private BCryptPasswordEncoder passEncoder;
 	
 	private ModelAndView mav;
 	
@@ -314,6 +318,9 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	@RequestMapping(value="/memberJoin", method = RequestMethod.POST)
 	public ModelAndView memberJoin(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
+		String encPassword = passEncoder.encode(member.getPassword());
+		member.setPassword(encPassword);
+		System.out.println("암호화 비번 확인 : "+ member.getPassword());
 		return mav = memberService.memberJoin(member);
 	}
 	
@@ -334,7 +341,7 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	
 	@RequestMapping(value="/memberLogin", method=RequestMethod.POST)
 	public ModelAndView memberLogin(@ModelAttribute MemberDTO member,
-									@RequestParam("url") String url) throws java.text.ParseException {
+									@RequestParam("url") String url) throws java.text.ParseException, IOException {
 		mav = memberService.memberLogin(member, url);
 		return mav;
 	}
@@ -345,10 +352,11 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	}
 	
 	@RequestMapping(value="/memberLoginCheck")
-	public @ResponseBody String loginCheck(@RequestParam("id") String id,
+	public @ResponseBody String loginCheck( @ModelAttribute MemberDTO member,
+											@RequestParam("id") String id,
 											@RequestParam("password") String password,
 											@RequestParam("division") int division) {
-		String resultMsg = memberService.loginCheck(id, password, division);
+		String resultMsg = memberService.loginCheck(member, id, password, division);
 		return resultMsg;
 	}
 	

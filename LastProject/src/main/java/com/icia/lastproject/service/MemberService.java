@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +22,9 @@ import com.icia.lastproject.dto.ProductReportDTO;
 @Service
 public class MemberService {
 
+	@Autowired
+	private BCryptPasswordEncoder passEncoder;
+	
 	@Autowired
 	private HttpSession session;
 	
@@ -91,8 +98,9 @@ public class MemberService {
 		return new ModelAndView("redirect:"+url);
 	}
 
-	public ModelAndView memberLogin(MemberDTO member, String url) throws java.text.ParseException {
+	public ModelAndView memberLogin(MemberDTO member, String url) throws IOException {
 		mav = new ModelAndView();
+		MemberDTO loginMember = mdao.loginMember(member);
 		String loginId = null;
 		String name = null;
 		int loginIdDivision = 0;
@@ -119,7 +127,8 @@ public class MemberService {
 				mav.setViewName("member/PasswordChangePlease");
 				return mav;
 			}
-		} else if(member.getDivision()==1){
+		} else if(passEncoder.matches(member.getPassword(),loginMember.getPassword())) {
+			if(member.getDivision()==1){
 			loginId = mdao.memberLogin(member);
 			loginIdDivision = mdao.memberIdDivision(member);
 //			MemberDTO memberName = mdao.memberView(id);
@@ -134,6 +143,7 @@ public class MemberService {
 				mav.setViewName("member/PasswordChangePlease");
 				return mav;
 			}
+		}
 		}
 		if(loginId!=null) {
 			session.setAttribute("name", name);
@@ -266,12 +276,15 @@ public class MemberService {
 		return mav;
 	}
 
-	public String loginCheck(String id, String password, int division) {
+	public String loginCheck(MemberDTO member, String id, String password, int division) {
 		String loginId = null;
 		String resultMsg = null;
+		MemberDTO loginMember = mdao.loginMember(member);
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		hash.put("id", id);
 		hash.put("password", password);
+		if(passEncoder.matches(member.getPassword(), 
+				loginMember.getPassword())) {
 		if(division==2) {
 			loginId = mdao.sellerLoginCheck(hash);
 		} else {
@@ -281,6 +294,7 @@ public class MemberService {
 			resultMsg = "OK";
 		} else {
 			resultMsg = "NO";
+		}
 		}
 		return resultMsg;
 	}
