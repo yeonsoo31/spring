@@ -16,6 +16,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		var id = document.getElementById("id").value;
 		var password = document.getElementById("password").value;
 		var division = $(':radio[name="division"]:checked').val();
+		if(division==1){
 		$.ajax({
 			type : "post",
 			url : "memberLoginCheck",
@@ -37,6 +38,29 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				alert("통신오류");
 			}
 		});
+	} else if(division==2){
+		$.ajax({
+			type : "post",
+			url : "sellerLoginCheck",
+			data : {
+				"id" : id,
+				"password" : password,
+				"division" : division
+			},
+			dataType : "text",
+			success: function(result){
+				if(result=="OK"){
+					loginForm.submit();
+				} else {
+					alert("아이디 혹은 비밀번호가 틀렸습니다");
+					return false;
+				}
+			},
+			error: function(){
+				alert("통신오류");
+			}
+		});
+	}
 	}
 	function idFind(){
 		var popupX = (document.body.offsetWidth / 2) - (500 / 2);

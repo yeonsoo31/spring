@@ -202,6 +202,10 @@ public class MemberDAO {
 		return sql.selectOne("Member.loginMember", member);
 	}
 
+	public MemberDTO loginSeller(MemberDTO member) {
+		return sql.selectOne("Member.loginSeller", member);
+	}
+
 
 
 

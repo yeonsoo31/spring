@@ -75,7 +75,7 @@
  	</select>
  	
  	<select id="sellerLoginCheck" parameterType="map" resultType="String">
- 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+ 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id}
  	</select>
  	
  	<select id="memberView" parameterType="String" resultType="member">
@@ -200,6 +200,10 @@
  	
  	<select id="loginMember" parameterType="member" resultType="member">
  		SELECT * FROM MEMBER WHERE ID = #{id}
+ 	</select>
+ 	
+ 	<select id="loginSeller" parameterType="member" resultType="member">
+ 		SELECT * FROM MEMBER_SALES WHERE ID = #{id}
  	</select>
  	
  </mapper>

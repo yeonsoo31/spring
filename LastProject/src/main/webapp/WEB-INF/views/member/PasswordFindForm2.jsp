@@ -6,49 +6,41 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <script>
-	function doubleCheck(){
+	function memberPasswordModify(){
+		var id = document.getElementById("id").value;
 		var re_password = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,15}$/;
-		var memberOldPassword = document.getElementById("memberOldPassword");
-		var password = document.getElementById("password");
-		var passwordCheck = document.getElementById("passwordCheck");
-		if((password.value) == "") {
-			alert("비밀번호를 입력해 주세요");
+		var password = document.getElementById("password").value;
+		var passwordCheck = document.getElementById("passwordCheck").value;
+		if(password==""){
+			alert("새 비밀번호를 입력해주세요");
 			password.focus();
 			return false;
-		}
-		if(!re_password.test(password.value)) {
+		} else if(!re_password.test(password)){
 			alert("최소 1개의 숫자 혹은 특수문자를 포함시켜주세요");
-			return false;
-		}
-		if(memberOldPassword.value == password.value){
-			alert("이전과 다른 비밀번호를 입력해주세요");
 			password.focus();
 			return false;
-		}
-		// 비밀번호 확인 유효성
-		if((passwordCheck.value) == "") {
-			alert("비밀번호 확인을 입력해 주세요");
+		} else if(passwordCheck==""){
+			alert("비밀번호확인을 입력해주세요");
 			passwordCheck.focus();
 			return false;
-		}
-		if((password.value)!=(passwordCheck.value)) {
+		} else if(password!=passwordCheck){
 			alert("비밀번호가 일치하지 않습니다");
-			password.focus();
 			passwordCheck.focus();
 			return false;
 		}
+		location.href="newPassword?id="+id+"&password="+password;
 	}
 </script>
 </head>
 <body>
-	<form action="newPassword" method="post" onsubmit="return doubleCheck()">
-		아이디 : <input type="text" name="id" value="${findEmail}" readonly><br>
-		<input type="hidden" id="memberOldPassword" value="${sessionScope.member.password}">
+	<form action="newPassword" method="post" id="newPasswordForm">
+		아이디 : <input type="text" id="id" name="id" value="${findEmail}" readonly><br>
 		새 비밀번호 : <input type="password" id="password" name="password"><br>
 		비밀번호 확인 : <input type="password" id="passwordCheck" name="passwordCheck"><br>
-	<input type="submit" value="확인">&nbsp;<button type="button" onclick="window.close()">닫기</button>
+	<button type="button" onclick="memberPasswordModify()">확인</button>&nbsp;<button type="button" onclick="window.close()">닫기</button>
 	</form>
 </body>
 </html>

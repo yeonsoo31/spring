@@ -327,6 +327,8 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	@RequestMapping(value="/sellerJoin", method = RequestMethod.POST)
 	public ModelAndView sellerJoin(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = new ModelAndView();
+		String encPassword = passEncoder.encode(member.getPassword());
+		member.setPassword(encPassword);
 		return mav = memberService.sellerJoin(member);
 	}
 	
@@ -352,13 +354,22 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 	}
 	
 	@RequestMapping(value="/memberLoginCheck")
-	public @ResponseBody String loginCheck( @ModelAttribute MemberDTO member,
+	public @ResponseBody String memberLoginCheck( @ModelAttribute MemberDTO member,
 											@RequestParam("id") String id,
 											@RequestParam("password") String password,
 											@RequestParam("division") int division) {
-		String resultMsg = memberService.loginCheck(member, id, password, division);
+		String resultMsg = memberService.memberLoginCheck(member, id, password, division);
 		return resultMsg;
 	}
+	
+	@RequestMapping(value="/sellerLoginCheck")
+	public @ResponseBody String sellerLoginCheck( @ModelAttribute MemberDTO member,
+											@RequestParam("id") String id,
+											@RequestParam("password") String password,
+											@RequestParam("division") int division) {
+		String resultMsg = memberService.sellerLoginCheck(member, id, password, division);
+		return resultMsg;
+}
 	
 	@RequestMapping(value="/memberLogout", method=RequestMethod.GET)
 	public String memberLogout() {
@@ -464,31 +475,35 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return "member/MemberDeleteForm";
 	}
 	
-	@RequestMapping(value="/memberDeleteCheck", method=RequestMethod.POST)
-	public @ResponseBody String memberDeleteCheck(@RequestParam("id") String id,
+	@RequestMapping(value="/memberDelete", method=RequestMethod.POST)
+	public @ResponseBody String memberDeleteCheck(@ModelAttribute MemberDTO member,
+												  @RequestParam("id") String id,
 												  @RequestParam("password") String password) {
-		String resultMsg = memberService.memberDeleteCheck(id, password);
+		String resultMsg = memberService.memberDelete(member, id, password);
 		return resultMsg;
 	}
 	
-	@RequestMapping(value="/sellerDeleteCheck", method=RequestMethod.POST)
-	public @ResponseBody String sellerDeleteCheck(@RequestParam("id") String id,
+	@RequestMapping(value="/sellerDelete", method=RequestMethod.POST)
+	public @ResponseBody String sellerDeleteCheck(@ModelAttribute MemberDTO member,
+												  @RequestParam("id") String id,
 												  @RequestParam("password") String password) {
-		String resultMsg = memberService.sellerDeleteCheck(id, password);
+		String resultMsg = memberService.sellerDelete(member, id, password);
 		return resultMsg;
 	}
 	
-	@RequestMapping(value="/memberDelete")
-	public ModelAndView memberDelete(@RequestParam("id") String id) {
-		mav = memberService.memberDelete(id);
-		return mav;
-	}
+//	@RequestMapping(value="/memberDelete")
+//	public ModelAndView memberDelete(@ModelAttribute MemberDTO member,
+//									 @RequestParam("id") String id,
+//									 @RequestParam("password") String password) {
+//		mav = memberService.memberDelete(member, id, password);
+//		return mav;
+//	}
 	
-	@RequestMapping(value="/sellerDelete")
-	public ModelAndView sellerDelete(@RequestParam("id") String id) {
-		mav = memberService.sellerDelete(id);
-		return mav;
-	}
+//	@RequestMapping(value="/sellerDelete")
+//	public ModelAndView sellerDelete(@RequestParam("id") String id) {
+//		mav = memberService.sellerDelete(id);
+//		return mav;
+//	}
 	
 	@RequestMapping(value="/idFindForm")
 	public String idFindForm() {
@@ -518,25 +533,6 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return resultMsg;
 	}
 	
-	@RequestMapping(value="/newPassword", method=RequestMethod.POST)
-	public ModelAndView newPassword(@RequestParam("id") String id,
-									@RequestParam("password") String password) {
-		mav = memberService.newPassword(id, password);
-		return mav;
-	}
-	
-	@RequestMapping(value="/adminMemberDelete")
-	public ModelAndView adminMemberDelete(@RequestParam("id") String id) {
-		mav = memberService.adminMemberDelete(id);
-		return mav;
-	}
-	
-	@RequestMapping(value="/adminSellerDelete")
-	public ModelAndView adminSellerDelete(@RequestParam("id") String id) {
-		mav = memberService.adminSellerDelete(id);
-		return mav;
-	}
-	
 	@RequestMapping(value="/memberPasswordModifyForm")
 	public ModelAndView memberPasswordModifyForm() {
 		String id = (String) session.getAttribute("loginId");
@@ -551,10 +547,35 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		return mav;
 	}
 	
+	@RequestMapping(value="/newPassword")
+	public ModelAndView newPassword(@ModelAttribute MemberDTO member,
+									@RequestParam("id") String id,
+									@RequestParam("password") String password) {
+		String encPassword = passEncoder.encode(member.getPassword());
+		member.setPassword(encPassword);
+		mav = memberService.newPassword(member, id, password);
+		return mav;
+	}
+	
 	@RequestMapping(value="/newSellerPassword")
-	public ModelAndView newSellerPassword(@RequestParam("id") String id,
+	public ModelAndView newSellerPassword(@ModelAttribute MemberDTO member,
+										  @RequestParam("id") String id,
 										  @RequestParam("password") String password) {
-		mav = memberService.newSellerPassword(id, password);
+		String encPassword = passEncoder.encode(member.getPassword());
+		member.setPassword(encPassword);
+		mav = memberService.newSellerPassword(member, id, password);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminMemberDelete")
+	public ModelAndView adminMemberDelete(@RequestParam("id") String id) {
+		mav = memberService.adminMemberDelete(id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminSellerDelete")
+	public ModelAndView adminSellerDelete(@RequestParam("id") String id) {
+		mav = memberService.adminSellerDelete(id);
 		return mav;
 	}
 	

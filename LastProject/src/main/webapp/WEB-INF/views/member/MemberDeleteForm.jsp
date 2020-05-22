@@ -10,58 +10,69 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <title>Insert title here</title>
 <script>
 	function memberDeleteProcess(){
+		var id = document.getElementById("id").value;
+		var re_password = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,15}$/;
 		var password = document.getElementById("password").value;
-		var id = "${sessionScope.loginId}";
 		if(password==""){
 			alert("비밀번호를 입력해주세요");
+			password.focus();
 			return false;
-		}
-			$.ajax({
-				type : "post",
-				url : "memberDeleteCheck",
-				data : {
-					"id" : id,
-					"password" : password
-				},
-				dataType : "text",
-				success: function(result){
-					if(result=="OK"){
-						alert("탈퇴처리가 완료되었습니다");
-						var theURL = "memberDelete?id="+id;
-						opener.window.location = theURL;
-						close();
-					} else {
-						alert("아이디 혹은 비밀번호가 틀렸습니다");
-						return false;
-					}
-				},
-				error: function(){
-					alert("통신오류");
+		} else if(!re_password.test(password)){
+			alert("최소 1개의 숫자 혹은 특수문자를 포함시켜주세요");
+			password.focus();
+			return false;
+		} else {
+		$.ajax({
+			type : "post",
+			url : "memberDelete",
+			data : {
+				"id" : id,
+				"password" : password,
+			},
+			dataType : "text",
+			success: function(result){
+				if(result=="OK"){
+					alert("탈퇴되었습니다");
+					opener.window.location="goMain";
+					window.close();
+				} else {
+					alert("아이디 혹은 비밀번호가 틀렸습니다");
+					return false;
 				}
-			});
-		}
+			},
+			error: function(){
+				alert("통신오류");
+			}
+		});
+	}
+}
 	
 	function sellerDeleteProcess(){
+		var id = document.getElementById("id").value;
+		var re_password = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,15}$/;
 		var password = document.getElementById("password").value;
-		var id = "${sessionScope.loginId}";
 		if(password==""){
 			alert("비밀번호를 입력해주세요");
+			password.focus();
 			return false;
-		}
+		} else if(!re_password.test(password)){
+			alert("최소 1개의 숫자 혹은 특수문자를 포함시켜주세요");
+			password.focus();
+			return false;
+		} else {
 			$.ajax({
 				type : "post",
-				url : "sellerDeleteCheck",
+				url : "sellerDelete",
 				data : {
 					"id" : id,
-					"password" : password
+					"password" : password,
 				},
 				dataType : "text",
 				success: function(result){
 					if(result=="OK"){
-						alert("탈퇴처리가 완료되었습니다");
-						var theURL = "sellerDelete?id="+id;
-						opener.window.location = theURL;
-						close();
+						alert("탈퇴되었습니다");
+						opener.window.location="goMain";
+						window.close();
 					} else {
 						alert("아이디 혹은 비밀번호가 틀렸습니다");
 						return false;
@@ -72,6 +83,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 				}
 			});
 		}
+	}
 
 </script>
 </head>

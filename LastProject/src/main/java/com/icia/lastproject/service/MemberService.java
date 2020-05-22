@@ -276,25 +276,44 @@ public class MemberService {
 		return mav;
 	}
 
-	public String loginCheck(MemberDTO member, String id, String password, int division) {
+	public String memberLoginCheck(MemberDTO member, String id, String password, int division) {
 		String loginId = null;
 		String resultMsg = null;
 		MemberDTO loginMember = mdao.loginMember(member);
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		hash.put("id", id);
-		hash.put("password", password);
-		if(passEncoder.matches(member.getPassword(), 
-				loginMember.getPassword())) {
-		if(division==2) {
-			loginId = mdao.sellerLoginCheck(hash);
-		} else {
+		if(loginMember!=null) {
+		if(passEncoder.matches(password, loginMember.getPassword())) {
 			loginId = mdao.memberLoginCheck(hash);
+			if(loginId != null) {
+				resultMsg = "OK";
+			} else {
+				resultMsg = "NO";
+			}
 		}
-		if(loginId != null) {
+		} else {
+			resultMsg = "NO";
+		}
+		return resultMsg;
+	}
+	
+	public String sellerLoginCheck(MemberDTO member, String id, String password, int division) {
+		String loginId = null;
+		String resultMsg = null;
+		MemberDTO loginSeller = mdao.loginSeller(member);
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		if(loginSeller!=null) {
+		if(passEncoder.matches(password, loginSeller.getPassword())) {
+			loginId = mdao.sellerLoginCheck(hash);
+		}
+		if(loginId!=null) {
 			resultMsg = "OK";
 		} else {
 			resultMsg = "NO";
 		}
+		} else {
+			resultMsg = "NO";
 		}
 		return resultMsg;
 	}
@@ -354,56 +373,62 @@ public class MemberService {
 		return ResultMsg;
 	}
 
-	public String sellerDeleteCheck(String id, String password) {
-		HashMap<String, Object> hash = new HashMap<String, Object>();
-		hash.put("id", id);
-		hash.put("password", password);
-		String sellerDeleteCheckResult = mdao.sellerDeleteCheckResult(hash);
-		String ResultMsg = null;
-		if(sellerDeleteCheckResult != null) {
-			ResultMsg = "OK";
-		} else {
-			ResultMsg = "NO";
-		}
-		return ResultMsg;
-	}
+//	public String sellerDeleteCheck(String id, String password) {
+//		HashMap<String, Object> hash = new HashMap<String, Object>();
+//		hash.put("id", id);
+//		hash.put("password", password);
+//		String sellerDeleteCheckResult = mdao.sellerDeleteCheckResult(hash);
+//		String ResultMsg = null;
+//		if(sellerDeleteCheckResult != null) {
+//			ResultMsg = "OK";
+//		} else {
+//			ResultMsg = "NO";
+//		}
+//		return ResultMsg;
+//	}
+//
+//	public String memberDeleteCheck(String id, String password) {
+//		HashMap<String, Object> hash = new HashMap<String, Object>();
+//		hash.put("id", id);
+//		hash.put("password", password);
+//		String memberDeleteCheckResult = mdao.memberDeleteCheckResult(hash);
+//		String ResultMsg = null;
+//		if(memberDeleteCheckResult != null) {
+//			ResultMsg = "OK";
+//		} else {
+//			ResultMsg = "NO";
+//		}
+//		return ResultMsg;
+//	}
 
-	public String memberDeleteCheck(String id, String password) {
-		HashMap<String, Object> hash = new HashMap<String, Object>();
-		hash.put("id", id);
-		hash.put("password", password);
-		String memberDeleteCheckResult = mdao.memberDeleteCheckResult(hash);
-		String ResultMsg = null;
-		if(memberDeleteCheckResult != null) {
-			ResultMsg = "OK";
-		} else {
-			ResultMsg = "NO";
-		}
-		return ResultMsg;
-	}
-
-	public ModelAndView memberDelete(String id) {
-		mav = new ModelAndView();
+	public String memberDelete(MemberDTO member, String id, String password) {
+		String resultMsg = null;
+		MemberDTO loginMember = mdao.loginMember(member);
+		if(passEncoder.matches(member.getPassword(),loginMember.getPassword())) {
 		int memberDeleteResult = mdao.memberDelete(id);
 		if(memberDeleteResult > 0) {
 			session.invalidate();
-			mav.setViewName("redirect:/goMain");
+			resultMsg = "OK";
 		} else {
-			mav.setViewName("member/memberDeleteFail");
+			resultMsg = "NO";
 		}
-		return mav;
+		}
+		return resultMsg;
 	}
 
-	public ModelAndView sellerDelete(String id) {
-		mav = new ModelAndView();
+	public String sellerDelete(MemberDTO member, String id, String password) {
+		String resultMsg = null;
+		MemberDTO loginSeller = mdao.loginSeller(member);
+		if(passEncoder.matches(member.getPassword(),loginSeller.getPassword())) {
 		int sellerDeleteResult = mdao.sellerDelete(id);
 		if(sellerDeleteResult > 0) {
 			session.invalidate();
-			mav.setViewName("redirect:/goMain");
+			resultMsg = "OK";
 		} else {
-			mav.setViewName("member/sellerDeleteFail");
+			resultMsg = "NO";
 		}
-		return mav;
+		}
+		return resultMsg;
 	}
 
 	public ModelAndView memberIdFind(String name, String birth, String phone) {
@@ -438,11 +463,26 @@ public class MemberService {
 		return mav;
 	}
 	
-	public ModelAndView newPassword(String id, String password) {
+	public ModelAndView memberPasswordModifyForm(String id) {
+		mav = new ModelAndView();
+		mav.addObject("findEmail", id);
+		mav.setViewName("member/PasswordFindForm2");
+		return mav;
+	}
+
+	public ModelAndView sellerPasswordModifyForm(String id) {
+		mav = new ModelAndView();
+		mav.addObject("findEmail", id);
+		mav.setViewName("member/SellerPasswordModifyForm");
+		return mav;
+	}
+	
+	public ModelAndView newPassword(MemberDTO member, String id, String password) {
 		mav = new ModelAndView();
 		HashMap<String, Object> hash = new HashMap<String, Object>();
+		String newPassword = member.getPassword();
 		hash.put("id", id);
-		hash.put("password", password);
+		hash.put("password", newPassword);
 		int newPasswordResult = mdao.newPassword(hash);
 		if(newPasswordResult > 0) {
 			mav.setViewName("member/NewPasswordSuccess");
@@ -452,6 +492,21 @@ public class MemberService {
 		return mav;
 	}
 
+	public ModelAndView newSellerPassword(MemberDTO member, String id, String password) {
+		mav = new ModelAndView();
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		String sellerNewpassword = member.getPassword();
+		hash.put("id", id);
+		hash.put("password", sellerNewpassword);
+		int newSellerPasswordResult = mdao.newSellerPassword(hash);
+		if(newSellerPasswordResult > 0) {
+			mav.setViewName("member/NewPasswordSuccess");
+		} else {
+			mav.setViewName("member/NewPasswordFail");
+		}
+		return mav;
+	}
+	
 	public String emailCheck(String id) {
 		String emailCheckResult = mdao.emailCheck(id);
 		String resultMsg = null;
@@ -481,34 +536,6 @@ public class MemberService {
 			mav.setViewName("redirect:/memberList");
 		} else {
 			mav.setViewName("member/adminSellerDeleteFail");
-		}
-		return mav;
-	}
-
-	public ModelAndView memberPasswordModifyForm(String id) {
-		mav = new ModelAndView();
-		mav.addObject("findEmail", id);
-		mav.setViewName("member/PasswordFindForm2");
-		return mav;
-	}
-
-	public ModelAndView sellerPasswordModifyForm(String id) {
-		mav = new ModelAndView();
-		mav.addObject("findEmail", id);
-		mav.setViewName("member/SellerPasswordModifyForm");
-		return mav;
-	}
-
-	public ModelAndView newSellerPassword(String id, String password) {
-		mav = new ModelAndView();
-		HashMap<String, Object> hash = new HashMap<String, Object>();
-		hash.put("id", id);
-		hash.put("password", password);
-		int newSellerPasswordResult = mdao.newSellerPassword(hash);
-		if(newSellerPasswordResult > 0) {
-			mav.setViewName("member/NewPasswordSuccess");
-		} else {
-			mav.setViewName("member/NewPasswordFail");
 		}
 		return mav;
 	}
@@ -562,6 +589,10 @@ public class MemberService {
 		}
 		return resultMsg;
 	}
+
+
+
+	
 
 	
 
