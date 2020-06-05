@@ -12,11 +12,12 @@ import com.icia.lastproject.dto.CartPriceDTO;
 import com.icia.lastproject.dto.MemberDTO;
 import com.icia.lastproject.dto.PageDTO;
 import com.icia.lastproject.dto.ProductAnswerDTO;
+import com.icia.lastproject.dto.ProductBuyDTO;
 import com.icia.lastproject.dto.ProductDTO;
 import com.icia.lastproject.dto.ProductListDTO;
 import com.icia.lastproject.dto.ProductListTempDTO;
+import com.icia.lastproject.dto.ProductOrderDTO;
 import com.icia.lastproject.dto.ProductQnaDTO;
-import com.icia.lastproject.dto.ProductReportDTO;
 import com.icia.lastproject.dto.ReviewDTO;
 
 @Repository
@@ -228,14 +229,42 @@ public class ProductDAO {
 		return sql.selectOne("Product.CartPrice", list);
 	}
 
+	public int OrderInsert(ProductOrderDTO order) {
+		return sql.insert("Product.orderInsert", order);
+	}
 
-	public String productReportCheck(ProductReportDTO productReport) {
-		return sql.selectOne("Product.productReportCheck", productReport);
+	public ProductOrderDTO payment(String id) {
+		return sql.selectOne("Product.orderSelect", id);
 	}
 
 
-	public int productReport(ProductReportDTO productReport) {
-		return sql.insert("Product.productReport", productReport);
+	public List<CartDTO> buyCartList(String userid) {
+		return sql.selectList("Product.buyCartList", userid);
+	}
+
+
+	public List<ProductBuyDTO> buyList(String userid) {
+		return sql.selectList("Product.buyList", userid);
+	}
+
+
+	public List<ProductBuyDTO> SalesBuyList(String userid) {
+		return sql.selectList("Product.SalesBuyCartList", userid);
+	}
+
+
+	public int ProductSalesOrder(int no) {
+		return sql.update("Product.ProductSalesOrder", no);
+	}
+
+
+	public int RecentList(Map<String, Object> map) {
+		return sql.insert("Product.ProductRecent", map);
+	}
+
+
+	public List<ProductDTO> ProductRecent(String userid) {
+		return sql.selectList("Product.ProductRecentList", userid);
 	}
 
 

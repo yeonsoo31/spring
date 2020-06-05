@@ -188,116 +188,135 @@
 			</script>
 		</c:if>
 	<!-- Logo -->
-	<div class="header-logo" style="text-align:center;">
-		<a class="logo" href="goMain">
-			<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
-		</a>
-	</div>
+	<jsp:include page="/WEB-INF/views/top.jsp"/>
 	<!-- /Logo -->
-	<table style="margin:auto;">
-	<form action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
-			<c:choose>
-				<c:when test="${kakaoId ne null}">
-					<tr>
-						<td>이메일 : <input type="text" name="id" id="id" value="${kakaoEmail}" readonly>
-							<button type="button" onclick="idOverlap()">아이디중복확인</button>
-							<input type="hidden" id="idOverlapValue" value="N">
-							<input type="hidden" name="kakaoId" id="kakaoId" value="${kakaoId}">
-							<input type="hidden" id="password" name=password value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
-						</td>
-					</tr>
-					<tr>
-						<td>이름 : <input type="text" name="name" id="name" value="${nickName}"></td>
-					</tr>
-				</c:when>
-				<c:when test="${naverId ne null}">
-					<tr>
-						<td>이메일 : <input type="text" name="id" id="id" value="${naverEmail}" readonly>
-							<button type="button" onclick="idOverlap()">아이디중복확인</button>
-							<input type="hidden" id="idOverlapValue" value="N">
-							<input type="hidden" name="naverId" id="naverId" value="${naverId}">
-							<input type="hidden" id="password" name=password value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
-						</td>
-					</tr>
-					<tr>
-						<td>이름 : <input type="text" name="name" id="name" value="${naverName}"></td>
-					</tr>
-				</c:when>
-				<c:when test="${googleId ne null}">
-					<tr>
-						<td>이메일 : <input type="text" name="id" id="id" value="${googleEmail}" readonly>
-							<button type="button" onclick="idOverlap()">아이디중복확인</button>
-							<input type="hidden" id="idOverlapValue" value="N">
-							<input type="hidden" name="googleId" id="googleId" value="${googleId}">
-							<input type="hidden" id="password" name=password value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
-						</td>
-					</tr>
-					<tr>
-						<td>이름 : <input type="text" name="name" id="name" value="${googleName}"></td>
-					</tr>
-				</c:when>
-				<c:when test="${facebookId ne null}">
-					<tr>
-						<td>이메일 : <input type="text" name="id" id="id" value="${facebookEmail}" readonly>
-							<button type="button" onclick="idOverlap()">아이디중복확인</button>
-							<input type="hidden" id="idOverlapValue" value="N">
-							<input type="hidden" name="facebookId" id="facebookId" value="${facebookId}">
-							<input type="hidden" id="password" name=password value="asdfASDF1!">
-							<input type="hidden" id="passwordCheck" value="asdfASDF1!">
-						</td>
-					</tr>
-					<tr>
-						<td>이름 : <input type="text" name="name" id="name" value="${facebookName}"></td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td>이메일 : <input type="text" id="id" name="id" onkeydown="newId()">
-							<button type="button" onclick="idOverlap()">아이디중복확인</button>
-							<input type="hidden" id="idOverlapValue" value="N">
-						</td>
-					</tr>
-					<tr>
-						<td>비밀번호 : <input type="password" id="password" name=password placeholder="6~15자리 숫자 혹은 특수문자 조합"></td>
-					</tr>
-					<tr>
-						<td>비밀번호 확인 : <input type="password" id="passwordCheck"></td>
-					</tr>
-					<tr>
-						<td>이름 : <input type="text" id="name" name="name" maxlength="4"></td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
-			<tr>
-				<td>생년월일 : <input type="date" id="birth" name="birth"></td>
-			</tr>
-			<tr>
-				<td>주소 : <input type="text" id="sample6_postcode"
-					name="address1" placeholder="우편번호">&nbsp;<input
-					type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
-			</tr>
-			<tr>
-				<td><input type="text" id="sample6_address" name="address2"
-					placeholder="주소"> <input type="text"
-					id="sample6_detailAddress" name="address3" placeholder="상세주소">
-					<input type="text" id="sample6_extraAddress" name="address4"
-					placeholder="참고항목"></td>
-			</tr>
-			<tr>
-				<td>휴대폰 : <input id="phone" name="phone" type="text"></td>
-			</tr>
-			<tr>
-				<td>프로필사진 : <input type="file" name="file"></td>
-			</tr>
-			<tr>
-				<td style="text-align:center;"><input type="submit" name="submit" value="회원가입">
-					<input type="reset" value="다시작성">
-				</td>
-			</tr>
+	
+	
+	<!-- 수정 하고잇음 -->
+	<div class="container">
+	<div class="col-md-offset-12">　</div>
+	<form class="col-md-offset-4" action="memberJoin" method="post" id="memberJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data" style="margin-left:0;">
+		<div class="cont" style="padding:0 15px; float:left; width:100%;">
+				<div class="contLeft" style="background:white; float:left; width:80%;margin-left: 20%;">
+					<div class="product-tab">
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab1">일반 회원가입</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="tab1" class="tab-pane fade in active" style="margin-left: 20px;">
+									<c:choose>
+							<c:when test="${kakaoId ne null}">
+									<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" name="id" id="id" value="${kakaoEmail}" readonly style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+										<input type="hidden" name="kakaoId" id="kakaoId" value="${kakaoId}">
+										<input type="hidden" id="password" name=password value="asdfASDF1!">
+										<input type="hidden" id="passwordCheck" value="asdfASDF1!">
+									</div>
+									<div style="margin-top:20px;">
+										<a>이름 :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 75px;" value="${nickName}">
+									</div>
+							</c:when>		
+							<c:when test="${naverId ne null}">
+								<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" name="id" id="id" value="${naverEmail}" readonly style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+										<input type="hidden" name="kakaoId" id="kakaoId" value="${naverId}">
+										<input type="hidden" id="password" name=password value="asdfASDF1!">
+										<input type="hidden" id="passwordCheck" value="asdfASDF1!">
+									</div>
+									<div style="margin-top:20px;">
+										<a>이름 :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 75px;" value="${naverName}">
+									</div>
+							</c:when>
+							<c:when test="${googleId ne null}">
+								<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" name="id" id="id" value="${googleEmail}" readonly style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+										<input type="hidden" name="kakaoId" id="kakaoId" value="${googleId}">
+										<input type="hidden" id="password" name=password value="asdfASDF1!">
+										<input type="hidden" id="passwordCheck" value="asdfASDF1!">
+									</div>
+									<div style="margin-top:20px;">
+										<a>이름 :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 75px;" value="${googleName}">
+									</div>
+							</c:when>
+							<c:when test="${facebookId ne null}">
+								<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" name="id" id="id" value="${facebookEmail}" readonly style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+										<input type="hidden" name="kakaoId" id="kakaoId" value="${facebookId}">
+										<input type="hidden" id="password" name=password value="asdfASDF1!">
+										<input type="hidden" id="passwordCheck" value="asdfASDF1!">
+									</div>
+									<div style="margin-top:20px;">
+										<a>이름 :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 75px;" value="${facebookName}">
+									</div>
+							</c:when>
+							<c:otherwise>	
+							<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" id="id" name="id" onkeydown="newId()"style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+									</div>
+									<div style="margin-top:20px;">
+										<a>비밀번호 :</a>
+										<input class="input" type="password" id="password" name=password placeholder="8~16,숫자,대소문자,특문" style="width: 30%;margin-left: 97px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>비밀번호 확인 :</a>
+										<input class="input" type="password" id="passwordCheck"style="width: 30%;margin-left: 66px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>이름 :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 125px;" >
+									</div>
+								</c:otherwise>
+								</c:choose>
+									<div style="margin-top:20px;">
+										<a>주소 :</a>
+										<input type="text" id="sample6_postcode" name="address1" placeholder="우편번호" class="input"style="width: 30%;margin-left: 97px;" >
+										<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="primary-btn"style="width: 15%;">
+										<input type="text" id="sample6_address" name="address2" placeholder="주소" class="input"style="width: 30%;margin-left: 163px;"> <br>
+										<input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소" class="input"style="width: 30%;margin-left: 163px;"><br>
+										<input type="text" id="sample6_extraAddress" name="address4" placeholder="참고항목" class="input"style="width: 30%;margin-left: 163px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>생년월일 :</a>
+										 <input type="date" id="birth" name="birth" class="input" style="width: 30%;margin-left: 95px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>휴대폰 :</a>
+										 <input id="phone" name="phone" type="text" class="input" style="width: 30%;margin-left: 110px;">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>프로필사진 :</a>
+										<input type="file" name="file" class="input" style="width:30%;margin-left: 160px;">
+									</div>
+								</div>
+								</div>
+						</div>
+					</div>
+			</div>	
+		<input type="submit" name="submit" value="회원가입" class="primary-btn" style="margin-left: 500px;margin-top:80px;">
+		<input type="reset" value="다시작성" class="primary-btn">
 	</form>
-	</table>
+	</div>
+	<!-- 수정끄트ㅡ으으으으 -->
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

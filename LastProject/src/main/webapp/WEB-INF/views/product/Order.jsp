@@ -92,6 +92,44 @@ function comma(num){
 			$('#a_sample6_extraAddress').val(extraAddress);
 			$('#a_sample6_detailAddress').val(detailAddress);
 		}
+		
+		function pay(){
+			/* var count = ${cartprice.count};
+			var name = $('#name').val();
+			var phone = $('#phone').val();
+			var request = $('#request').val();
+			var address = $('#a_sample6_address').val()+$('#a_sample6_detailAddress').val()+$('#a_sample6_postcode').val()+$('#a_sample6_extraAddress').val();
+			 for(var i=1 ; i<=count ; i++){
+				var price = $('#price'+i).val();
+				var salesid = $('#sales_id'+i).val();
+				console.log(price,salesid);
+				var cartno = $('#Pno'+i).val();
+				console.log(cartno)
+				$.ajax({
+					url:'OrderInsert',
+					type:'get',
+					data:{cartno:cartno,
+						name:name,
+						phone:phone,
+						request:request,
+						address:address,
+						price:price,
+						salesid:salesid},
+					success:function(result){
+						console.log(result);
+					}
+					});
+				} */
+  			 window.open('','payviewer','width=1000,height=800,resizeable,scrollbars');
+			 $('#pay').attr("action","ProductPayment");
+			 $('#pay').attr("target","payviewer");
+  			 $('#pay').submit();
+        	/* window.open('ProductPayment','payviewer','width=1000,height=800,resizeable,scrollbars'); */
+/*         		this.action = 'ProductPayment';
+        		this.method = 'post';
+        		this.target = 'payviewer'; */
+        	
+		}
 </script>
 </head>
 
@@ -146,6 +184,7 @@ function comma(num){
 								</div>
 								</div>
 						</div>
+						<form id="pay" action="ProductPayment" method="POST">
 						<div class="product-tab">
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">배송지 정보</a></li>
@@ -154,12 +193,12 @@ function comma(num){
 								<div id="tab1" class="tab-pane fade in active" style="margin-left: 20px;">
 									<div>
 										<a>이름:</a>
-										<input class="input" type="text" style="width: 30%; margin-left: 61px;" placeholder="이름"  id="a_name" >
-										<button class="primary-btn" style="margin-left: 200px; height: 40px;" onclick="infosame()"> 주문자정보와 동일</button>
+										<input class="input" type="text" style="width: 30%; margin-left: 61px;" placeholder="이름"  id="a_name" name="name">
+										<button type="button" class="primary-btn" style="margin-left: 200px; height: 40px;" onclick="infosame()"> 주문자정보와 동일</button>
 									</div>
 									<div style="margin-top:20px;">
 										<a>핸드폰번호:  </a>
-										<input class="input" type="text"style="width: 30%; margin-left: 20px;"id="a_phone"  placeholder="핸드폰번호">
+										<input class="input" type="text"style="width: 30%; margin-left: 20px;"id="a_phone"  placeholder="핸드폰번호" name="phone">
 									</div>
 									<div style="margin-top:20px;">
 										<a>주소 :</a> 
@@ -171,7 +210,7 @@ function comma(num){
 									</div>
 									<div style="margin-top:20px;">
 										<a>배송요청 사항 :</a> 
-										<select>
+										<select name="request" id="request">
 											<option value="" >배송시 요청사항(선택)</option>
 											<option value="배송전, 연락바랍니다." >배송전, 연락바랍니다.</option>
 											<option value="부재시, 전화또는 연락부탁드립니다." >부재시, 전화또는 연락부탁드립니다.</option>
@@ -181,6 +220,7 @@ function comma(num){
 								</div>
 							</div>
 						</div>
+						</form>
 					</div>
 					
 				<div class="contRight" style="width:33%; float:right;">
@@ -196,6 +236,9 @@ function comma(num){
 									<h4 class="product-name" style="width:400px; letter-spacing: -1px; font-size: 16px;">${result.trade_name}</h4>
 									<p style="width:400px;">${result.option1}-${result.option2}(${result.saleprice })원- 재고 : ${result.stock }</p>
 									<h4 style="width:400px;"><span id="productPrice${status.index}"><fmt:formatNumber value="${result.price}" pattern="#,###.##"/></span>원</h4>
+									<input type="hidden" value="${result.cartno }" id="Pno${status.count}">
+									<input type="hidden" value="${result.price }" name="price" id="price${status.count}">
+									<input type="hidden" value="${result.saleid }" name="sales_id" id="sales_id${status.count}">
 								</div>
 							</div>
 						</div>
@@ -222,7 +265,7 @@ function comma(num){
 								<h4 style="float:left;color: #7F8590;">전체 상품금액</h4>
 								<h2><span style="float:right;"> <fmt:formatNumber value="${cartprice.price}" pattern="#,###.##"/>원</span><span style="float:right;" id="totalPrice"></span></h2>
 							</div>
-							<button class="primary-btn" style="margin-top: 20px; width: 100%; height: 70px;font-size: 25px;" onclick="order()"> 결제하기</button>
+							<button class="primary-btn" style="margin-top: 20px; width: 100%; height: 70px;font-size: 25px;" onclick="pay()"> 결제하기</button>
 						</div>
 					</div>	
 					<!-- 결제 -->

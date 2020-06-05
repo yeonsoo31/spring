@@ -125,7 +125,6 @@ $(document).ready(function () {
 				<div class="col-md-12">
 					<div class="section-title">
 						<h3 class="title">검색결과 목록</h3>
-						<button onclick="productpage()">글쓰기</button>
 					</div>
 				</div>
 				<!-- section title -->

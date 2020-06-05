@@ -3,14 +3,18 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="Product"> 
-	
 	<insert id="listinsert" parameterType="plist">
  		INSERT INTO product_temp(option1,option2,saleprice,stock)
 		VALUES(#{color},#{size},#{saleprice},#{stock})
  	</insert>
  	<insert id="productinset" parameterType="product">
- 		INSERT INTO PRODUCT (PRODUCTNO,ID,CATEGORYNO,PRICE,EXPLANATION,HIT,PHOTO1,PHOTO2,PHOTO3,TRADE_NAME)
- 		VALUES(PRODUCT_SEQ.NEXTVAL,#{id},#{categoryno},#{price},#{explanation},0,#{photo1},#{photo2},#{photo3},#{trade_name})
+ 		INSERT INTO PRODUCT
+ 		  select PRODUCT_SEQ.NEXTVAL,id,#{categoryno},#{price},#{explanation},0,#{photo1},#{photo2},#{photo3},#{trade_name}
+   		 from (
+           select s_name id
+            from member_sales
+           where id = #{id}
+             )
  	</insert>
  	<insert id="productListInsert" >
  	 insert into productlist
@@ -274,7 +278,7 @@ select *
  		delete from cart where cartno = #{cartno}
  	</delete>
  	<select id="CartPrice" parameterType="java.util.List" resultType="cartprice">
- 	 		select sum(price) price, count(1) count ,max(id) id
+ 	 		select sum(price) price, count(1) count ,max(saleid) id
  	 		  from (
 	 	 		  select *
 	 		  from cart
@@ -284,13 +288,54 @@ select *
 	 		 </foreach>
  		 		)
  	</select>
- 	<select id="productReportCheck" parameterType="productReport" resultType="String">
- 		SELECT SELLERID FROM PRODUCTREPORT WHERE MEMBERID = #{memberId} AND SELLERID = #{sellerId} AND PRODUCTNO = #{productno} AND TRADE_NAME = #{trade_name} AND REPORTTYPE = #{reporttype}
+ 	<insert id="orderInsert" parameterType="porder" >
+	insert into product_order 
+  	select porder_seq.nextval,#{cartno},#{price},#{request},#{id},id,#{name},#{phone},#{address},salesaddress,1,sysdate
+    from (
+          select address salesaddress, id
+            from member_sales
+          where s_name = #{salesid}
+          ) 	
+ 	</insert>
+ 	<select id="orderSelect" parameterType="String" resultType="porder">
+ 	select sum(price) price, max(salesid) salesid,max(id) id,max(name) name,max(phone) phone,max(address) address
+              from product_order
+             where id = #{id} 
+ 	</select>
+ 	<select id="buyList" parameterType="String" resultType="productbuy">
+ 	select saleid ,photo1,trade_name,a.price price,option1,option2,stock,saleprice,num,request,address,sales_address,result,to_char(sys_date , 'YYYY-MM-dd') sys_date
+  from cart a
+     , product_order b
+ where a.cartno = b.cartno
+   and b.id = #{userid}
  	</select>
  	
- 	<insert id="productReport" parameterType="productReport">
- 		INSERT INTO PRODUCTREPORT VALUES (#{memberId}, #{sellerId}, #{productno}, #{trade_name}, #{reporttype})
- 	</insert>
+ 	<select id="SalesBuyCartList" parameterType="String" resultType="productbuy">
+ 		select saleid ,photo1,trade_name,a.price price,option1,option2,stock,saleprice,num,request,address,sales_address,result,to_char(sys_date , 'YYYY-MM-dd') sys_date,orderno
+	  from cart a
+	     , product_order b
+	 where a.cartno = b.cartno
+	   and b.salesid = #{userid}
+ 	</select>
+ 	<update id="ProductSalesOrder" parameterType="int">
+ 		update product_order
+ 		   set result = '2'
+ 		 where orderno = #{no}
+ 	</update>
+ 	<insert id="ProductRecent" parameterType="map">
+ 	insert into product_recentlist
+ 	  select #{userid} userid,a.*
+    from (
+           select *
+             from product
+            where productno = #{number}
+            ) a
+     </insert>       
+     <select id="ProductRecentList" parameterType="String" resultType="product">
+     	select *
+     	  from product_recentlist
+     	 where userid = #{userid}
+     </select>
  </mapper>
  
  

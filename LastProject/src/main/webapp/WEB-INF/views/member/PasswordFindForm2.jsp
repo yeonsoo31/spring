@@ -8,6 +8,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
 <title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 <script>
 	function memberPasswordModify(){
 		var id = document.getElementById("id").value;
@@ -36,11 +37,30 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 </script>
 </head>
 <body>
-	<form action="newPassword" method="post" id="newPasswordForm">
-		아이디 : <input type="text" id="id" name="id" value="${findEmail}" readonly><br>
-		새 비밀번호 : <input type="password" id="password" name="password"><br>
-		비밀번호 확인 : <input type="password" id="passwordCheck" name="passwordCheck"><br>
-	<button type="button" onclick="memberPasswordModify()">확인</button>&nbsp;<button type="button" onclick="window.close()">닫기</button>
-	</form>
+<div class="product-tab">
+	<ul class="tab-nav">
+		<li class="active"><a data-toggle="tab">비밀번호 변경</a></li>
+	</ul>
+		<div class="tab-content">
+		<form action="newPassword" method="post" id="newPasswordForm">
+				<div id="tab1" class="tab-pane fade in active" style="margin-left: 20px;">
+					<div>
+						<a>아이디 :</a>
+						<input class="input" type="text" id="id" name="id" value="${findEmail}" readonly style="width: 30%; margin-left: 61px;" >
+					</div>
+					<div style="margin-top:20px;">
+						<a>새 비밀번호 :  </a>
+						<input class="input" type="password" id="password" name="password"style="width: 30%; margin-left: 24px;">
+					</div>
+					<div style="margin-top:20px;">
+						<a>비밀번호 확인 :  </a>
+						<input class="input" type="password" id="passwordCheck" name="passwordCheck" style="width: 30%; margin-left: 10px;">
+					</div>
+				</div>
+					<button type="button" onclick="memberPasswordModify()" class="primary-btn" style="margin-left: 200px;margin-top: 50px;">확인</button>
+				<button type="button" onclick="window.close()" class="primary-btn">닫기</button>
+				</form>
+			</div>
+	</div>
 </body>
 </html>

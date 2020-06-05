@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Chat"> 
+ 	<insert id="addMessage" parameterType="message">
+ 		INSERT INTO MESSAGE(ID,F_ID,MESSAGE,M_DATE,M_DIVISION)
+ 			VALUES(#{id},#{f_id},#{message},SYSDATE,1)
+ 	</insert>
+ 	
+ 	<select id="messageList" parameterType="message" resultType="message">
+ 		SELECT * FROM MESSAGE WHERE ID=#{id} AND F_ID=#{f_id} OR ID=#{f_id} AND F_ID=#{id} ORDER BY M_DATE ASC
+ 	</select>
+ 	
+ 	<select id="friendMessageList" parameterType="message" resultType="message">
+ 		SELECT * FROM MESSAGE WHERE ID=#{f_id} AND F_ID=#{id}
+ 	</select>
+ 	
+ 	<select id="messageCount" parameterType="String" resultType="int">
+ 		SELECT COUNT(*) FROM MESSAGE WHERE F_ID=#{id} AND M_DIVISION=1
+ 	</select>
+ 	
+ 	<select id="friendMessageCount" parameterType="message" resultType="int">
+ 		SELECT COUNT(*) FROM MESSAGE WHERE ID=#{id} AND F_ID=#{f_id} AND M_DIVISION=1
+ 	</select>
+ 	
+ 	<update id="readMessage" parameterType="message">
+ 		UPDATE MESSAGE SET M_DIVISION=2 WHERE ID=#{f_id} AND F_ID=#{id} AND M_DIVISION=1
+ 	</update>
+ </mapper>

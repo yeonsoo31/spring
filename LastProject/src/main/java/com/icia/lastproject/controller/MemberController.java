@@ -598,4 +598,12 @@ public ModelAndView join_injeung(@RequestParam("id") String findEmail, String em
 		mav = memberService.test();
 		return mav;
 	}
+	
+	//2020.06.01 통계,장바구니 최근본상품 , 구매내역 추가
+		@RequestMapping(value = "/statistic", method = RequestMethod.GET)
+		public String statistic() {
+			return "member/statistic";
+		}
+		
+		//2020.06.01 통계,장바구니 최근본상품 , 구매내역 추가 끝
 }

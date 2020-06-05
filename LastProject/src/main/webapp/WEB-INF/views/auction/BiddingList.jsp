@@ -20,7 +20,8 @@
 				data : {"a_number":a_number},
 				dataType : "text",
 				success : function(result){
-					if(result == "OK"){						
+					if(result == "OK"){					
+						var success = true;
 						var theURL = "bidSuccess?a_number="+a_number+"&id="+id+"&page="+page;
 						opener.window.location = theURL;
 						close();
@@ -38,6 +39,7 @@
 </head>
 <body>
 	<h1>목록</h1>
+	<input type="hidden" value="OK" id="cInput">
 	<table border='1'>
 		<tr>
 			<td>아이디</td>

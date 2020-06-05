@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <script src="https://kit.fontawesome.com/62dd7438ee.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 <title>MemberJoinForm2</title>
 <script language="javascript">
 	function doubleCheck() {
@@ -221,59 +222,77 @@
 <jsp:include page="/WEB-INF/views/top.jsp"/>
 <div class="container">
 	<div class="col-md-offset-12">　</div>
-	<form class="col-md-offset-4" action="sellerJoin" method="post" id="sellerJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td>상호명(단체명) : <input type="text" id="s_name" name="s_name"></td>
-			</tr>
-			<tr>
-				<td>사업자등록번호 : <input type="text" id="s_number" name="s_number" onkeydown="newSnumber()" maxlength="12" placeholder="000-00-00000">
-					<button type="button" onclick="s_numberOverlap()">사업자등록번호 확인</button>
-					<input type="hidden" id="s_numberOverlapValue" value="N">
-				</td>
-			</tr>
-			<tr>
-				<td>이메일 : <input type="text" id="id" name="id" onkeydown="newId()">
-					<button type="button" onclick="idOverlap()">아이디중복확인</button>
-					<input type="hidden" id="idOverlapValue" value="N">
-				</td>
-			</tr>
-			<tr>
-				<td>비밀번호 : <input type="password" id="password" name=password placeholder="8~16,숫자,대소문자,특문"></td>
-			</tr>
-			<tr>
-				<td>비밀번호 확인 : <input type="password" id="passwordCheck"></td>
-			</tr>
-			<tr>
-				<td>성명(대표자) : <input type="text" id="name" name="name" maxlength="4"></td>
-			</tr>
-			<tr>
-				<td>회사주소 : <input type="text" id="sample6_postcode"
-					name="address1" placeholder="우편번호">&nbsp;<input
-					type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br></td>
-			</tr>
-			<tr>
-				<td><input type="text" id="sample6_address" name="address2"
-					placeholder="주소"> <input type="text"
-					id="sample6_detailAddress" name="address3" placeholder="상세주소">
-					<input type="text" id="sample6_extraAddress" name="address4"
-					placeholder="참고항목"></td>
-			</tr>
-			<tr>
-				<td>휴대폰 : <input id="phone" name="phone" type="text"></td>
-			</tr>
-			<tr>
-				<td>프로필사진 : <input type="file" name="file"></td>
-			</tr>
-		</table>
-		<input type="submit" name="submit" value="회원가입">
-		<input type="reset" value="다시작성">
-		<button type="button" onclick="location.href='goMain'">이전으로</button>
+	<form class="col-md-offset-4" action="sellerJoin" method="post" id="sellerJoinForm" onsubmit="return doubleCheck()"	enctype="multipart/form-data" style="margin-left:0;">
+		<div class="cont" style="padding:0 15px; float:left; width:100%;">
+				<div class="contLeft" style="background:white; float:left; width:80%;margin-left: 20%;">
+					<div class="product-tab">
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab1">사업자 회원가입</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="tab1" class="tab-pane fade in active" style="margin-left: 20px;">
+									<div>
+										<a>상호명(단체명) :</a>
+										<input type="text" id="s_name" name="s_name" class="input" style="width: 30%; margin-left: 61px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>사업자등록번호 :  </a>
+										<input class="input" type="text" id="s_number" name="s_number" onkeydown="newSnumber()" maxlength="12" placeholder="000-00-00000" style="width: 30%; margin-left: 54px;">
+										<button class="primary-btn" type="button" onclick="s_numberOverlap()" style="width: 15%;">사업자등록번호 확인</button>
+										<input type="hidden" id="s_numberOverlapValue" value="N">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>이메일 :</a>
+										<input class="input" type="text" id="id" name="id" onkeydown="newId()"style="width: 30%;margin-left: 110px;" >
+										<button class="primary-btn" type="button" onclick="idOverlap()" style="width: 15%;">아이디중복확인</button>
+										<input type="hidden" id="idOverlapValue" value="N">
+									</div>
+									<div style="margin-top:20px;">
+										<a>비밀번호 :</a>
+										<input class="input" type="password" id="password" name=password placeholder="8~16,숫자,대소문자,특문" style="width: 30%;margin-left: 97px;">
+									</div>
+									<div style="margin-top:20px;">
+										<a>비밀번호 확인 :</a>
+										<input class="input" type="password" id="passwordCheck"style="width: 30%;margin-left: 66px;">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>성명(대표자) :</a>
+										<input class="input" type="text" id="name" name="name" maxlength="4" style="width: 30%;margin-left: 75px;">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>회사주소 :</a>
+										<input type="text" id="sample6_postcode" name="address1" placeholder="우편번호" class="input"style="width: 30%;margin-left: 97px;" >
+										<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="primary-btn"style="width: 15%;">
+										<input type="text" id="sample6_address" name="address2" placeholder="주소" class="input"style="width: 30%;margin-left: 163px;"> <br>
+										<input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소" class="input"style="width: 30%;margin-left: 163px;"><br>
+										<input type="text" id="sample6_extraAddress" name="address4" placeholder="참고항목" class="input"style="width: 30%;margin-left: 163px;">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>휴대폰 :</a>
+										 <input id="phone" name="phone" type="text" class="input" style="width: 30%;margin-left: 110px;">
+									</div>
+									
+									<div style="margin-top:20px;">
+										<a>프로필사진 :</a>
+										<input type="file" name="file" class="input" style="width:30%;margin-left: 160px;">
+									</div>
+								</div>
+								</div>
+						</div>
+					</div>
+			</div>	
+		<input type="submit" name="submit" value="회원가입" class="primary-btn" style="margin-left: 500px;margin-top:80px;">
+		<input type="reset" value="다시작성" class="primary-btn">
+		<button type="button" onclick="location.href='goMain'" class="primary-btn">이전으로</button>
 	</form>
-	<div class="col-md-offset-12">　</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/footer.jsp"/>
 	<!-- jQuery Plugins -->
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
+		

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="airReservation"> 
+ 	<select id="listCount" resultType="int">
+ 		SELECT COUNT(*) FROM air_s_reservation
+ 	</select>
+ 	<select id="airssearch" parameterType="airlreservation" resultType="airlreservation">
+ 		select * from air_l_reservationlist where endarea=#{endarea} and to_char(starttime,'YYYY/MM/DD') >= #{starttime} and to_char(endtime,'YYYY/MM/DD') >= #{endtime} order by starttime asc
+ 	</select>
+ 	<select id="endnum" parameterType="int" resultType="airlreservation">
+ 		select * from air_l_reservationlist where endnum=#{endnum}
+ 	</select>
+ 	<insert id="ureservation" parameterType="map">
+ 		insert into userairreservation(reservationnum, endnum, id, name, phone, phone1, email, resultprice, airuser, payment) values
+ 		(reservation.NEXTVAL, #{endnum}, #{id}, #{name}, #{phone}, #{phone1},#{email}, #{rprice}, #{airuser}, 0)
+ 	</insert>
+ 	<select id="myReservation" parameterType="String" resultType="userreservation">
+ 		select * from userairreservation where id=#{id}
+ 	</select>
+ 	<update id="airpayment" parameterType="int">
+ 		update userairreservation set payment = 1 where reservationnum=#{reservationnum}
+ 	</update>
+ 	<select id="dision" parameterType="int" resultType="userreservation">
+ 		select * from userairreservation where reservationnum=#{reservationnum}
+ 	</select>
+ 	<select id="arlreser" parameterType="int" resultType="airlreservation">
+ 		select * from air_l_reservationlist where endnum=#{endnum}
+ 	</select>
+ 	<update id="paymentUpdate" parameterType="int">
+ 		update userairreservation
+ 		   set payment = '1'
+ 		 where reservationnum = #{no}
+ 	</update>
+ 	<select id="airport" parameterType="int" resultType="userreservation">
+ 		select * from userairreservation where reservationnum=#{reservationnum}
+ 	</select>
+ 	<select id="airlistPaging" parameterType="page" resultType="airlreservation">
+       SELECT * FROM air_l_reservationList WHERE endnum BETWEEN #{startrow} AND #{endrow}
+    </select>
+    <select id="airsearch" parameterType="paging" resultType="airlreservation">
+    	select * from (SELECT B.*, ROW_NUMBER() OVER(ORDER BY endnum DESC) AS endnum
+    	FROM select * from air_l_reservationlist where endarea=#{endarea} and to_char(starttime,'YYYY/MM/DD') >= #{starttime} and to_char(endtime,'YYYY/MM/DD') >= #{endtime} order by starttime asc) where endnum between #{startrow} and #{endrow}
+    </select>
+    <select id="airlistcount" parameterType="String" resultType="int">
+    	select count(*) from air_l_reservationlist where endarea=#{endarea}
+    </select>
+    <update id="airdelete" parameterType="int">
+    	update userairreservation set payment = '2' where reservationnum=#{reservationnum}
+    </update>
+ </mapper>

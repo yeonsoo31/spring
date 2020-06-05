@@ -78,5 +78,14 @@
  		INSERT INTO AUCTIONQNAANSWER(QA_NUMBER,Q_NUMBER,ID,QA_CONTENTS,QA_DATE)
  			VALUES(AUCTIONQNAANSWER_SEQ.NEXTVAL,#{q_number},#{id},#{qa_contents},SYSDATE)
  	</insert>
+ 	
+ 	<update id="auctionUpdate" parameterType="int">
+ 		UPDATE AUCTION SET A_DATE=SYSDATE WHERE A_NUMBER=#{a_number}
+ 	</update>
+ 	
+ 	<select id="bidAuctionList" parameterType="String" resultType="auction">
+ 		SELECT * FROM BIDMEMBER B,AUCTION A
+    		WHERE B.A_NUMBER=A.A_NUMBER AND B.ID=#{id}
+ 	</select>
 
  </mapper>

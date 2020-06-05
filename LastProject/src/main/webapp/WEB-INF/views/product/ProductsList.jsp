@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <!DOCTYPE html>
-
+<html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,22 +27,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>	
 <script>
 function productpage(){
-	 location.href="product"
-};
-function ProductView(no){
-	var number = no;
-	console.log(number);
-	location.href="productView?number=number";
+	 location.href="product";
 }
+
 </script>
 </head>
 
@@ -54,8 +44,8 @@ function ProductView(no){
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="#">현재 페이지 목록(대메뉴)</a></li>
-				<li class="active">현재 페이지 목록(소메뉴)</li>
+				<li><a>일반상품</a></li>
+				<li class="active">일반상품(전체 카테고리)</li>
 			</ul>
 		</div>
 	</div>
@@ -75,26 +65,14 @@ function ProductView(no){
 			</div>
 	</div>
 <div class="container">
-
-			
-<%-- 					<c:forEach var="productBuy" items="${productList}">
-					<tbody>
-						<tr>
-							<td>${productBuy.productno}</td>
-							<td>${productBuy.id}</td>
-							<td>${productBuy.price}</td>
-							<td> <a href="groupBuyView?g_number=${productBuy.productno}">${productBuy.trade_name}</a></td>
-							<td class="w100"><img class="img-responsive mw40 ib mr10" src="${pageContext.request.contextPath}/resources/fileupload/${productBuy.photo1}"></td>
-						</tr>
-					</tbody>
-					</c:forEach> --%>
-
-				
 				<div class="row">
 				<!-- section title -->
 				<div class="col-md-12">
 					<div class="section-title">
 						<h3 class="title">전체 상품 목록</h3>
+						<c:if test="${sessionScope.loginIdDivision eq 2}">
+						<button class="primary-btn" onclick="productpage()" style="margin-left: 5px;float: right;">글쓰기</button>
+						</c:if>
 					</div>
 				</div>
 				<!-- section title -->
@@ -108,7 +86,7 @@ function ProductView(no){
 						</div>
 						<div class="product-body">
 							<h3 class="product-price"><fmt:formatNumber value="${productBuy.price}" pattern="#,###.##"/>원</h3>
-							<h2 class="product-name"><a href="#">${productBuy.trade_name}</a></h2>
+							<h2 class="product-name"><a>${productBuy.trade_name}</a></h2>
 							<h5 style="color:#999">조회수 : ${productBuy.hit }</h5>
 							<div class="product-btns">
 								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -136,7 +114,7 @@ function ProductView(no){
 						</div>
 						<div class="product-body">
 							<h3 class="product-price"><fmt:formatNumber value="${productBuy3.price}" pattern="#,###.##"/>원</h3>
-							<h2 class="product-name"><a href="#">${productBuy3.trade_name}</a></h2>
+							<h2 class="product-name"><a>${productBuy3.trade_name}</a></h2>
 							<h5 style="color:#999">조회수 : ${productBuy3.hit }</h5>
 							<div class="product-btns">
 								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -165,7 +143,7 @@ function ProductView(no){
 						</div>
 						<div class="product-body">
 							<h3 class="product-price"><fmt:formatNumber value="${productBuy2.price}" pattern="#,###.##"/>원</h3>
-							<h2 class="product-name"><a href="#">${productBuy2.trade_name}</a></h2>
+							<h2 class="product-name"><a>${productBuy2.trade_name}</a></h2>
 							<h5 style="color:#999">조회수 : ${productBuy2.hit }</h5>
 							<div class="product-btns">
 								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -192,7 +170,7 @@ function ProductView(no){
 						</div>
 						<div class="product-body">
 							<h3 class="product-price"><fmt:formatNumber value="${productBuy1.price}" pattern="#,###.##"/>원</h3>
-							<h2 class="product-name"><a href="#">${productBuy1.trade_name}</a></h2>
+							<h2 class="product-name"><a>${productBuy1.trade_name}</a></h2>
 							<h5 style="color:#999">조회수 : ${productBuy1.hit }</h5>
 							<div class="product-btns">
 								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -203,9 +181,6 @@ function ProductView(no){
 					</div>
 				</div>
 				</c:forEach>
-				
-				
-				<button onclick="productpage()">글쓰기</button>
 			</div>
 	</div>
 	

@@ -32,7 +32,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>		
+	
 <script>
 $(document).ready(function() {
 	$(window).bind('mousewheel', function(event) { //마우스휠 감지
@@ -134,12 +134,6 @@ $(document).ready(function() {
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/slick.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/nouislider.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.zoom.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 
 </html>

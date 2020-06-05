@@ -134,7 +134,12 @@
 				}
 			});
 			$("#paging").hide();
+			
+			if(document.getElementById("pInput").value == "OK"){
+				console.log("ㅎㅇㅎㅇ");
+			}
 		});
+		
 	</script>
 	
 	<script>
@@ -155,11 +160,16 @@
 		min = " 분 "
 		hr = " 시간 "
 		dy = " 일 "
-		document.getElementById("time").value = daysRound + 
-		dy + hoursRound + hr + minutesRound + min + secondsRound + sec;
-		window.setTimeout(function(){
-			timer(index);
-		},1000);
+			if(today >= d_day){
+				document.getElementById("time").value="경매종료";
+			}else{
+			document.getElementById("time").value = daysRound + 
+			dy + hoursRound + hr + minutesRound + min + secondsRound + sec;
+			window.setTimeout(function(){
+				timer(index);
+			},1000);
+			}
+		
 	};	
 	
 	

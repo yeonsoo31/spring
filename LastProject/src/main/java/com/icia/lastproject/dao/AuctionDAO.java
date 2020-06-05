@@ -83,4 +83,13 @@ public class AuctionDAO {
 	public int auctionQnAAnswerWrite(AuctionQnAAnswerDTO auctionQnAAnswer) {
 		return sql.insert("Auction.auctionQnAAnswerWrite", auctionQnAAnswer);
 	}
+
+	public void auctionUpdate(int a_number) {
+		sql.update("Auction.auctionUpdate", a_number);
+		
+	}
+
+	public List<AuctionDTO> bidAuctionList(String userid) {
+		return sql.selectList("Auction.bidAuctionList", userid);
+	}
 }

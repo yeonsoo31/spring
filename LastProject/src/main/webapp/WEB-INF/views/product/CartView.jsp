@@ -35,6 +35,44 @@
 		<![endif]-->
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>	
 <script>
+function memberDelete(){
+	var popupX = (document.body.offsetWidth / 2) - (500 / 2);
+	//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+	var popupY= (window.screen.height / 2) - (300 / 2);
+	//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+	window.open('memberDeleteForm', '회원탈퇴', 'status=no, width=500, height=300, left='+ popupX + ', top='+ popupY);
+}
+function sellerDelete(){
+	var popupX = (document.body.offsetWidth / 2) - (500 / 2);
+	//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+	var popupY= (window.screen.height / 2) - (300 / 2);
+	//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+	window.open('memberDeleteForm', '회원탈퇴', 'status=no, width=500, height=300, left='+ popupX + ', top='+ popupY);
+}
+function oauthDelete(){
+	var id = "${sessionScope.loginId}";
+	if(confirm("정말 탈퇴하시겠습니까?")){
+		alert("탈퇴처리가 완료되었습니다");
+		location.href="memberDelete?id="+id
+	} else {
+		alert("탈퇴처리가 취소되었습니다");
+	}
+}
+function memberPasswordModifyForm(){
+	var popupX = (document.body.offsetWidth / 2) - (460 / 2);
+	//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+	var popupY= (window.screen.height / 2) - (200 / 2);
+	//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+	var password = ""
+	window.open('memberPasswordModifyForm', '회원 비밀번호 변경', 'status=no, width=550, height=400, left='+ popupX + ', top='+ popupY);
+}
+function sellerPasswordModifyForm(){
+	var popupX = (document.body.offsetWidth / 2) - (460 / 2);
+	//만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+	var popupY= (window.screen.height / 2) - (200 / 2);
+	//만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+	window.open('sellerPasswordModifyForm', '기업회원 비밀번호 변경', 'status=no, width=460, height=200, left='+ popupX + ', top='+ popupY);
+}
 function productpage(){
 	 location.href="product"
 };
@@ -180,6 +218,62 @@ function countPlus(e){
 				<li class="active">장바구니</li>
 			</ul>
 		</div>
+	</div>
+	<div class="category-nav" style="width:330px; margin-top:10px;">
+		<span class="category-header">마이페이지 정보<i class="fa fa-list"></i></span>
+			<div class="left-menu-ch">
+				<c:if test="${sessionScope.loginIdDivision eq 1}">
+					<ul  class="category-list" style="width:330px;">
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="myReservation">항공예약조회</a></li>
+						<li><a href="product_recentlist">최근 본 상품</a></li>
+						<li><a href="CartView">장바구니</a></li>
+						<li><a href="memberModifyForm">회원정보(수정)</a></li>
+						<li><a onclick="javascript: memberPasswordModifyForm(); return false;">비밀번호 변경</a></li>
+						<li><a onclick="memberDelete()">회원탈퇴</a></li>
+					</ul>
+				</c:if>	
+				<c:if test="${sessionScope.loginIdDivision eq 2}">
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="sellerModifyForm">회원정보(수정)</a></li>
+						<li><a onclick="javascript: memberPasswordModifyForm(); return false;">비밀번호 변경</a></li>
+						<li><a onclick="memberDelete()">회원탈퇴</a></li>
+				</c:if>
+				<c:if test="${sessionScope.loginIdDivision eq 5}">
+						<li><a href="buyList">회원목록조회</a></li>
+						<li><a href="reportList">신고자 목록</a></li>
+						<li><a href="noticeList">공지사항</a></li>
+						<li><a href="statistic">통계</a></li>
+				</c:if>
+				<c:if test="${sessionScope.googleId ne null}">
+						<li><a href="product_recentlist">최근 본 상품</a></li>
+						<li><a href="CartView">장바구니</a></li>
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="memberModifyForm">회원정보(수정)</a></li>
+						<li><a href="oauthDelete()">계정탈퇴</a></li>
+				</c:if>
+				<c:if test="${sessionScope.facebookId ne null}">
+						<li><a href="product_recentlist">최근 본 상품</a></li>
+						<li><a href="CartView">장바구니</a></li>
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="memberModifyForm">회원정보(수정)</a></li>
+						<li><a href="oauthDelete()">계정탈퇴</a></li>
+				</c:if>
+				<c:if test="${sessionScope.kakaoId ne null}">
+						<li><a href="product_recentlist">최근 본 상품</a></li>
+						<li><a href="CartView">장바구니</a></li>
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="memberModifyForm">회원정보(수정)</a></li>
+						<li><a href="oauthDelete()">계정탈퇴</a></li>
+				</c:if>
+				<c:if test="${sessionScope.naverId ne null}">
+						<li><a href="product_recentlist">최근 본 상품</a></li>
+						<li><a href="CartView">장바구니</a></li>
+						<li><a href="buyList">구매내역</a></li>
+						<li><a href="memberModifyForm">회원정보(수정)</a></li>
+						<li><a href="oauthDelete()">계정탈퇴</a></li>
+				</c:if>
+			</div>
 	</div>
 	<!-- 가운데 영역 -->
 	<div class="background-color" style="background-color:#eee; padding-bottom:50px;">

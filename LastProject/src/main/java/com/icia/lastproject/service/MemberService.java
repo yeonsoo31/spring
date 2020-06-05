@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class MemberService {
 		mav = new ModelAndView();
 		MultipartFile file = member.getFile();
 		String profile = file.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		String savePath = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
 		if(!file.isEmpty()) {
 			file.transferTo(new File(savePath));
 		}
@@ -188,7 +187,7 @@ public class MemberService {
 		mav = new ModelAndView();
 		MultipartFile file = member.getFile();
 		String profile = file.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		String savePath = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
 		if(!file.isEmpty()) {
 			file.transferTo(new File(savePath));
 			member.setProfile(profile);
@@ -209,7 +208,7 @@ public class MemberService {
 		mav = new ModelAndView();
 		MultipartFile file = member.getFile();
 		String profile = file.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		String savePath = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
 		if(!file.isEmpty()) {
 			file.transferTo(new File(savePath));
 			member.setProfile(profile);
@@ -260,7 +259,7 @@ public class MemberService {
 		mav = new ModelAndView();
 		MultipartFile file = member.getFile();
 		String profile = file.getOriginalFilename();
-		String savePath = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
+		String savePath = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\profilepic\\"+profile;
 		if(!file.isEmpty()) {
 			file.transferTo(new File(savePath));
 		}

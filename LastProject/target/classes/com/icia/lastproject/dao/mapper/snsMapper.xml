@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Sns"> 
+ 	<insert id="snsWrite" parameterType="sns">
+ 		INSERT INTO SNSBOARD(S_NUMBER,ID,PROFILE,S_DATE,S_CONTENTS,S_DIVISION,NAME)
+ 			VALUES(SNSBOARD_SEQ.NEXTVAL,#{id},#{profile},SYSDATE,#{s_contents},#{s_division},#{name})
+ 	</insert>
+ 	
+ 	<select id="snsList" parameterType="paging" resultType="sns">
+ 		SELECT * FROM SNSBOARDLIST WHERE RN BETWEEN #{startRow} AND #{endRow} 
+ 	</select>
+ 	
+ 	<select id="snsFriendList" parameterType="String" resultType="snsFriend">
+ 		SELECT * FROM SNSFRIEND WHERE ID=#{id} AND F_DIVISION=1
+ 	</select>
+ 	
+ 	<select id="memberSearch" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER WHERE NAME LIKE '%'||#{search}||'%'
+ 	</select>
+ 	
+ 	<select id="sellerSearch" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER_SALES WHERE S_NAME LIKE '%'||#{search}||'%'
+ 	</select>
+ 	
+ 	<select id="boardSearch" parameterType="String" resultType="sns">
+ 		SELECT * FROM SNSBOARD WHERE S_CONTENTS LIKE '%'||#{search}||'%'
+ 	</select>
+ 	
+ 	<insert id="addFriend" parameterType="snsFriend">
+ 		INSERT INTO SNSFRIEND(ID,F_ID,F_DIVISION,F_NAME,F_PROFILE)
+ 			VALUES(#{id},#{f_id},2,#{f_name},#{f_profile})
+ 	</insert>
+ 	
+ 	<select id="snsFriendList2" parameterType="String" resultType="snsFriend">
+ 		SELECT * FROM SNSFRIEND WHERE F_ID=#{f_id}
+ 	</select>
+ 	
+ 	<select id="friendDivision" parameterType="map" resultType="int">
+ 		SELECT F_DIVISION FROM SNSFRIEND WHERE ID=#{id} AND F_ID=#{f_id}
+ 	</select>
+ 	
+ 	<delete id="deleteFriend" parameterType="map">
+ 		DELETE FROM SNSFRIEND WHERE ID=#{id} AND F_ID=#{f_id} OR ID=#{f_id} AND F_ID=#{id}
+ 	</delete>
+ 	
+ 	<delete id="cancelFriend" parameterType="map">
+ 		DELETE FROM SNSFRIEND WHERE ID=#{id} AND F_ID=#{f_id}
+ 	</delete>
+ 	
+ 	<select id="friendRequest" parameterType="String" resultType="int">
+ 		SELECT COUNT(*) FROM SNSFRIEND WHERE ID=#{id} AND F_DIVISION=2
+ 	</select>
+ 	
+ 	<select id="friendRequestList" parameterType="String" resultType="snsFriend">
+ 		SELECT * FROM SNSFRIEND WHERE ID=#{id} AND F_DIVISION=2
+ 	</select>
+ 	
+ 	<update id="requestAccept" parameterType="snsFriend">
+ 		UPDATE SNSFRIEND SET F_DIVISION=1 WHERE ID=#{id} AND F_ID=#{f_id}
+ 	</update>
+ 	
+ 	<insert id="friendCheck" parameterType="snsFriend">
+ 		INSERT INTO SNSFRIEND(ID,F_ID,F_DIVISION,F_NAME,F_PROFILE)
+ 			VALUES(#{id},#{f_id},1,#{f_name},#{f_profile})
+ 	</insert>
+ 	
+ 	<delete id="requestReject" parameterType="snsFriend">
+ 		DELETE FROM SNSFRIEND WHERE ID=#{id} AND F_ID=#{f_id}
+ 	</delete>
+ 	
+ 	<select id="write" resultType="sns">
+ 		SELECT * FROM SNSBOARDLIST WHERE ROWNUM=1
+ 	</select>
+ 	
+ 	<delete id="deleteSnsPost" parameterType="int">
+ 		DELETE FROM SNSBOARD WHERE S_NUMBER=#{s_number}
+ 	</delete>
+ 	
+ 	<select id="friendStatus" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID = #{f_id}
+ 	</select>
+ 	
+ 	<select id="friendBoard" parameterType="String" resultType="sns">
+ 		SELECT * FROM SNSBOARD WHERE ID = #{f_id}
+ 	</select>
+ </mapper>

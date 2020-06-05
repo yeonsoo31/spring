@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,17 +19,20 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
+import com.icia.lastproject.dao.AuctionDAO;
 import com.icia.lastproject.dao.ProductDAO;
+import com.icia.lastproject.dto.AuctionDTO;
 import com.icia.lastproject.dto.CartDTO;
 import com.icia.lastproject.dto.CartPriceDTO;
 import com.icia.lastproject.dto.MemberDTO;
 import com.icia.lastproject.dto.PageDTO;
 import com.icia.lastproject.dto.ProductAnswerDTO;
+import com.icia.lastproject.dto.ProductBuyDTO;
 import com.icia.lastproject.dto.ProductDTO;
 import com.icia.lastproject.dto.ProductListDTO;
 import com.icia.lastproject.dto.ProductListTempDTO;
+import com.icia.lastproject.dto.ProductOrderDTO;
 import com.icia.lastproject.dto.ProductQnaDTO;
-import com.icia.lastproject.dto.ProductReportDTO;
 import com.icia.lastproject.dto.ReviewDTO;
 
 @Service
@@ -39,12 +43,15 @@ public class ProductListService {
 	@Autowired
 	private ProductDAO pdao;
 	
+	@Autowired
+	private AuctionDAO adao;
+	
 	private ModelAndView mav;
 	
 	
 	public static final int PAGE_LIMIT = 8;
 	public static final int BLOCK_LIMIT = 5;
-	public static final String PREFIX_URL = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\fileupload\\";
+	public static final String PREFIX_URL = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\fileupload\\";
 	
 
 
@@ -174,18 +181,13 @@ public class ProductListService {
 
 
 	public ModelAndView productView(int number, String userid, int page) {
-		mav = new ModelAndView();
+		mav = new ModelAndView(); 
 		int hitCount = pdao.hitCount(number);
 		ProductDTO product = pdao.SelectProduct(number);
-		String trade_name = product.getTrade_name();
-		String sellerId = product.getId();
 		List<String> filesName = new ArrayList<String>();
 		List<ProductListTempDTO> productlist = new ArrayList<ProductListTempDTO>();
 		productlist = pdao.SelectProductList(number);
-		String userid1 = (String) session.getAttribute("loginId");
-		
-		
-		
+
 		
 		int startRow = (page-1) * PAGE_LIMIT1 + 1;
 		//2p 4~5
@@ -217,20 +219,23 @@ public class ProductListService {
 		paging.setPage(page);
 		
 		
+		  Map<String ,Object> map = new HashMap<String, Object>();
+		  System.out.println("11111111111"+userid); 
+		  System.out.println(number);
+		  map.put("userid", userid);
+		  map.put("number",number); 
+		  int product_recent = pdao.RecentList(map); 
+		  System.out.println(product_recent);
+		 
 		
-		System.out.println(userid1);
 		mav.addObject("answer",answer);
 		mav.addObject("qna", qna);
 		mav.addObject("review",review);
 		mav.addObject("paging", paging);
-		mav.addObject("userid", userid1);
+		mav.addObject("userid", userid);
 		mav.addObject("product", product);
 		mav.addObject("productList", productlist);
-		mav.addObject("productno", number);
-		mav.addObject("trade_name", trade_name);
-		mav.addObject("sellerId", sellerId);
-		mav.setViewName("product/productView");
-
+		mav.setViewName("product/productViews");
 		
 		return mav;
 	}
@@ -405,10 +410,12 @@ public class ProductListService {
 		CartPriceDTO cartprice = pdao.OrderPrice(list);
 		String address = member.getAddress();
 		String[] array = address.split("/");
+		
 		member.setAddress1(array[0]);
 		member.setAddress2(array[1]);
 		member.setAddress3(array[2]);
 		member.setAddress4(array[3]);
+		mav.addObject("list", list);
 		mav.addObject("cartprice", cartprice);
 		mav.addObject("cart", cart);
 		mav.addObject("member", member);
@@ -803,42 +810,73 @@ public class ProductListService {
 
 
 
-	public String productReportCheck(String memberId, String sellerId, int productno, String trade_name, String reporttype) {
-		ProductReportDTO productReport = new ProductReportDTO();
-		productReport.setMemberId(memberId);
-		productReport.setSellerId(sellerId);
-		productReport.setProductno(productno);
-		productReport.setTrade_name(trade_name);
-		productReport.setReporttype(reporttype);
-		String productReportResult = pdao.productReportCheck(productReport);
-		String ResultMsg = null;
-		if(productReportResult == null) {
-			pdao.productReport(productReport);
-			ResultMsg = "OK";
-		} else {
-			ResultMsg = "NO";
-		}
-		return ResultMsg;
+	
+
+
+	public ModelAndView buyList(String userid) {
+		mav = new ModelAndView();
+		List<ProductBuyDTO> list = new ArrayList<ProductBuyDTO>();
+		list = pdao.buyList(userid);
+		mav.addObject("buyList", list);
+		mav.setViewName("product/buyList");
+		return mav;
 	}
 
 
 
-//	public ModelAndView productReport(String id, int productno, String trade_name, String reporttype) {
-//		mav = new ModelAndView();
-//		ProductReportDTO productReport = new ProductReportDTO();
-//		productReport.setId(id);
-//		productReport.setProductno(productno);
-//		productReport.setTrade_name(trade_name);
-//		productReport.setReporttype(reporttype);
-//		int productReportResult = pdao.productReport(productReport);
-//		if(productReportResult > 0) {
-//			mav.setViewName("redirect:/productView");
-//		}
-//		return mav;
-//	}
+	public String OrderInsert(ProductOrderDTO order) {
+		int result = pdao.OrderInsert(order);
+		String check;
+		if(result >0) {
+			check="OK";
+		} else {
+			check="FIAL";
+		}
+		
+		return check;
+	}
+
+
+	public ModelAndView ProductPayment() {
+		mav = new ModelAndView();
+		String id = (String) session.getAttribute("loginId");
+		ProductOrderDTO orderResult = pdao.payment(id);
+			mav.addObject("order", orderResult);
+			mav.setViewName("product/Payment");
+		return mav;
+	}
 
 
 
+	public ModelAndView SalesBuyList(String userid) {
+		mav = new ModelAndView();
+		List<ProductBuyDTO> list = new ArrayList<ProductBuyDTO>();
+		list = pdao.SalesBuyList(userid);
+		mav.addObject("SalesbuyList", list);
+		mav.setViewName("product/SalesBuyList");
+		return mav;
+	}
+
+
+
+	public ModelAndView ProductSalesOrder(int no) {
+		mav = new ModelAndView();
+		int result = pdao.ProductSalesOrder(no);
+		if(result>0) {
+			mav.setViewName("redirect:/SalesBuyList");
+		}
+		return mav;
+	}
+
+
+
+	public ModelAndView product_recentlist(String userid) {
+		mav = new ModelAndView();
+		List<ProductDTO> recentlist = pdao.ProductRecent(userid);
+		mav.addObject("recentlist",recentlist );
+		mav.setViewName("product/product_recentlist");
+		return mav;
+	}
 
 
 

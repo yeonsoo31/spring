@@ -40,7 +40,7 @@
 					<!-- Logo -->
 					<div class="header-logo">
 						<a class="logo" href="goMain">
-							<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+							<img style="width:200px;height:150px;" src="${pageContext.request.contextPath}/resources/img/aaaa1234.png" alt="">
 						</a>
 					</div>
 					<!-- /Logo -->
@@ -98,7 +98,6 @@
 					<ul class="menu-list">
 						<li><a href="productlistpage">일반상품</a></li>
 						<li><a href="auctionList">경매</a></li>
-						<li><a href="#">공구</a></li>
 						<li><a href="#">SNS</a></li>
 						<li><a href="#">항공</a></li>
 						<li><a href="#">호텔</a></li>
@@ -248,7 +247,6 @@
 	</footer>
 	<!-- /FOOTER -->
 	<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/slick.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/nouislider.min.js"></script>
@@ -275,6 +273,7 @@
 		function sendFile(file, editor){
 			var data = new FormData();
 			data.append("file", file);
+			console.log(file);
 			$.ajax({
 					data : data,
 					type : "POST",
@@ -283,9 +282,13 @@
 					processData : false,
 					success : function(data){
 						console.log(data);
-						console.log(editor);
-						$(editor).summernote("insertImage",data.url);
-					}
+						$(editor).summernote("insertImage",data);
+						},
+						error:function(data,status,error){
+							console.log(data);
+						    console.log("code:"+data.status+"\n"+"message:"+data.responseText+"\n"+"error:"+error);
+						}
+					
 			});
 		}
 	</script>

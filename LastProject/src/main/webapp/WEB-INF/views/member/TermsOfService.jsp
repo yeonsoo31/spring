@@ -44,7 +44,7 @@
 	<!-- Logo -->
 	<div class="header-logo" style="text-align:center;">
 		<a class="logo" href="goMain">
-			<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+			<img style="width:200px;height:200px;" src="${pageContext.request.contextPath}/resources/img/aaaa1234.png" alt="">
 		</a>
 	</div>
 	<!-- /Logo -->

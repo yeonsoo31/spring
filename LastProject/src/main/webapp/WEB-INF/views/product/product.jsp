@@ -199,11 +199,11 @@
                                        	<table id="example" border="1"  class="shopping-cart-table table" >
                                        		<thead>
 									        <tr>
-									            <th class="text-center" style="width:20%; padding:0px;">컬러</th>
-									            <th class="text-center" style="width:20%; padding:0px;">사이즈</th>
-									            <th class="text-center" style="width:20%; padding:0px;">할인가격</th>
-									            <th class="text-center" style="width:20%; padding:0px;">재고</th>
-									            <th class="text-center" style="width:20%; padding:0px;">옵션삭제</th>
+									            <th class="text-center" style="width:20%; padding:0px; color:white;">옵션1</th>
+									            <th class="text-center" style="width:20%; padding:0px; color:white;">옵션2</th>
+									            <th class="text-center" style="width:20%; padding:0px; color:white;">할인가격</th>
+									            <th class="text-center" style="width:20%; padding:0px; color:white;">재고</th>
+									            <th class="text-center" style="width:20%; padding:0px; color:white;">옵션삭제</th>
 									        </tr>
 									    </thead>    
 									    <tbody style="padding:0px;">
@@ -297,8 +297,6 @@
                     		<tr>
                     			<td>상품명 : </td>
                     			<td><input type="text" class="input" style="height:30px; width:200px;" placeholder="상품명*" name="trade_name" /></td>
-                    			<td>상품가격 : </td>
-                    			<td><input type="text" class="input" style="height:30px; width:200px;"  /></td>
                     		</tr>
                     	</table>
                     </div>

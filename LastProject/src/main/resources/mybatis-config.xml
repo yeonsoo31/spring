@@ -3,24 +3,31 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases> 
-		<typeAlias type="com.icia.lastproject.dto.MemberDTO" alias="member"/>
-		<typeAlias type="com.icia.lastproject.dto.PageDTO" alias="page"/>
-		<typeAlias type="com.icia.lastproject.dto.CategoryDTO" alias="category"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductListTempDTO" alias="plist"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductDTO" alias="product"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductListDTO" alias="productlist"/>
-		<typeAlias type="com.icia.lastproject.dto.CartDTO" alias="Cart"/>
-		<typeAlias type="com.icia.lastproject.dto.PagingDTO" alias="paging"/>
-		<typeAlias type="com.icia.lastproject.dto.AuctionDTO" alias="auction"/>
-		<typeAlias type="com.icia.lastproject.dto.AuctionMemberDTO" alias="auctionMember"/>
-		<typeAlias type="com.icia.lastproject.dto.OrderDTO" alias="order"/>
-		<typeAlias type="com.icia.lastproject.dto.AuctionQnADTO" alias="auctionQnA"/>
-		<typeAlias type="com.icia.lastproject.dto.AuctionQnAAnswerDTO" alias="auctionQnAAnswer"/>
-		<typeAlias type="com.icia.lastproject.dto.ReviewDTO" alias="review"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductQnaDTO" alias="qna"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductAnswerDTO" alias="answer"/>
-		<typeAlias type="com.icia.lastproject.dto.GroupBuyDTO" alias="groupbuy"/>
-		<typeAlias type="com.icia.lastproject.dto.CartPriceDTO" alias="cartprice"/>
-		<typeAlias type="com.icia.lastproject.dto.ProductReportDTO" alias="productReport"/>
+		<typeAlias alias="member" type="com.icia.lastproject.dto.MemberDTO"/>
+		<typeAlias alias="page" type="com.icia.lastproject.dto.PageDTO"/>
+		<typeAlias alias="category" type="com.icia.lastproject.dto.CategoryDTO"/>
+		<typeAlias alias="plist" type="com.icia.lastproject.dto.ProductListTempDTO"/>
+		<typeAlias alias="product" type="com.icia.lastproject.dto.ProductDTO"/>
+		<typeAlias alias="productlist" type="com.icia.lastproject.dto.ProductListDTO"/>
+		<typeAlias alias="Cart" type="com.icia.lastproject.dto.CartDTO"/>
+		<typeAlias alias="paging" type="com.icia.lastproject.dto.PagingDTO"/>
+		<typeAlias alias="auction" type="com.icia.lastproject.dto.AuctionDTO"/>
+		<typeAlias alias="auctionMember" type="com.icia.lastproject.dto.AuctionMemberDTO"/>
+		<typeAlias alias="order" type="com.icia.lastproject.dto.OrderDTO"/>
+		<typeAlias alias="auctionQnA" type="com.icia.lastproject.dto.AuctionQnADTO"/>
+		<typeAlias alias="auctionQnAAnswer" type="com.icia.lastproject.dto.AuctionQnAAnswerDTO"/>
+		<typeAlias alias="review" type="com.icia.lastproject.dto.ReviewDTO"/>
+		<typeAlias alias="qna" type="com.icia.lastproject.dto.ProductQnaDTO"/>
+		<typeAlias alias="answer" type="com.icia.lastproject.dto.ProductAnswerDTO"/>
+		<typeAlias alias="cartprice" type="com.icia.lastproject.dto.CartPriceDTO"/>
+		<typeAlias alias="porder" type="com.icia.lastproject.dto.ProductOrderDTO"/>
+		<typeAlias alias="productbuy" type="com.icia.lastproject.dto.ProductBuyDTO"/>
+		<typeAlias alias="productReport" type="com.icia.lastproject.dto.ProductReportDTO"/>
+		<typeAlias alias="sns" type="com.icia.lastproject.dto.SnsDTO"/>
+		<typeAlias alias="snsFriend" type="com.icia.lastproject.dto.SnsFriendDTO"/>
+		<typeAlias alias="message" type="com.icia.lastproject.dto.MessageDTO"/>
+		<typeAlias alias="airlreservation" type="com.icia.lastproject.dto.air_L_DTO"/>
+     	<typeAlias alias="userreservation" type="com.icia.lastproject.dto.userreservationDTO"/>
+      	<typeAlias alias="airreservation" type="com.icia.lastproject.dto.airreservationDTO"/>   
 	</typeAliases>
 </configuration>

@@ -1,11 +1,6 @@
 package com.icia.lastproject.controller;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -119,8 +114,10 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/uploadSummernoteImageFile")
-	public @ResponseBody JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile file){
-		JsonObject jsonObject = auctionService.uploadSummernoteImageFile(file);
+	public @ResponseBody String uploadSummernoteImageFile(@RequestParam("file") MultipartFile file){
+		System.out.println("ddddddddddddddd>>>>>>>>>>>>>>>>>>"+file);
+		String jsonObject = auctionService.uploadSummernoteImageFile(file);
+		System.out.println("ddddddddddddd>>>>>>>>>>>>"+jsonObject);
 		return jsonObject;
 	}
 	
@@ -162,5 +159,11 @@ public class AuctionController {
 	@RequestMapping(value="/orderSuccess")
 	public String orderSuccess() {
 		return "auction/OrderSuccess";
+	}
+	
+	@RequestMapping(value="/bidAuction")
+	public ModelAndView bidAuction() {
+		mav = auctionService.bidAuction();
+		return mav;
 	}
 }

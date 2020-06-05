@@ -20,7 +20,7 @@
 		<div class="quick-icon" style="border-top: 1px solid #d5d5d5; width:100px; height:80px;">
 			<a href="" class="quick-m"><img src="${pageContext.request.contextPath}/resources/img/serach.png"
 				width="40px" height="40px">
-				<input type="text" class="search" style="width: 60px; height: 20px; margin-top:6px;"> </a>
+				<input type="text" class="search" style="width: 60px; height: 20px; margin-top:6px;"></a> 
 		</div>
 		<div class="quick-icon-top" style="border-top: 1px solid #d5d5d5; width:100px; height:35px;">
 			<a href="#" class="quick-top">TOP</a>

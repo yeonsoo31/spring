@@ -65,9 +65,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<div class="col-md-offset-3">
 	<div>
 		<c:if test="${sessionScope.loginIdDivision eq 1}">
-		<button>최근 본 상품</button>
-		<button>장바구니</button>
-		<button>구매내역</button>
+		<button onclick="location.href='myReservation'">항공예약조회</button>
+		<button onclick="location.href='product_recentlist'">최근 본 상품</button>
+		<button onclick="location.href='CartView'">장바구니</button>
+		<button onclick="location.href='buyList'">구매내역</button>
 		<button onclick="location.href='memberModifyForm'">회원정보(수정)</button>
 		<button onclick="javascript: memberPasswordModifyForm(); return false;">비밀번호 변경</button>
 		<button onclick="memberDelete()">회원탈퇴</button>
@@ -83,7 +84,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		<button onclick="location.href='memberList'">회원목록조회</button>
 		<button onclick="location.href='reportList'">신고자 목록</button>
 		<button onclick="location.href='noticeList'">공지사항</button>
-		<button onclick="location.href='chart'">통계</button>
+		<button onclick="location.href='statistic'">통계</button>
 		</c:if>
 		<c:if test="${sessionScope.googleId ne null}">
 		<button>최근 본 상품</button>

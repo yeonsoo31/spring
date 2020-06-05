@@ -21,7 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class KakaoJoinApi {
 	private final static String K_CLIENT_ID = "2b664c3a5dbc5a3ff9a3034ce6f23741"; 
  
-	private final static String K_REDIRECT_URI = "http://localhost:8091/lastproject/yyskakaoJoinOK";
+	private final static String K_REDIRECT_URI = "http://192.168.0.231:8091/lastproject/yyskakaoJoinOK";
 
 	public static String getAuthorizationUrl(HttpSession session) {
 		String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + 

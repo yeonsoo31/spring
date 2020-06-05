@@ -3565,7 +3565,7 @@ function createImage(url) {
       $img.off('load').detach();
       deferred.reject($img);
     }).css({
-      display: 'none'
+    	display: 'none'
     }).appendTo(document.body).attr('src', url);
   }).promise();
 }

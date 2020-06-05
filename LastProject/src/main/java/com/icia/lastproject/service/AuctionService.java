@@ -3,21 +3,18 @@ package com.icia.lastproject.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.google.gson.JsonObject;
 import com.icia.lastproject.dao.AuctionDAO;
@@ -43,13 +40,16 @@ public class AuctionService {
 	@Autowired
 	private MemberDAO mdao;
 	
+	@Autowired
+	private HttpSession session;
+	
 	private ModelAndView mav;
 	
 	public static final int PAGE_LIMIT = 8;
 	public static final int QNA_PAGE_LIMIT = 3;
 	public static final int QNA_PAGE_MORT_LIMIT = 6;
 	public static final int BLOCK_LIMIT = 5;
-	public static final String PREFIX_URL = "C:\\Users\\7\\git\\springgit\\Spring\\LastProject\\src\\main\\webapp\\resources\\fileupload\\";
+	public static final String PREFIX_URL = "C:\\Users\\8\\Desktop\\LastProject\\src\\main\\webapp\\resources\\fileupload\\";
 
 	public ModelAndView auctionList(int page) {
 		mav = new ModelAndView();
@@ -340,6 +340,7 @@ public class AuctionService {
 	}
 
 	public String bidCheck(int a_number) {
+		adao.auctionUpdate(a_number);
 		int result = amdao.bidCheck(a_number);
 		String resultMsg = null;
 		if(result == 0) {
@@ -381,33 +382,34 @@ public class AuctionService {
 		return mav;
 	}
 
-	public JsonObject uploadSummernoteImageFile(MultipartFile file){
-		JsonObject jsonObject = new JsonObject();
-		String fileRoot = "C:\\summernoteImg\\";
-		String originalFileName = file.getOriginalFilename();
-		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-		
-		String saveFileName = UUID.randomUUID()+extension;
-		
-		System.out.println(originalFileName);
-		System.out.println(saveFileName);
-		
-		File targetFile = new File(fileRoot+saveFileName);
-		
-		try {
-			InputStream fileStream = file.getInputStream();
-			FileUtils.copyInputStreamToFile(fileStream, targetFile);
-			jsonObject.addProperty("url", "/summernoteImg/"+saveFileName);
-			jsonObject.addProperty("responseCode", "success");
-		} catch (IOException e) {
-			FileUtils.deleteQuietly(targetFile);
-			jsonObject.addProperty("responseCode", "error");
-			e.printStackTrace();
-		}
-		
-		return jsonObject;
-		
-	}
+	public String uploadSummernoteImageFile(MultipartFile file){
+	      JsonObject jsonObject = new JsonObject();
+	      String fileRoot = "C:\\summernoteImg\\";
+	      String originalFileName = file.getOriginalFilename();
+	      String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	      
+	      String saveFileName = UUID.randomUUID()+extension;
+	      
+	      System.out.println(originalFileName);
+	      System.out.println(saveFileName);
+	      
+	      File targetFile = new File(fileRoot+saveFileName);
+	      
+	      try {
+	         InputStream fileStream = file.getInputStream();
+	         FileUtils.copyInputStreamToFile(fileStream, targetFile);
+	         jsonObject.addProperty("url", "/summernoteImg/"+saveFileName);
+	         jsonObject.addProperty("responseCode", "success");
+	      } catch (IOException e) {
+	         FileUtils.deleteQuietly(targetFile);
+	         jsonObject.addProperty("responseCode", "error");
+	         e.printStackTrace();
+	      }
+	      String aa = "/summernoteImg/"+saveFileName;
+	      System.out.println(aa);
+	      return aa;
+	      
+	   }
 
 	public List<Object> auctionQnA(AuctionQnADTO auctionQnA, int addpage) {
 		int resultQnA = adao.auctionQnAWrite(auctionQnA);
@@ -576,6 +578,15 @@ public class AuctionService {
 		collection.add(auctionQnAAnswerList);
 		collection.add(paging);
 		return collection;
+	}
+
+	public ModelAndView bidAuction() {
+		mav = new ModelAndView();
+		String userid = (String)session.getAttribute("loginId");
+		List<AuctionDTO> auctionList = adao.bidAuctionList(userid);
+		mav.addObject("auctionList",auctionList);
+		mav.setViewName("auction/BidAuction");
+		return mav;
 	}
 	
 

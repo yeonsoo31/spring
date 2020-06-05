@@ -26,20 +26,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
 
 <script>
-   if(self.name != 'reload'){
-      self.name = 'reload';
-      self.location.reload(true);
-   } else {
-      self.name = '';
-   }
 </script>
 </head>
 
@@ -54,15 +42,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 					<!-- Logo -->
 					<div class="header-logo">
 						<a class="logo" href="goMain">
-							<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+							<img style="width:200px; height:200px;"src="${pageContext.request.contextPath}/resources/img/aaaa1234.png"alt="">
 						</a>
 					</div>
 					<!-- /Logo -->
 
 					<!-- Search -->
 					<div class="header-search">
-						<form>
-							<input class="input search-input" type="text" placeholder="검색창">
+						<form action="serch"  method="post" >
+							<input class="input search-input" type="text" placeholder="검색창" id="serch" name="serch">
 							<button class="search-btn"><i class="fa fa-search"></i></button>
 						</form>
 					</div>
@@ -87,17 +75,32 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
-								<li><a href="myPage"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="cartList"><i class="fa fa-heart-o"></i> 장바구니</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
+								<li><a href="buyList"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="CartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="product_recentlist"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberList"><i class="fa fa-user-o"></i> 회원목록</a></li>
+								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
+							</ul>
+								</li>	
+							</c:when>
+							<c:when test="${sessionScope.loginIdDivision eq 2}">
+								<li class="header-account dropdown default-dropdown">
+							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+								<div class="header-btns-icon">
+									<i class="fa fa-user-o"></i>
+								</div>
+								<strong class="text-uppercase">${sessionScope.name}님 환영합니다 <i class="fa fa-caret-down"></i></strong>
+							</div>
+							<a href="memberLogout" class="text-uppercase">로그아웃</a>
+							<ul class="custom-menu">
+								<li><a href="SalesBuyList"><i class="fa fa-user-o"></i> 마이페이지</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
 								</li>	
 							</c:when>
 							<c:otherwise>
 						<li class="header-account dropdown default-dropdown">
-							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+							<div class="dropdown-toggle" role="button	" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
 								</div>
@@ -105,10 +108,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 							</div>
 							<a href="memberLogout" class="text-uppercase">로그아웃</a>
 							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> 마이페이지</a></li>
-								<li><a href="test"><i class="fa fa-user-o"></i> 테스트</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> 장바구니</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> 최근본상품</a></li>
+								<li><a href="buyList"><i class="fa fa-user-o"></i> 마이페이지</a></li>
+								<li><a href="CartView"><i class="fa fa-heart-o"></i> 장바구니</a></li>
+								<li><a href="product_recentlist"><i class="fa fa-exchange"></i> 최근본상품</a></li>
 								<li><a href="memberLogout"><i class="fa fa-check"></i> 로그아웃</a></li>
 							</ul>
 						</li>	
@@ -139,10 +141,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 					<ul class="menu-list">
 						<li><a href="productlistpage">일반상품</a></li>
 						<li><a href="auctionList">경매</a></li>
-						<li><a href="#">공구</a></li>
-						<li><a href="#">SNS</a></li>
-						<li><a href="#">항공</a></li>
-						<li><a href="#">호텔</a></li>
+						<li><a href="snsMain">SNS</a></li>
+						<li><a href="airLine">항공</a></li>
+						<li><a href="hotelCrawling">호텔</a></li>
 					</ul>
 				</div>
 				<!-- menu nav -->
@@ -151,15 +152,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 		</div>
 		<!-- /container -->
 	</div>
-	<!-- /NAVIGATION -->
-	<!-- 현재 페이지 목록 쓰면될거같습니당 -->
-	<!-- 가운데 영역 -->
-	<!-- jQuery Plugins -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/slick.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/nouislider.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.zoom.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+
 </body>
 </html>

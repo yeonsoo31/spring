@@ -27,12 +27,11 @@
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slick-theme.css" />
 	<!-- nouislider -->
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nouislider.min.css" />
-	<!-- popup -->
-	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layer-pop.css" />
 	<!-- Font Awesome Icon -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layer-pop.css" />
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -710,7 +709,7 @@
     		});
     	}
 </script>
-<body>
+<body >
 <div class="all-background-color" id="all-background-color">
 </div>
 <div>
@@ -777,7 +776,7 @@
 							</div>
 							<div class="product-btns" style="margin-top:20px;">
 							<button class="primary-btn" style="width:49%;" onclick="on()"> 장바구니 </button>
-							<button class="primary-btn" style="width:49%;"> 구매하기 </button><br>
+							<button class="primary-btn" style="width:49%;"> 구매하기 </button>
 							</div>
 							<div id="overlay" style="display:none;" >
 								 <div class="popup-layout" onclick="off()" >
@@ -805,7 +804,7 @@
 									<div class="section-title">
 										<h2 class="title">제품 설명 이미지</h2>
 									</div>
-									<img src="${pageContext.request.contextPath}/resources/fileupload/${product.photo3}" alt="" style="width:auto;height:auto;margin-left: auto; margin-right: auto; display: block; "><br>
+									<img src="${pageContext.request.contextPath}/resources/fileupload/${product.photo3}" alt="" style="width:auto;height:auto;margin-left: auto; margin-right: auto; display: block; ">
 									<p>────────────────────────────────────────────────────────────────────────────────────</p>
 									<div class="col-md-4">
 									<h5>주의사항</h5><br>
@@ -1016,7 +1015,7 @@
 		<!-- /container -->
 	</div>
 </div>
-	<div id="mask"></div>
+<div id="mask"></div>
 	<div id="layerbox" class="layerpop" style="width:700px; height:400px;">
 	<article class="layerpop_area">
 	<form action="productReport" method="post" id="productReportForm">
@@ -1052,11 +1051,10 @@
 	</form>
 	</article>
 	</div>
-	<div>
+<div>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 	<!-- /FOOTER -->
-	<!-- jQuery Plugins -->
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 </body>
 

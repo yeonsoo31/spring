@@ -38,7 +38,7 @@
 // Add contents for max height
 
 function productPrice(categoryno){
-	location.href="ProductPriceList?categoryno=categoryno";
+	location.href="ProductPriceList?categoryno="+categoryno;
 }
 function productHit(categoryno){
 	location.href="ProductHitList?categoryno="+categoryno;
@@ -107,8 +107,8 @@ $(document).ready(function () {
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="#">현재 페이지 목록(대메뉴)</a></li>
-				<li class="active">현재 페이지 목록(소메뉴)</li>
+				<li><a href="#">일반 상품</a></li>
+				<li class="active">일반상품(카테고리별)</li>
 			</ul>
 		</div>
 	</div>
@@ -133,9 +133,13 @@ $(document).ready(function () {
 				<div class="col-md-12">
 					<div class="section-title">
 						<h2 class="title">상품 목록</h2>
-						<button class="primary-btn" onclick="productpage()">글쓰기</button>
-						<button class="primary-btn" onclick="productPrice('${categoryno }')">가격순 정렬</button>
-						<button class="primary-btn" onclick="productHit('${categoryno }')">조회순정렬</button>
+						<c:if test="${sessionScope.loginIdDivision eq 2}">
+						<button class="primary-btn" onclick="productpage()" style="margin-left: 5px;float: right;">글쓰기</button>
+						</c:if>
+						<c:if test="${sessionScope.loginIdDivision eq 1}">
+						<button class="primary-btn" onclick="productPrice('${categoryno }')" style="margin-left: 5px;float: right;">가격순 정렬</button>
+						<button class="primary-btn" onclick="productHit('${categoryno }')" style="float:right;">조회순정렬</button>
+						</c:if>
 						<input type="hidden" value=${categoryno } id="categoryno">
 					</div>
 				</div>

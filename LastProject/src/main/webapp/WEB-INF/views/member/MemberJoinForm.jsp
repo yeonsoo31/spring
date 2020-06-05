@@ -98,7 +98,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 	<!-- Logo -->
 	<div class="header-logo" style="text-align:center;">
 		<a class="logo" href="goMain">
-			<img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
+			<img style="width:200px;height:200px;" src="${pageContext.request.contextPath}/resources/img/aaaa1234.png" alt="">
 		</a>
 	</div>
 	<!-- /Logo -->
@@ -143,7 +143,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 		<td><h2>기업회원</h2></td>
 	</tr>
 	<td>
-		<input type="button" style="width: 200px; height: 200px" onclick="location.href='sellerJoinForm'" value="사업자 등록증으로 회원가입"/>
+		<input type="button" style="background-size: cover;width: 200px; height: 200px; background-image:url('/lastproject/resources/img/group2.png');" onclick="location.href='sellerJoinForm'" />
 	</td>
 </table>
 </div>

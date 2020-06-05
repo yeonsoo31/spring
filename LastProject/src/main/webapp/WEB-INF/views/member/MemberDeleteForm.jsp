@@ -7,6 +7,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 <title>Insert title here</title>
 <script>
 	function memberDeleteProcess(){
@@ -88,15 +89,32 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 </script>
 </head>
 <body>
-<h3 style="text-align:center">회원탈퇴</h3>
-아이디 : <input type="text" id="id" name="id" value="${sessionScope.loginId}" readonly><br>
-비밀번호 : <input type="password" id="password" name="password"><br>
-<c:if test="${sessionScope.loginIdDivision eq 1}">
-<button onclick="memberDeleteProcess()">회원탈퇴하기</button>
-</c:if>
-<c:if test="${sessionScope.loginIdDivision eq 2}">
-<button onclick="sellerDeleteProcess()">기업회원탈퇴하기</button>
-</c:if>
-<button onclick="window.close()">취소</button>
+
+
+
+<div class="product-tab">
+	<ul class="tab-nav">
+		<li class="active"><a data-toggle="tab">회원탈퇴</a></li>
+	</ul>
+		<div class="tab-content">
+				<div id="tab1" class="tab-pane fade in active" style="margin-left: 20px;">
+					<div>
+						<a>아이디 :</a>
+						<input class="input" type="text" id="id" name="id" value="${sessionScope.loginId}" readonly style="width: 30%; margin-left: 61px;" >
+					</div>
+					<div style="margin-top:20px;">
+						<a>비밀번호 :</a>
+						<input class="input" type="password" id="password" name="password"style="width: 30%; margin-left: 48px;">
+					</div>
+				</div>
+				<c:if test="${sessionScope.loginIdDivision eq 1}">
+					<button type="button" onclick="memberDeleteProcess()" class="primary-btn" style="margin-left: 150px;margin-top: 50px;">회원탈퇴하기</button>
+				</c:if>	
+				<c:if test="${sessionScope.loginIdDivision eq 2}">
+					<button type="button" onclick="sellerDeleteProcess()" class="primary-btn" style="margin-left: 150px;margin-top: 50px;">기업회원탈퇴하기</button>
+				</c:if>
+					<button type="button" onclick="window.close()" class="primary-btn">닫기</button>
+			</div>
+	</div>
 </body>
 </html>
